@@ -1,0 +1,386 @@
+import { useEffect, useMemo, useState } from "react";
+import questionsData from "./data/questions.json";
+
+const MODULE_SECONDS = 32 * 60; // 32 minutes per module
+const BREAK_SECONDS = 30;
+
+const PHASES = {
+  INTRO: "intro",
+  MODULE: "module",
+  BREAK: "break",
+  SUMMARY: "summary",
+  REVIEW: "review",
+};
+
+const letters = ["A", "B", "C", "D"];
+const fmt = (s) => {
+  const m = Math.floor(s / 60);
+  const sec = Math.max(0, s % 60);
+  return `${m}:${sec.toString().padStart(2, "0")}`;
+};
+
+export default function App() {
+  const [phase, setPhase] = useState(PHASES.INTRO);
+  const [moduleIdx, setModuleIdx] = useState(0); // 0 -> Module 1, 1 -> Module 2
+  const [moduleTimeLeft, setModuleTimeLeft] = useState(MODULE_SECONDS);
+  const [breakLeft, setBreakLeft] = useState(BREAK_SECONDS);
+  const [qIndex, setQIndex] = useState(0);
+  const [answers, setAnswers] = useState({}); // { [questionId]: choiceIndex }
+  const [flagged, setFlagged] = useState({}); // { [questionId]: true }
+
+  // REVIEW mode UI state
+  const [reviewFilter, setReviewFilter] = useState("all"); // all | incorrect | flagged
+  const [reviewIndex, setReviewIndex] = useState(0);
+
+  // Group questions by module; keep order from your file.
+  const modules = useMemo(() => {
+    const m1 = questionsData.filter((q) => Number(q.module) === 1);
+    const m2 = questionsData.filter((q) => Number(q.module) === 2);
+    return [m1, m2];
+  }, []);
+
+  // Guard: skip empty module
+  useEffect(() => {
+    if (phase === PHASES.MODULE && modules[moduleIdx].length === 0) {
+      endModule();
+    }
+  }, [phase, moduleIdx, modules]);
+
+  // Countdown for module
+  useEffect(() => {
+    if (phase !== PHASES.MODULE) return;
+    const t = setInterval(() => setModuleTimeLeft((prev) => prev - 1), 1000);
+    return () => clearInterval(t);
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase === PHASES.MODULE && moduleTimeLeft <= 0) {
+      endModule();
+    }
+  }, [phase, moduleTimeLeft]);
+
+  // Countdown for break
+  useEffect(() => {
+    if (phase !== PHASES.BREAK) return;
+    const t = setInterval(() => setBreakLeft((s) => s - 1), 1000);
+    return () => clearInterval(t);
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase === PHASES.BREAK && breakLeft <= 0) {
+      startSecondModule();
+    }
+  }, [phase, breakLeft]);
+
+  const startTest = () => {
+    setAnswers({});
+    setFlagged({});
+    setModuleIdx(0);
+    setQIndex(0);
+    setModuleTimeLeft(MODULE_SECONDS);
+    setPhase(PHASES.MODULE);
+  };
+
+  const startSecondModule = () => {
+    setModuleIdx(1);
+    setQIndex(0);
+    setModuleTimeLeft(MODULE_SECONDS);
+    setPhase(PHASES.MODULE);
+  };
+
+  const endModule = () => {
+    if (moduleIdx === 0) {
+      setBreakLeft(BREAK_SECONDS);
+      setPhase(PHASES.BREAK);
+    } else {
+      setPhase(PHASES.SUMMARY);
+    }
+  };
+
+  const currentModuleQuestions = modules[moduleIdx] ?? [];
+  const currentQuestion = currentModuleQuestions[qIndex];
+
+  const selectAnswer = (choiceIdx) => {
+    if (!currentQuestion) return;
+    setAnswers((prev) => ({ ...prev, [currentQuestion.id]: choiceIdx }));
+    // Advance or end module
+    if (qIndex + 1 < currentModuleQuestions.length) {
+      setQIndex((i) => i + 1);
+    } else {
+      endModule();
+    }
+  };
+
+  const toggleFlag = (qid) => {
+    setFlagged((prev) => ({ ...prev, [qid]: !prev[qid] }));
+  };
+
+  const allQuestions = useMemo(
+    () => [...modules[0], ...modules[1]],
+    [modules]
+  );
+
+  const results = useMemo(() => {
+    let correct = 0;
+    const rows = allQuestions.map((q) => {
+      const user = answers[q.id];
+      const isCorrect = user === q.correct;
+      if (isCorrect) correct += 1;
+      return {
+        id: q.id,
+        module: q.module,
+        stem: q.stem,
+        userChoice: user,
+        correctChoice: q.correct,
+        explanation: q.explanation,
+        isCorrect,
+        choices: q.choices,
+        flagged: !!flagged[q.id],
+      };
+    });
+    const pct =
+      allQuestions.length > 0
+        ? Math.round((1000 * correct) / allQuestions.length) / 10
+        : 0;
+    return { rows, correct, total: allQuestions.length, pct };
+  }, [allQuestions, answers, flagged]);
+
+  // Build review item list based on filter
+  const reviewItems = useMemo(() => {
+    let items = results.rows;
+    if (reviewFilter === "incorrect") items = items.filter((r) => !r.isCorrect);
+    if (reviewFilter === "flagged") items = items.filter((r) => r.flagged);
+    return items;
+  }, [results.rows, reviewFilter]);
+
+  const goReview = () => {
+    setReviewFilter("all");
+    setReviewIndex(0);
+    setPhase(PHASES.REVIEW);
+  };
+
+  const navPrev = () => setReviewIndex((i) => Math.max(0, i - 1));
+  const navNext = () => setReviewIndex((i) => Math.min(reviewItems.length - 1, i + 1));
+
+  return (
+    <div className="app">
+      {phase === PHASES.INTRO && (
+        <div className="card">
+          <h1>SAT Reading & Writing Practice</h1>
+          <p className="kicker">Two modules • 32 minutes each • 30-second break</p>
+          <p>Click start when you're ready. (No pressure—just a very visible ticking clock.)</p>
+          <div style={{ display: "flex", gap: 12, marginTop: 16, alignItems: "center" }}>
+            <button className="btn" onClick={startTest}>Start Test</button>
+            <span className="small">
+              Questions loaded: Module 1 = {modules[0].length}, Module 2 = {modules[1].length}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {phase === PHASES.MODULE && (
+        <div className="card">
+          <div className="meta">
+            <div>
+              <div className="label">Module {moduleIdx + 1} of 2</div>
+              <div className="kicker">
+                Question {Math.min(qIndex + 1, currentModuleQuestions.length)} / {currentModuleQuestions.length}
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              {currentQuestion && (
+                <button
+                  className={`flag ${flagged[currentQuestion.id] ? "active" : ""}`}
+                  onClick={() => toggleFlag(currentQuestion.id)}
+                  title="Flag this question for review"
+                >
+                  <span className="star">{flagged[currentQuestion.id] ? "★" : "☆"}</span>
+                  {flagged[currentQuestion.id] ? "Flagged" : "Flag for review"}
+                </button>
+              )}
+              <div className="timer" aria-live="polite">⏱ {fmt(moduleTimeLeft)}</div>
+            </div>
+          </div>
+
+          {currentQuestion ? (
+            <>
+              <h2>{currentQuestion.stem}</h2>
+              <div className="grid choices" role="list">
+                {currentQuestion.choices.map((text, i) => (
+                  <button
+                    key={i}
+                    className="choice"
+                    onClick={() => selectAnswer(i)}
+                    role="listitem"
+                    aria-label={`Answer ${letters[i]}`}
+                  >
+                    <strong style={{ marginRight: 10 }}>{letters[i]}.</strong>
+                    {text}
+                  </button>
+                ))}
+              </div>
+
+              <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
+                <button className="btn-secondary btn" onClick={endModule}>
+                  Finish Module Early
+                </button>
+              </div>
+            </>
+          ) : (
+            <p>No questions found for this module.</p>
+          )}
+        </div>
+      )}
+
+      {phase === PHASES.BREAK && (
+        <div className="card">
+          <h2>Break time</h2>
+          <p>Module 2 will start automatically in <strong>{fmt(breakLeft)}</strong>.</p>
+          <p className="small">Stand up, shake out your wrists, summon your inner grammar goblin.</p>
+          <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
+            <button className="btn" onClick={startSecondModule}>Start Now</button>
+          </div>
+        </div>
+      )}
+
+      {phase === PHASES.SUMMARY && (
+        <div className="card">
+          <h2>Results Summary</h2>
+          <div className="kicker" style={{ marginBottom: 8 }}>
+            Score: <strong className="good">{results.correct}/{results.total}</strong> correct (
+            <strong>{results.pct}%</strong>)
+          </div>
+          <p className="small">
+            Below you'll see the items you missed, with the correct answer and an explanation.
+            You can also enter a full review mode to step through any or all items.
+          </p>
+
+          <div style={{ marginTop: 16 }}>
+            {results.rows
+              .filter((r) => !r.isCorrect)
+              .map((r) => (
+                <div key={r.id} className="result-row">
+                  <div className="label">Module {r.module}</div>{" "}
+                  {r.flagged && <span className="label" style={{ marginLeft: 8 }}>★ Flagged</span>}
+                  <div style={{ marginTop: 8 }}>
+                    <strong>Q{r.id}.</strong> {r.stem}
+                  </div>
+                  <div className="small" style={{ marginTop: 6 }}>
+                    Your answer:{" "}
+                    <span className="bad">
+                      {r.userChoice != null ? `${letters[r.userChoice]}. ${r.choices[r.userChoice]}` : "No answer"}
+                    </span>
+                    {"  "}• Correct:{" "}
+                    <span className="good">
+                      {letters[r.correctChoice]}. {r.choices[r.correctChoice]}
+                    </span>
+                  </div>
+                  <div style={{ marginTop: 6 }}>
+                    <em>Explanation:</em> {r.explanation}
+                  </div>
+                </div>
+              ))}
+
+            {results.rows.every((r) => r.isCorrect) && (
+              <div className="result-row">
+                🎉 Flawless! The answer key is intimidated.
+              </div>
+            )}
+          </div>
+
+          <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
+            <button className="btn" onClick={goReview}>Enter Review Mode</button>
+            <button className="btn btn-secondary" onClick={() => setPhase(PHASES.INTRO)}>Retake</button>
+          </div>
+        </div>
+      )}
+
+      {phase === PHASES.REVIEW && (
+        <div className="card">
+          <div className="meta" style={{ marginBottom: 12 }}>
+            <div>
+              <div className="label">Review Mode</div>
+              <div className="kicker">
+                {reviewItems.length > 0 ? (
+                  <>Item {reviewIndex + 1} / {reviewItems.length}</>
+                ) : "No items to review"}
+              </div>
+            </div>
+            <div className="pills">
+              <button
+                className={`pill ${reviewFilter === "all" ? "active" : ""}`}
+                onClick={() => { setReviewFilter("all"); setReviewIndex(0); }}
+              >
+                All ({results.rows.length})
+              </button>
+              <button
+                className={`pill ${reviewFilter === "incorrect" ? "active" : ""}`}
+                onClick={() => { setReviewFilter("incorrect"); setReviewIndex(0); }}
+              >
+                Incorrect ({results.rows.filter(r => !r.isCorrect).length})
+              </button>
+              <button
+                className={`pill ${reviewFilter === "flagged" ? "active" : ""}`}
+                onClick={() => { setReviewFilter("flagged"); setReviewIndex(0); }}
+              >
+                Flagged ({results.rows.filter(r => r.flagged).length})
+              </button>
+            </div>
+          </div>
+
+          {reviewItems.length === 0 ? (
+            <p className="small">Nothing here. Try a different filter.</p>
+          ) : (
+            (() => {
+              const r = reviewItems[reviewIndex];
+              return (
+                <>
+                  <div className="kicker" style={{ marginBottom: 6 }}>
+                    Module {r.module} • Q{r.id}{" "}
+                    <button
+                      className={`flag ${r.flagged ? "active" : ""}`}
+                      onClick={() => toggleFlag(r.id)}
+                      style={{ marginLeft: 8 }}
+                    >
+                      <span className="star">{r.flagged ? "★" : "☆"}</span>
+                      {r.flagged ? "Flagged" : "Flag for review"}
+                    </button>
+                  </div>
+
+                  <h2 style={{ marginTop: 0 }}>{r.stem}</h2>
+                  <div className="grid choices" role="list" style={{ marginTop: 10 }}>
+                    {r.choices.map((text, i) => {
+                      const isCorrect = i === r.correctChoice;
+                      const isUser = i === r.userChoice;
+                      const cls = isCorrect ? "correct" : isUser && !isCorrect ? "incorrect" : "";
+                      return (
+                        <div key={i} className={`choice ${cls}`} role="listitem" aria-label={`Choice ${letters[i]}`}>
+                          <strong style={{ marginRight: 10 }}>{letters[i]}.</strong>
+                          {text}
+                          {isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--good)" }}>(correct)</span>}
+                          {isUser && !isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--bad)" }}>(your answer)</span>}
+                          {isUser && isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--good)" }}>(your answer)</span>}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div style={{ marginTop: 10 }}>
+                    <em>Explanation:</em> {r.explanation}
+                  </div>
+
+                  <div className="review-nav">
+                    <button className="btn btn-secondary" onClick={navPrev} disabled={reviewIndex === 0}>Previous</button>
+                    <button className="btn" onClick={navNext} disabled={reviewIndex >= reviewItems.length - 1}>Next</button>
+                    <div style={{ flex: 1 }} />
+                    <button className="btn btn-secondary" onClick={() => setPhase(PHASES.SUMMARY)}>Back to Summary</button>
+                  </div>
+                </>
+              );
+            })()
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
