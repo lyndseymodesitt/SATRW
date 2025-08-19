@@ -4,13 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "convert:questions": "node scripts/convert-csv-to-json.cjs",
     "prebuild": "node scripts/convert-csv-to-json.cjs",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist",
-    "predeploy": "npm run build && (cp dist/index.html dist/404.html || copy dist\\index.html dist\\404.html)"
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
     "csv-parse": "^6.1.0",

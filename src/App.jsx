@@ -67,6 +67,8 @@ export default function App() {
     return [m1, m2];
   }, [questionsData]);
 
+  const totalQuestions = modules[0].length + modules[1].length;
+
   // Guard: skip empty module
   useEffect(() => {
     if (phase === PHASES.MODULE && modules[moduleIdx].length === 0) {
@@ -252,6 +254,9 @@ export default function App() {
               Questions loaded: Module 1 = {modules[0].length}, Module 2 = {modules[1].length}
             </span>
           </div>
+          {totalQuestions === 0 && (
+            <p className="bad small">No questions found. Check that <code>data/questions.json</code> has items and that the "Module" column is 1 or 2.</p>
+          )}
         </div>
       )}
 
