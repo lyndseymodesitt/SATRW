@@ -1,5 +1,31 @@
 import { useEffect, useMemo, useState } from "react";
-import questionsData from "./data/questions.json";
+import MarkdownMath from "./components/MarkdownMath";
+
+function useQuestions() {
+  const [data, setData] = useState([]);
+  const [err, setErr] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const url = `${import.meta.env.BASE_URL}data/questions.json`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Failed to load questions.json (${res.status})`);
+        const data = await res.json();
+        setData(data);
+      } catch (error) {
+        setErr(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchQuestions();
+  }, []);
+
+  return { data, err, loading };
+}
 
 const MODULE_SECONDS = 32 * 60; // 32 minutes per module
 const BREAK_SECONDS = 30;
@@ -20,6 +46,8 @@ const fmt = (s) => {
 };
 
 export default function App() {
+  const { data: questionsData, err: loadErr, loading } = useQuestions();
+  
   const [phase, setPhase] = useState(PHASES.INTRO);
   const [moduleIdx, setModuleIdx] = useState(0); // 0 -> Module 1, 1 -> Module 2
   const [moduleTimeLeft, setModuleTimeLeft] = useState(MODULE_SECONDS);
@@ -37,7 +65,7 @@ export default function App() {
     const m1 = questionsData.filter((q) => Number(q.module) === 1);
     const m2 = questionsData.filter((q) => Number(q.module) === 2);
     return [m1, m2];
-  }, []);
+  }, [questionsData]);
 
   // Guard: skip empty module
   useEffect(() => {
@@ -162,6 +190,55 @@ export default function App() {
   const navPrev = () => setReviewIndex((i) => Math.max(0, i - 1));
   const navNext = () => setReviewIndex((i) => Math.min(reviewItems.length - 1, i + 1));
 
+  function downloadCSV(rows) {
+    const headers = [
+      "Question ID","Module","Stem","Your Choice","Correct Choice","Correct?",
+      "Your Choice Text","Correct Choice Text","Explanation"
+    ];
+    const toLetter = (i) => (i == null ? "" : ["A","B","C","D"][i]);
+
+    const lines = [headers.join(",")];
+    for (const r of rows) {
+      const fields = [
+        r.id,
+        r.module,
+        `"${(r.stem || "").replace(/"/g,'""')}"`,
+        toLetter(r.userChoice),
+        toLetter(r.correctChoice),
+        r.isCorrect ? "Yes" : "No",
+        `"${r.userChoice != null ? r.choices[r.userChoice].replace(/"/g,'""') : ""}"`,
+        `"${r.choices[r.correctChoice].replace(/"/g,'""')}"`,
+        `"${(r.explanation || "").replace(/"/g,'""')}"`
+      ];
+      lines.push(fields.join(","));
+    }
+    const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "sat-rw-results.csv";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  if (loading) {
+    return (
+      <div className="app">
+        <div className="card"><h2>Loading questions…</h2></div>
+      </div>
+    );
+  }
+  if (loadErr) {
+    return (
+      <div className="app">
+        <div className="card">
+          <h2>Couldn't load questions</h2>
+          <pre className="small">{String(loadErr)}</pre>
+          <p className="small">Check that <code>src/data/questions.json</code> exists in the build.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="app">
       {phase === PHASES.INTRO && (
@@ -204,7 +281,22 @@ export default function App() {
 
           {currentQuestion ? (
             <>
-              <h2>{currentQuestion.stem}</h2>
+              <div className="stem-box">
+                <MarkdownMath className="stem-text">
+                  {currentQuestion.stem}
+                </MarkdownMath>
+              </div>
+              
+              {currentQuestion.image && (
+                <div className="figure-box">
+                  <img
+                    src={`${import.meta.env.BASE_URL}${currentQuestion.image}`}
+                    alt={currentQuestion.alt || "Figure"}
+                    loading="lazy"
+                  />
+                  {currentQuestion.caption && <div className="figure-cap">{currentQuestion.caption}</div>}
+                </div>
+              )}
               <div className="grid choices" role="list">
                 {currentQuestion.choices.map((text, i) => (
                   <button
@@ -276,7 +368,7 @@ export default function App() {
                     </span>
                   </div>
                   <div style={{ marginTop: 6 }}>
-                    <em>Explanation:</em> {r.explanation}
+                    <MarkdownMath><em>Explanation:</em> {r.explanation}</MarkdownMath>
                   </div>
                 </div>
               ))}
@@ -291,6 +383,7 @@ export default function App() {
           <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
             <button className="btn" onClick={goReview}>Enter Review Mode</button>
             <button className="btn btn-secondary" onClick={() => setPhase(PHASES.INTRO)}>Retake</button>
+            <button className="btn btn-secondary" onClick={() => downloadCSV(results.rows)}>Download Results (CSV)</button>
           </div>
         </div>
       )}
@@ -347,7 +440,22 @@ export default function App() {
                     </button>
                   </div>
 
-                  <h2 style={{ marginTop: 0 }}>{r.stem}</h2>
+                  <div className="stem-box">
+                    <MarkdownMath className="stem-text">
+                      {r.stem}
+                    </MarkdownMath>
+                  </div>
+                  
+                  {r.image && (
+                    <div className="figure-box">
+                      <img
+                        src={`${import.meta.env.BASE_URL}${r.image}`}
+                        alt={r.alt || "Figure"}
+                        loading="lazy"
+                      />
+                      {r.caption && <div className="figure-cap">{r.caption}</div>}
+                    </div>
+                  )}
                   <div className="grid choices" role="list" style={{ marginTop: 10 }}>
                     {r.choices.map((text, i) => {
                       const isCorrect = i === r.correctChoice;
@@ -366,7 +474,7 @@ export default function App() {
                   </div>
 
                   <div style={{ marginTop: 10 }}>
-                    <em>Explanation:</em> {r.explanation}
+                    <MarkdownMath><em>Explanation:</em> {r.explanation}</MarkdownMath>
                   </div>
 
                   <div className="review-nav">
@@ -384,3 +492,4 @@ export default function App() {
     </div>
   );
 }
+
