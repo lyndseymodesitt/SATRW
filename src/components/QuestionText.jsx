@@ -26,6 +26,25 @@ export default function QuestionText({ content, className }) {
           <ReactMarkdown
             remarkPlugins={[remarkMath]}
             rehypePlugins={[rehypeKatex, rehypeRaw]}
+            components={{
+              ul: ({ children, ...props }) => (
+                <ul style={{ 
+                  textAlign: 'left', 
+                  paddingLeft: '20px',
+                  margin: '8px 0'
+                }} {...props}>
+                  {children}
+                </ul>
+              ),
+              li: ({ children, ...props }) => (
+                <li style={{ 
+                  textAlign: 'left',
+                  margin: '4px 0'
+                }} {...props}>
+                  {children}
+                </li>
+              )
+            }}
           >
             {passage}
           </ReactMarkdown>
@@ -34,12 +53,31 @@ export default function QuestionText({ content, className }) {
     );
   }
   
-  // If no title detected, render normally
+  // If no title detected, render normally with bullet point handling
   return (
     <div className={className}>
       <ReactMarkdown
         remarkPlugins={[remarkMath]}
         rehypePlugins={[rehypeKatex, rehypeRaw]}
+        components={{
+          ul: ({ children, ...props }) => (
+            <ul style={{ 
+              textAlign: 'left', 
+              paddingLeft: '20px',
+              margin: '8px 0'
+            }} {...props}>
+              {children}
+            </ul>
+          ),
+          li: ({ children, ...props }) => (
+            <li style={{ 
+              textAlign: 'left',
+              margin: '4px 0'
+            }} {...props}>
+              {children}
+            </li>
+          )
+        }}
       >
         {text}
       </ReactMarkdown>
