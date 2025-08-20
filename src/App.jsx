@@ -200,6 +200,11 @@ export default function App() {
     }
   };
 
+  const changeAnswer = (choiceIdx) => {
+    if (!currentQuestion) return;
+    setAnswers((prev) => ({ ...prev, [currentQuestion.id]: choiceIdx }));
+  };
+
   const goToPreviousQuestion = () => {
     if (qIndex > 0) {
       setQIndex((i) => i - 1);
@@ -340,6 +345,9 @@ export default function App() {
               <div className="label">Module {moduleIdx + 1} of 2</div>
               <div className="kicker">
                 Question {Math.min(qIndex + 1, currentModuleQuestions.length)} / {currentModuleQuestions.length}
+                {answers[currentQuestion?.id] !== undefined && (
+                  <span className="answered-indicator">✓ Answered</span>
+                )}
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -379,19 +387,42 @@ export default function App() {
               
               {currentQuestion.chart && <ChartRenderer chart={currentQuestion.chart} />}
               <div className="grid choices" role="list">
-                {currentQuestion.choices.map((text, i) => (
-                  <button
-                    key={i}
-                    className="choice"
-                    onClick={() => selectAnswer(i)}
-                    role="listitem"
-                    aria-label={`Answer ${letters[i]}`}
-                  >
-                    <strong style={{ marginRight: 10 }}>{letters[i]}.</strong>
-                    <MarkdownMath>{sanitizeForRender(text)}</MarkdownMath>
-                  </button>
-                ))}
+                {currentQuestion.choices.map((text, i) => {
+                  const isSelected = answers[currentQuestion.id] === i;
+                  const isCorrect = i === currentQuestion.correct;
+                  return (
+                    <button
+                      key={i}
+                      className={`choice ${isSelected ? 'selected' : ''}`}
+                      onClick={() => answers[currentQuestion.id] !== undefined ? changeAnswer(i) : selectAnswer(i)}
+                      role="listitem"
+                      aria-label={`Answer ${letters[i]}`}
+                      style={{
+                        backgroundColor: isSelected ? 'rgba(59, 130, 246, 0.2)' : undefined,
+                        borderColor: isSelected ? '#3b82f6' : undefined,
+                        borderWidth: isSelected ? '2px' : undefined
+                      }}
+                    >
+                      <strong style={{ marginRight: 10 }}>{letters[i]}.</strong>
+                      <MarkdownMath>{sanitizeForRender(text)}</MarkdownMath>
+                      {isSelected && <span style={{ marginLeft: 10, fontSize: '14px', opacity: 0.8 }}>(your answer)</span>}
+                    </button>
+                  );
+                })}
               </div>
+
+              {answers[currentQuestion?.id] !== undefined && (
+                <div style={{ 
+                  marginTop: 8, 
+                  padding: '8px 12px', 
+                  backgroundColor: 'rgba(59, 130, 246, 0.1)', 
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  color: '#3b82f6'
+                }}>
+                  ✓ You've already answered this question. Click a different choice to change your answer.
+                </div>
+              )}
 
               <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
                 <button 
