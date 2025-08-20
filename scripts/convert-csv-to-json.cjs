@@ -106,6 +106,16 @@ function normalizeRanges(s) {
   );
 }
 
+// Replace visible blanks:  ____  or \_  (but not math subscripts or within words)
+function normalizeBlanks(s) {
+  let t = String(s || "");
+  // \_ surrounded by whitespace or end punctuation → blank
+  t = t.replace(/(^|[\s([{<>"''])\\_(?=[\s)\]}>.,;:!?'"'"']|$)/g, "$1<span class=\"blank\"></span>");
+  // runs of 2+ underscores surrounded by whitespace/punct → blank
+  t = t.replace(/(^|[\s([{<>"''])_{2,}(?=[\s)\]}>.,;:!?'"'"']|$)/g, "$1<span class=\"blank\"></span>");
+  return t;
+}
+
 const stripUnrenderableLatex = (s) => {
   let t = String(s || "");
   t = t.replace(/\\documentclass[\s\S]*?\\begin\{document\}/gi, "");
@@ -117,15 +127,17 @@ const stripUnrenderableLatex = (s) => {
   return t.trim();
 };
 
-// FINAL normalize pipeline (update yours to include these two)
+// Final normalize: add normalizeBlanks at the end
 const normalize = (s) =>
-  normalizeRanges(
-    repairMojibake(
-      escapeAccidentalMarkdown(
-        stripUnrenderableLatex(
-          decodeHtmlEntities(
-            fixMoji(
-              inlineMarkdownObjects(s)
+  normalizeBlanks(
+    normalizeRanges(
+      repairMojibake(
+        escapeAccidentalMarkdown(
+          stripUnrenderableLatex(
+            decodeHtmlEntities(
+              fixMoji(
+                inlineMarkdownObjects(s)
+              )
             )
           )
         )
