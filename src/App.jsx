@@ -89,6 +89,24 @@ const fmt = (s) => {
 export default function App() {
   const { data: questionsData, err: loadErr, loading } = useQuestions();
   
+  // Coach-y taglines
+  const TAGLINES = [
+    "Trust your skills.",
+    "We're cheering for you.",
+    "You've got this.",
+    "One question at a time.",
+    "Small wins add up.",
+    "Believe in your test prep.",
+    "We keep time; you shine.",
+    "You know this."
+  ];
+
+  // Pick one per load (random)
+  const useTagline = () =>
+    useMemo(() => TAGLINES[Math.floor(Math.random() * TAGLINES.length)], []);
+  
+  const tagline = useTagline();
+  
   const [phase, setPhase] = useState(PHASES.INTRO);
   const [moduleIdx, setModuleIdx] = useState(0); // 0 -> Module 1, 1 -> Module 2
   const [moduleTimeLeft, setModuleTimeLeft] = useState(MODULE_SECONDS);
@@ -287,8 +305,10 @@ export default function App() {
       {phase === PHASES.INTRO && (
         <div className="card">
           <h1>SAT Reading & Writing Practice Test</h1>
-          <p className="kicker">Two modules • 32 minutes each • 30-second break</p>
-          <p>Click start when you're ready. (No pressure—just a very visible ticking clock.)</p>
+          <p>Two modules • 32 minutes each • 30-second break</p>
+          <p>
+            Click start when you're ready. <span className="muted">{tagline}</span>
+          </p>
           <div style={{ display: "flex", gap: 12, marginTop: 16, alignItems: "center", justifyContent: "center" }}>
             <button className="btn" onClick={startTest}>Start Test</button>
             <span className="small">
