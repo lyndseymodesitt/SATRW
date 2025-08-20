@@ -10,9 +10,18 @@ for (const p of OUTPUTS) fs.mkdirSync(path.dirname(p), { recursive: true });
 // ---------- read & decode ----------
 const buf = fs.readFileSync(INPUT);
 let csv = buf.toString("utf8");
+
+// 1) If file looks like Win-1252, decode from win1252
 if (/â€"|â€"|â€˜|â€™|â€œ|â€|Â|‚Äì|‚Äî|Ã—|â‰¥|â‰¤|Â°|Âµ|Î¼|â†'|â†"|Â²|Â³/.test(csv)) {
   csv = iconv.decode(buf, "win1252");
   console.log("ℹ️ Detected Windows-1252 CSV; decoding accordingly.");
+}
+
+// 2) If text looks double-encoded (Ã¢â‚¬…, â€šÃ„Ã¬, etc.), repair by latin1→utf8
+//    Example: "24â€šÃ„Ã¬48" (should be "24–48")
+if (/Ã¢â‚¬|â€šÃ„|ÃƒÂ|Ã‚Â/.test(csv)) {
+  csv = iconv.decode(iconv.encode(csv, "latin1"), "utf8");
+  console.log("ℹ️ Repaired double-encoded UTF-8 (latin1→utf8).");
 }
 
 // ---------- parsing with forgiving headers ----------
@@ -37,6 +46,9 @@ const fixMoji = (s) =>
   String(s ?? "")
     .replace(/‚Äì|â€"/g, "–")      // en dash
     .replace(/‚Äî|â€"/g, "—")      // em dash
+    .replace(/â€šÃ„Ã¬/g, "–")      // en dash, ultra-mojibake variant
+    .replace(/Ã¢â‚¬â€œ/g, "–")      // another common variant
+    .replace(/Ã¢â‚¬â€\x9d|Ã¢â‚¬â€º/g, "—") // em dash variants (safe extra)
     .replace(/â€˜/g, "'").replace(/â€™/g, "'")
     .replace(/â€œ/g, "\"").replace(/â€\u009d|â€\u009D|â€\x9d/g, "\"")
     .replace(/Ã—/g, "×").replace(/Ã·/g, "÷")
