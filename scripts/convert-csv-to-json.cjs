@@ -31,21 +31,12 @@ const get = (row, name) => row[normalizeKey(name)];
 const A2D = ["a", "b", "c", "d"];
 
 // ---------- helpers ----------
-const htmlNamed = {
-  "&mdash;": "—", "&ndash;": "–", "&hellip;": "…", "&middot;": "·",
-  "&times;": "×", "&divide;": "÷", "&deg;": "°", "&ge;": "≥", "&le;": "≤", "&bull;": "•",
-};
-const decodeHtmlEntities = (s) =>
-  String(s || "")
-    .replace(/&(mdash|ndash|hellip|middot|times|divide|deg|ge|le|bull);/g, (m) => htmlNamed[m] || m)
-    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
-    .replace(/&#x([0-9a-fA-F]+);/g, (_, h) => String.fromCharCode(parseInt(h, 16)));
 
-// broad mojibake cleanup (keeps $…$ math intact)
+// Expand mojibake / symbol fixes
 const fixMoji = (s) =>
   String(s ?? "")
-    .replace(/‚Äì|â€"/g, "–")
-    .replace(/‚Äî|â€"/g, "—")
+    .replace(/‚Äì|â€"/g, "–")      // en dash
+    .replace(/‚Äî|â€"/g, "—")      // em dash
     .replace(/â€˜/g, "'").replace(/â€™/g, "'")
     .replace(/â€œ/g, "\"").replace(/â€\u009d|â€\u009D|â€\x9d/g, "\"")
     .replace(/Ã—/g, "×").replace(/Ã·/g, "÷")
@@ -53,27 +44,36 @@ const fixMoji = (s) =>
     .replace(/â€¦/g, "…").replace(/â€¢/g, "•")
     .replace(/Î¼|Âµ/g, "μ")
     .replace(/Â²/g, "²").replace(/Â³/g, "³")
-    .replace(/â‰¥/g, "≥").replace(/â‰¤/g, "≤")
+    .replace(/â‰¥/g, "≥").replace(/â‰¤/g, "≤").replace(/â‰ˆ/g, "≈")
+    .replace(/âˆ'/g, "−")          // true minus
     .replace(/â†'/g, "↑").replace(/â†"/g, "↓")
-    // stray C2 (Â) before symbols
-    .replace(/Â(?=[$€£°²³¼½¾%])/g, "")
-    .replace(/\u00A0/g, " "); // nbsp -> space
+    .replace(/Â(?=[$€£°²³¼½¾%])/g, "") // stray 'Â' before symbols
+    .replace(/\u00A0/g, " ");      // nbsp → space
 
-// find ANY inline {"markdown":"..."} or {'markdown':'...'} and inline the text
+// Decode a few named & numeric HTML entities if they slipped in
+const decodeHtmlEntities = (s) =>
+  String(s || "")
+    .replace(/&(mdash|ndash|hellip|middot|times|divide|deg|ge|le|bull);/g,
+             (m) => ({ "&mdash;":"—","&ndash;":"–","&hellip;":"…","&middot;":"·","&times;":"×","&divide;":"÷","&deg;":"°","&ge;":"≥","&le;":"≤","&bull;":"•"}[m] || m))
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, h) => String.fromCharCode(parseInt(h, 16)));
+
+// Inline any {"markdown":"..."} blobs that appear inside cells
 function inlineMarkdownObjects(text) {
   let t = String(text || "");
-  // handles nested quotes inside the captured string (escaped)
   const re = /\{[^{}]*?(['"])markdown\1\s*:\s*(['"])((?:\\.|(?!\2).)*)\2[^{}]*?\}/g;
-  t = t.replace(re, (_, _q1, quote, body) => {
-    // unescape common sequences in the captured body
-    return body
-      .replace(/\\n/g, "\n")
-      .replace(/\\t/g, "\t")
-      .replace(/\\r/g, "")
-      .replace(/\\(['"\\])/g, "$1");
-  });
-  return t;
+  return t.replace(re, (_, _q1, quote, body) =>
+    body.replace(/\\n/g, "\n").replace(/\\t/g, "\t").replace(/\\r/g, "").replace(/\\(['"\\])/g, "$1")
+  );
 }
+
+// Escape emphasis markers sitting *inside* words so Markdown won't italicize "perstudent"
+const escapeAccidentalMarkdown = (s) =>
+  String(s || "")
+    // a*b → a\*b (but leaves list bullets like "* item" alone)
+    .replace(/(\w)\*(\w)/g, "$1\\\\*$2")
+    // a_b → a\_b
+    .replace(/(\w)_(\w)/g, "$1\\\\_$2");
 
 const stripUnrenderableLatex = (s) => {
   let t = String(s || "");
@@ -86,13 +86,17 @@ const stripUnrenderableLatex = (s) => {
   return t.trim();
 };
 
-const normalize = (s) => stripUnrenderableLatex(
-  decodeHtmlEntities(
-    fixMoji(
-      inlineMarkdownObjects(s)
+// Final normalize pipeline for stem/choices/explanations
+const normalize = (s) =>
+  escapeAccidentalMarkdown(
+    stripUnrenderableLatex(
+      decodeHtmlEntities(
+        fixMoji(
+          inlineMarkdownObjects(s)
+        )
+      )
     )
-  )
-).trim();
+  ).trim();
 
 // optional figures merge
 let figures = {};
