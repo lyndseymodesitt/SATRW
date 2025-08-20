@@ -46,6 +46,8 @@ const fixMoji = (s) =>
   String(s ?? "")
     .replace(/‚Äì|â€"/g, "–")      // en dash
     .replace(/‚Äî|â€"/g, "—")      // em dash
+    .replace(/‚Äî/g, "—")          // em dash (direct replacement)
+    .replace(/‚Äì/g, "–")          // en dash (direct replacement)
     .replace(/â€šÃ„Ã¬/g, "–")      // en dash, ultra-mojibake variant
     .replace(/Ã¢â‚¬â€œ/g, "–")      // another common variant
     .replace(/Ã¢â‚¬â€\x9d|Ã¢â‚¬â€º/g, "—") // em dash variants (safe extra)
@@ -60,7 +62,9 @@ const fixMoji = (s) =>
     .replace(/âˆ'/g, "−")          // true minus
     .replace(/â†'/g, "↑").replace(/â†"/g, "↓")
     .replace(/Â(?=[$€£°²³¼½¾%])/g, "") // stray 'Â' before symbols
-    .replace(/\u00A0/g, " ");      // nbsp → space
+    .replace(/\u00A0/g, " ")       // nbsp → space
+    .replace(/\?\?\?î/g, "—")     // fix the specific pattern you're seeing
+    .replace(/\?\?\?ì/g, "–");    // fix en dash pattern
 
 // Decode a few named & numeric HTML entities if they slipped in
 const decodeHtmlEntities = (s) =>
@@ -168,8 +172,8 @@ const stripUnrenderableLatex = (s) => {
 };
 
 // FINAL normalize: make sure normalizeBlanks is LAST
-const normalize = (s) =>
-  normalizeBlanks(
+const normalize = (s) => {
+  let result = normalizeBlanks(
     normalizeRanges(
       repairMojibake(
         decodeHtmlEntities(
@@ -180,6 +184,21 @@ const normalize = (s) =>
       )
     )
   ).trim();
+  
+  // Additional fixes for specific encoding issues
+  result = result
+    .replace(/\?\?\?î/g, "—")  // fix the specific pattern in job interview text
+    .replace(/\?\?\?ì/g, "–")  // fix en dash pattern
+    .replace(/\?\?\?í/g, "–")  // fix another en dash variant
+    .replace(/\?\?\?î/g, "—")  // fix em dash variant
+    .replace(/\?\?\?ì/g, "–")  // fix another en dash variant
+    .replace(/\?\?\?í/g, "–")  // fix another en dash variant
+    .replace(/\?\?î/g, "—")  // fix the specific replacement character pattern
+    .replace(/\?\?ì/g, "–")  // fix en dash with replacement characters
+    .replace(/\?\?í/g, "–"); // fix another en dash variant with replacement characters
+  
+  return result;
+};
 
 // optional figures merge
 let figures = {};
