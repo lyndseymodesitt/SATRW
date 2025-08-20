@@ -197,7 +197,7 @@
   {
     "id": "16",
     "module": 1,
-    "stem": "To boost participation in a home energy audit program, the city tried three outreach methods for two weeks: email, flyers, and door-to-door visits. The message and sign-up form were the same in all cases. After Week 1, coordinators tweaked only the flyer design (larger QR code) and kept the others unchanged. By Week 2, overall sign-ups rose, but the team wanted to identify which method drove the biggest week-over-week gain to guide staffing for a final push. They planned to assign canvassers where returns were strongest.\n\\documentclass[border=5pt,tikz]{standalone}\n\\usepackage{pgfplots}\n\\pgfplotsset{compat=1.18}\n\\begin{document}\n\\begin{tikzpicture}\n\\begin{axis}[\n  title={Average Daily Hotline Calls (Pre vs Post)},\n  xbar,\n  width=16cm, height=10cm,\n  bar width=10pt,\n  enlarge y limits=0.4,\n  xmin=0,\n  xlabel={Calls},\n  symbolic y coords={Video, Radio, Social, Print},\n  ytick=data,\n  yticklabel style={text width=3.5cm, align=right},\n  xmajorgrids,\n  legend cell align=left,\n  legend style={at={(0.02,0.98)}, anchor=north west},\n  nodes near coords,\n  nodes near coords align={horizontal}\n]\n% PRE\n\\addplot+[xbar, bar shift=-6pt] coordinates\n  {(120,Video) (90,Radio) (110,Social) (70,Print)};\n\\addlegendentry{Pre}\n% POST\n\\addplot+[xbar, bar shift=6pt] coordinates\n  {(150,Video) (100,Radio) (165,Social) (60,Print)};\n\\addlegendentry{Post}\n\\end{axis}\n\n% Optional note below the chart\n\\node[anchor=north west] at ([yshift=-2ex]current bounding box.south west)\n  {(Bar lengths are illustrative; values are exact.)};\n\\end{tikzpicture}\n\\end{document}\n\n \n Which choice most effectively uses data from the table to support assigning more staff to door-to-door visits?",
+    "stem": "To boost participation in a home energy audit program, the city tried three outreach methods for two weeks: email, flyers, and door-to-door visits. The message and sign-up form were the same in all cases. After Week 1, coordinators tweaked only the flyer design (larger QR code) and kept the others unchanged. By Week 2, overall sign-ups rose, but the team wanted to identify which method drove the biggest week-over-week gain to guide staffing for a final push. They planned to assign canvassers where returns were strongest.\n\n\n \n Which choice most effectively uses data from the table to support assigning more staff to door-to-door visits?",
     "choices": [
       "Door-to-door sign-ups rose from 52 to 85, an increase of 33, exceeding the gains by email (+12) and flyers (+18).",
       "Flyer sign-ups climbed from 40 to 58, a 45% rise, which was the largest increase observed.",
@@ -205,7 +205,33 @@
       "All methods added exactly the same number of sign-ups from Week 1 to Week 2."
     ],
     "correct": 0,
-    "explanation": "\"Door-to-door sign-ups rose from 52 to 85, an increase of 33, exceeding the gains by email (+12) and flyers (+18)\" is correct because it accurately calculates the week-over-week changes and demonstrates that door-to-door visits produced the largest absolute increase. Since the team wanted to \"assign canvassers where returns were strongest,\" the data clearly supports allocating more staff to the door-to-door method that generated the biggest gain."
+    "explanation": "\"Door-to-door sign-ups rose from 52 to 85, an increase of 33, exceeding the gains by email (+12) and flyers (+18)\" is correct because it accurately calculates the week-over-week changes and demonstrates that door-to-door visits produced the largest absolute increase. Since the team wanted to \"assign canvassers where returns were strongest,\" the data clearly supports allocating more staff to the door-to-door method that generated the biggest gain.",
+    "chart": {
+      "type": "bar",
+      "layout": "vertical",
+      "data": [
+        {
+          "channel": "Video",
+          "Pre": 120,
+          "Post": 150
+        },
+        {
+          "channel": "Radio",
+          "Pre": 90,
+          "Post": 100
+        },
+        {
+          "channel": "Social",
+          "Pre": 110,
+          "Post": 165
+        },
+        {
+          "channel": "Print",
+          "Pre": 70,
+          "Post": 60
+        }
+      ]
+    }
   },
   {
     "id": "17",
@@ -574,7 +600,7 @@
   {
     "id": "45",
     "module": 2,
-    "stem": "A city agency ran the same signup message across four channels for one week before and one week after a content rewrite. Impressions were equal across channels, and the metric was conversion rate (% of viewers who signed up). The team will fund the channel with the largest absolute increase from Pre to Post.\n\\documentclass[border=5pt,tikz]{standalone}\n\\usepackage{pgfplots}\n\\pgfplotsset{compat=1.18}\n\\begin{document}\n\\begin{tikzpicture}\n\\begin{axis}[\n  title={Average Conversion Rate (\\%) -- Pre vs Post},\n  xbar,\n  width=16cm, height=10cm,\n  bar width=10pt,\n  enlarge y limits=0.4,\n  xmin=0,\n  xlabel={Conversion Rate (\\%)},\n  symbolic y coords={Email, SMS, Social, In-App},\n  ytick=data,\n  yticklabel style={text width=3.5cm, align=right},\n  xmajorgrids,\n  legend cell align=left,\n  legend style={at={(0.98,0.98)}, anchor=north east},\n  nodes near coords,\n  nodes near coords align={horizontal},\n  scaled x ticks=false\n]\n\\addplot+[xbar, bar shift=-6pt] coordinates {(2.4,Email) (3.2,SMS) (1.8,Social) (2.6,In-App)};\n\\addlegendentry{Pre}\n\\addplot+[xbar, bar shift=6pt] coordinates {(3.0,Email) (3.6,SMS) (2.7,Social) (3.4,In-App)};\n\\addlegendentry{Post}\n\\end{axis}\n\n\\node[anchor=north west] at ([yshift=-2ex]current bounding box.south west)\n  {(Values are exact; bars illustrative.)};\n\\end{tikzpicture}\n\\end{document}\n\n \n Which choice most effectively uses data from the graph to support the funding decision?",
+    "stem": "A city agency ran the same signup message across four channels for one week before and one week after a content rewrite. Impressions were equal across channels, and the metric was conversion rate (% of viewers who signed up). The team will fund the channel with the largest absolute increase from Pre to Post.\n\n\n \n Which choice most effectively uses data from the graph to support the funding decision?",
     "choices": [
       "Social rose +0.9 points (1.8�??�?í2.7), the largest lift, exceeding In-App (+0.8), Email (+0.6), and SMS (+0.4).",
       "In-App should win because its Post rate (3.4%) is the highest overall.",
@@ -582,7 +608,33 @@
       "SMS had the largest percentage increase (3.2�??�?í3.6)."
     ],
     "correct": 0,
-    "explanation": "\"Social rose +0.9 points (1.8�??�?í2.7), the largest lift, exceeding In-App (+0.8), Email (+0.6), and SMS (+0.4)\" is correct because it accurately calculates the absolute increases for all channels and identifies Social media as having the largest improvement. Since the team will fund \"the channel with the largest absolute increase,\" Social's 0.9-point gain clearly exceeds all other channels and meets the specified funding criteria."
+    "explanation": "\"Social rose +0.9 points (1.8�??�?í2.7), the largest lift, exceeding In-App (+0.8), Email (+0.6), and SMS (+0.4)\" is correct because it accurately calculates the absolute increases for all channels and identifies Social media as having the largest improvement. Since the team will fund \"the channel with the largest absolute increase,\" Social's 0.9-point gain clearly exceeds all other channels and meets the specified funding criteria.",
+    "chart": {
+      "type": "bar",
+      "layout": "vertical",
+      "data": [
+        {
+          "channel": "Email",
+          "Pre": 2.4,
+          "Post": 3
+        },
+        {
+          "channel": "SMS",
+          "Pre": 3.2,
+          "Post": 3.6
+        },
+        {
+          "channel": "Social",
+          "Pre": 1.8,
+          "Post": 2.7
+        },
+        {
+          "channel": "In-App",
+          "Pre": 2.6,
+          "Post": 3.4
+        }
+      ]
+    }
   },
   {
     "id": "46",
@@ -600,7 +652,7 @@
   {
     "id": "47",
     "module": 2,
-    "stem": "A traffic safety team piloted temporary curb protection on four bike corridors for one week while keeping traffic volume and signal timing unchanged. Automated counters logged near-miss incidents per 1,000 trips. The city will make the protection permanent on the corridor showing the largest absolute reduction from Pre (baseline) to Post (pilot).\n\\documentclass[border=5pt,tikz]{standalone}\n\\usepackage{pgfplots}\n\\pgfplotsset{compat=1.18}\n\\begin{document}\n\\begin{tikzpicture}\n\\begin{axis}[\n  title={Near-Miss Incidents per 1,000 Trips -- Pre vs Post},\n  xbar,\n  width=16cm, height=10cm,\n  bar width=10pt,\n  enlarge y limits=0.4,\n  xmin=0,\n  xlabel={Incidents per 1{,}000 trips},\n  symbolic y coords={Oak, Pine, Maple, Cedar},\n  ytick=data,\n  yticklabel style={text width=3.5cm, align=right},\n  xmajorgrids,\n  legend cell align=left,\n  legend style={at={(0.02,0.98)}, anchor=north west},\n  nodes near coords,\n  nodes near coords align={horizontal},\n  scaled x ticks=false\n]\n\\addplot+[xbar, bar shift=-6pt] coordinates {(7.6,Oak) (6.1,Pine) (8.4,Maple) (5.9,Cedar)};\n\\addlegendentry{Pre}\n\\addplot+[xbar, bar shift=6pt] coordinates {(5.0,Oak) (3.3,Pine) (6.6,Maple) (2.7,Cedar)};\n\\addlegendentry{Post}\n\\end{axis}\n\n\\node[anchor=north west] at ([yshift=-2ex]current bounding box.south west)\n  {(Bar lengths are illustrative; values are exact.)};\n\\end{tikzpicture}\n\\end{document}\n\n \n Which choice most effectively uses data from the graph to justify the funding decision?",
+    "stem": "A traffic safety team piloted temporary curb protection on four bike corridors for one week while keeping traffic volume and signal timing unchanged. Automated counters logged near-miss incidents per 1,000 trips. The city will make the protection permanent on the corridor showing the largest absolute reduction from Pre (baseline) to Post (pilot).\n\n\n \n Which choice most effectively uses data from the graph to justify the funding decision?",
     "choices": [
       "Oak fell by 2.6 (7.6�??�?í5.0), the largest drop among corridors.",
       "Pine decreased by about 54%, so it outperforms Cedar's improvement.",
@@ -608,7 +660,33 @@
       "Cedar's rate dropped 3.2 (5.9�??�?í2.7), exceeding Pine's 2.8, Oak's 2.6, and Maple's 1.8."
     ],
     "correct": 3,
-    "explanation": "\"Cedar's rate dropped 3.2 (5.9�??�?í2.7), exceeding Pine's 2.8, Oak's 2.6, and Maple's 1.8\" is correct because it accurately calculates the absolute reductions for all four corridors and identifies Cedar as having the largest decrease in near-miss incidents. Since the city will make protection permanent on \"the corridor showing the largest absolute reduction,\" Cedar's 3.2-point improvement clearly exceeds all other corridors and meets the specified funding criteria."
+    "explanation": "\"Cedar's rate dropped 3.2 (5.9�??�?í2.7), exceeding Pine's 2.8, Oak's 2.6, and Maple's 1.8\" is correct because it accurately calculates the absolute reductions for all four corridors and identifies Cedar as having the largest decrease in near-miss incidents. Since the city will make protection permanent on \"the corridor showing the largest absolute reduction,\" Cedar's 3.2-point improvement clearly exceeds all other corridors and meets the specified funding criteria.",
+    "chart": {
+      "type": "bar",
+      "layout": "vertical",
+      "data": [
+        {
+          "channel": "Oak",
+          "Pre": 7.6,
+          "Post": 5
+        },
+        {
+          "channel": "Pine",
+          "Pre": 6.1,
+          "Post": 3.3
+        },
+        {
+          "channel": "Maple",
+          "Pre": 8.4,
+          "Post": 6.6
+        },
+        {
+          "channel": "Cedar",
+          "Pre": 5.9,
+          "Post": 2.7
+        }
+      ]
+    }
   },
   {
     "id": "48",
@@ -626,7 +704,7 @@
   {
     "id": "49",
     "module": 2,
-    "stem": "To cut missed appointments, a clinic tested three reminder methods for two weeks. The message content and timing were the same across methods. The team will choose one method for Phase 2 that (1) reaches at least 65% confirmations and (2) produces the largest reduction in no-shows (percentage points), without adding staff hours. During the pilot, phone calls required two staff hours per day; SMS and email were automated.\n\\documentclass[border=5pt,tikz]{standalone}\n\\usepackage{pgfplots}\n\\usepgfplotslibrary{groupplots}\n\\pgfplotsset{compat=1.18}\n\\begin{document}\n\\begin{tikzpicture}\n\\node[font=\\bfseries\\large] at (6.5,10.0) {Appointment Outcomes (Pre vs Post)};\n\n\\begin{groupplot}[\n  group style={group size=2 by 1, horizontal sep=2cm},\n  xbar,\n  width=12cm, height=9cm,\n  bar width=10pt,\n  enlarge y limits=0.4,\n  xmin=0,\n  yticklabel style={text width=2.8cm, align=right},\n  xmajorgrids,\n  legend cell align=left,\n  nodes near coords,\n  nodes near coords align={horizontal},\n  scaled x ticks=false\n]\n\n% Confirmations subplot\n\\nextgroupplot[\n  title={Confirmations (\\%)},\n  xlabel={Percentage (\\%)},\n  symbolic y coords={SMS, Email, Phone},\n  ytick=data,\n  legend style={at={(0.02,0.98)}, anchor=north west}\n]\n\\addplot+[xbar, bar shift=-6pt] coordinates {(52,SMS) (49,Email) (61,Phone)};\n\\addlegendentry{Pre}\n\\addplot+[xbar, bar shift=6pt] coordinates {(67,SMS) (58,Email) (70,Phone)};\n\\addlegendentry{Post}\n\n% No-Show subplot\n\\nextgroupplot[\n  title={No-Show (\\%)},\n  xlabel={Percentage (\\%)},\n  symbolic y coords={SMS, Email, Phone},\n  ytick=data,\n  legend style={at={(0.02,0.98)}, anchor=north west}\n]\n\\addplot+[xbar, bar shift=-6pt] coordinates {(18,SMS) (17,Email) (20,Phone)};\n\\addlegendentry{Pre}\n\\addplot+[xbar, bar shift=6pt] coordinates {(11,SMS) (15,Email) (13,Phone)};\n\\addlegendentry{Post}\n\n\\end{groupplot}\n\\end{tikzpicture}\n\\end{document}\n\n \n Which choice most effectively uses data from the table to justify selecting SMS for Phase 2?",
+    "stem": "To cut missed appointments, a clinic tested three reminder methods for two weeks. The message content and timing were the same across methods. The team will choose one method for Phase 2 that (1) reaches at least 65% confirmations and (2) produces the largest reduction in no-shows (percentage points), without adding staff hours. During the pilot, phone calls required two staff hours per day; SMS and email were automated.\n\n\n \n Which choice most effectively uses data from the table to justify selecting SMS for Phase 2?",
     "choices": [
       "SMS meets both targets: confirmations 67% (???�???65) and no-shows 18–11 (???��7)?????�tied for the largest drop?????�while remaining automated, unlike phone.",
       "Phone is best because confirmations are 70%, and a �??àí7 no-show drop proves staff calls are worth the time.",
@@ -634,7 +712,28 @@
       "Any method works: each hits ???�???65% confirmations and reduces no-shows by ???�???5 points."
     ],
     "correct": 0,
-    "explanation": "\"SMS meets both targets: confirmations 67% (???�???65) and no-shows 18–11 (???��7)?????�tied for the largest drop?????�while remaining automated, unlike phone\" is correct because it demonstrates that SMS satisfies all three selection criteria with precision. SMS achieves the required confirmation threshold (67% exceeds the 65% minimum), produces the largest possible no-show reduction (7 percentage points, tied with phone), and maintains automation without requiring additional staff hours."
+    "explanation": "\"SMS meets both targets: confirmations 67% (???�???65) and no-shows 18–11 (???��7)?????�tied for the largest drop?????�while remaining automated, unlike phone\" is correct because it demonstrates that SMS satisfies all three selection criteria with precision. SMS achieves the required confirmation threshold (67% exceeds the 65% minimum), produces the largest possible no-show reduction (7 percentage points, tied with phone), and maintains automation without requiring additional staff hours.",
+    "chart": {
+      "type": "bar",
+      "layout": "vertical",
+      "data": [
+        {
+          "channel": "SMS",
+          "Pre": 52,
+          "Post": 67
+        },
+        {
+          "channel": "Email",
+          "Pre": 49,
+          "Post": 58
+        },
+        {
+          "channel": "Phone",
+          "Pre": 61,
+          "Post": 70
+        }
+      ]
+    }
   },
   {
     "id": "50",

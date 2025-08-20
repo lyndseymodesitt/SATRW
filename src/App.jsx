@@ -29,10 +29,17 @@ function renderableBlanks(s) {
 
 // More aggressive blank detection for complex cases
 function renderableBlanksAggressive(s) {
-  return String(s ?? "")
-    .replace(/(^|[^A-Za-z0-9$])\\{1,8}_(?=$|[^A-Za-z0-9])/g, '$1<span class="blank"></span>')
-    .replace(/(^|[^A-Za-z0-9$])_{2,}([A-Za-z])/g, '$1<span class="blank"></span> $2')
-    .replace(/(^|[^A-Za-z0-9$])_{2,}(?=$|[^A-Za-z0-9])/g, '$1<span class="blank"></span>');
+  let t = String(s ?? "");
+  
+  // First, handle any remaining unprocessed underscores
+  t = t.replace(/(^|[^A-Za-z0-9$])\\{1,8}_(?=$|[^A-Za-z0-9])/g, '$1<span class="blank"></span>')
+       .replace(/(^|[^A-Za-z0-9$])_{2,}([A-Za-z])/g, '$1<span class="blank"></span> $2')
+       .replace(/(^|[^A-Za-z0-9$])_{2,}(?=$|[^A-Za-z0-9])/g, '$1<span class="blank"></span>');
+  
+  // Also handle any remaining single underscores that might be blanks
+  t = t.replace(/(^|[^A-Za-z0-9$])_(?=$|[^A-Za-z0-9])/g, '$1<span class="blank"></span>');
+  
+  return t;
 }
 
 // Comprehensive text sanitization for rendering
@@ -321,7 +328,7 @@ export default function App() {
             <>
               <div className="stem-box">
                 <MarkdownMath className="stem-text">
-                  {sanitizeForRender(renderableBlanksAggressive(currentQuestion.stem))}
+                  {currentQuestion.stem}
                 </MarkdownMath>
               </div>
               

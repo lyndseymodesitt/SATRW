@@ -199,7 +199,7 @@ rows.forEach((row, i) => {
     errors.push(`Row ${rowNum}: "Module" must be 1 or 2; got "${get(row, "module")}".`);
   }
 
-  const stem = normalize(get(row, "stem"));
+  let stem = normalize(get(row, "stem"));
   const explanation = normalize(get(row, "explanation"));
 
   const choices = [
@@ -226,6 +226,70 @@ rows.forEach((row, i) => {
   const rawChart = get(row, "chart");
   if (rawChart) {
     try { chart = JSON.parse(String(rawChart)); } catch { /* ignore bad JSON */ }
+  }
+
+  // Extract LaTeX charts from stem if no chart data exists
+  if (!chart && stem.includes("\\documentclass")) {
+    try {
+      // Extract LaTeX chart content and convert to basic chart data
+      const latexMatch = stem.match(/\\begin\{tikzpicture\}[\s\S]*?\\end\{tikzpicture\}/);
+      if (latexMatch) {
+        const latexChart = latexMatch[0];
+        
+        // Check if it's a bar chart
+        if (latexChart.includes("\\addplot+[ybar") || latexChart.includes("\\addplot+[xbar")) {
+          // Extract data from LaTeX coordinates
+          const coordMatches = latexChart.match(/coordinates\s*\{([^}]+)\}/g);
+          if (coordMatches) {
+            const data = [];
+            const labels = [];
+            
+            // Parse coordinates to extract data
+            coordMatches.forEach((match, index) => {
+              const coords = match.match(/\(([^)]+)\)/g);
+              if (coords) {
+                coords.forEach(coord => {
+                  const [value, label] = coord.replace(/[()]/g, '').split(',').map(s => s.trim());
+                  if (value && label && !isNaN(Number(value))) {
+                    if (!labels.includes(label)) labels.push(label);
+                    if (index === 0) {
+                      // First dataset (Pre)
+                      const existing = data.find(d => d.channel === label);
+                      if (existing) {
+                        existing.Pre = Number(value);
+                      } else {
+                        data.push({ channel: label, Pre: Number(value) });
+                      }
+                    } else if (index === 1) {
+                      // Second dataset (Post)
+                      const existing = data.find(d => d.channel === label);
+                      if (existing) {
+                        existing.Post = Number(value);
+                      } else {
+                        data.push({ channel: label, Post: Number(value) });
+                      }
+                    }
+                  }
+                });
+              }
+            });
+            
+            if (data.length > 0) {
+              chart = {
+                type: "bar",
+                layout: latexChart.includes("xbar") ? "vertical" : "horizontal",
+                data: data
+              };
+              
+              // Clean the stem by removing LaTeX chart
+              stem = stem.replace(/\\documentclass[\s\S]*?\\end\{document\}/g, "").trim();
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.log(`⚠️ Could not parse LaTeX chart in question ${id}: ${e.message}`);
+    }
   }
 
   data.push({ id, module: moduleNum, stem, choices, correct, explanation, image, alt, caption, chart });
