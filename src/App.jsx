@@ -4,14 +4,40 @@ import ChartRenderer from "./components/ChartRenderer.jsx";
 
 // Process blanks in text for rendering (converts \_, \\_, ____ to styled spans)
 function renderableBlanks(s) {
+  let t = String(s ?? "");
+
+  // (a) Backslashes before underscore (one to many), not mid-word
+  t = t.replace(
+    /(^|[^A-Za-z0-9$])\\{1,8}_(?=$|[^A-Za-z0-9])/g,
+    '$1<span class="blank"></span>'
+  );
+
+  // (b) Runs of underscores immediately followed by a letter: "__word" → "<span class=blank"></span> word"
+  t = t.replace(
+    /(^|[^A-Za-z0-9$])_{2,}([A-Za-z])/g,
+    '$1<span class="blank"></span> $2'
+  );
+
+  // (c) Runs of underscores followed by space/punct/end
+  t = t.replace(
+    /(^|[^A-Za-z0-9$])_{2,}(?=$|[^A-Za-z0-9])/g,
+    '$1<span class="blank"></span>'
+  );
+
+  return t;
+}
+
+// More aggressive blank detection for complex cases
+function renderableBlanksAggressive(s) {
   return String(s ?? "")
-    .replace(/(^|[\s([{<>"''])\\{1,2}_(?=[\s)\]}>.,;:!?'"'"']|$)/g, '$1<span class="blank"></span>')
-    .replace(/(^|[\s([{<>"''])\\{1,2}_(?=[\s)\]}>.,;:!?'"'"']|$)/g, '$1<span class="blank"></span>');
+    .replace(/(^|[^A-Za-z0-9$])\\{1,8}_(?=$|[^A-Za-z0-9])/g, '$1<span class="blank"></span>')
+    .replace(/(^|[^A-Za-z0-9$])_{2,}([A-Za-z])/g, '$1<span class="blank"></span> $2')
+    .replace(/(^|[^A-Za-z0-9$])_{2,}(?=$|[^A-Za-z0-9])/g, '$1<span class="blank"></span>');
 }
 
 // Comprehensive text sanitization for rendering
 function sanitizeForRender(s) {
-  return renderableBlanks(String(s ?? ""));
+  return renderableBlanksAggressive(String(s ?? ""));
 }
 
 function useQuestions() {
@@ -295,7 +321,7 @@ export default function App() {
             <>
               <div className="stem-box">
                 <MarkdownMath className="stem-text">
-                  {sanitizeForRender(currentQuestion.stem)}
+                  {sanitizeForRender(renderableBlanksAggressive(currentQuestion.stem))}
                 </MarkdownMath>
               </div>
               

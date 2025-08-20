@@ -106,26 +106,54 @@ function normalizeRanges(s) {
   );
 }
 
-// Replace visible blanks: \_  or \\_  or ____  (but NOT inside words)
+// Replace blanks aggressively: \_, \\_, or __…
+// Works whether a space follows or it's glued to the next word (e.g., "__for")
 function normalizeBlanks(s) {
   let t = String(s || "");
-  // one or two backslashes before underscore, surrounded by space/punct
+
+  // (a) Backslashes before underscore (one to many), not mid-word
   t = t.replace(
-    /(^|[\s([{<>"''])\\{1,2}_(?=[\s)\]}>.,;:!?'"'"']|$)/g,
+    /(^|[^A-Za-z0-9$])\\{1,8}_(?=$|[^A-Za-z0-9])/g,
     '$1<span class="blank"></span>'
   );
-  // runs of 2+ underscores surrounded by space/punct
+
+  // (b) Runs of underscores immediately followed by a letter: "__word" → "<span class=blank></span> word"
   t = t.replace(
-    /(^|[\s([{<>"''])_{2,}(?=[\s)\]}>.,;:!?'"'"']|$)/g,
+    /(^|[^A-Za-z0-9$])_{2,}([A-Za-z])/g,
+    '$1<span class="blank"></span> $2'
+  );
+
+  // (c) Runs of underscores followed by space/punct/end
+  t = t.replace(
+    /(^|[^A-Za-z0-9$])_{2,}(?=$|[^A-Za-z0-9])/g,
     '$1<span class="blank"></span>'
   );
+
   return t;
 }
 
 function renderableBlanks(s) {
-  return String(s ?? "")
-    .replace(/(^|[\s([{<>"''])\\{1,2}_(?=[\s)\]}>.,;:!?'"'"']|$)/g, '$1<span class="blank"></span>')
-    .replace(/(^|[\s([{<>"''])\\{1,2}_(?=[\s)\]}>.,;:!?'"'"']|$)/g, '$1<span class="blank"></span>');
+  let t = String(s ?? "");
+
+  // (a) Backslashes before underscore (one to many), not mid-word
+  t = t.replace(
+    /(^|[^A-Za-z0-9$])\\{1,8}_(?=$|[^A-Za-z0-9])/g,
+    '$1<span class="blank"></span>'
+  );
+
+  // (b) Runs of underscores immediately followed by a letter: "__word" → "<span class=blank></span> word"
+  t = t.replace(
+    /(^|[^A-Za-z0-9$])_{2,}([A-Za-z])/g,
+    '$1<span class="blank"></span> $2'
+  );
+
+  // (c) Runs of underscores followed by space/punct/end
+  t = t.replace(
+    /(^|[^A-Za-z0-9$])_{2,}(?=$|[^A-Za-z0-9])/g,
+    '$1<span class="blank"></span>'
+  );
+
+  return t;
 }
 
 const stripUnrenderableLatex = (s) => {
