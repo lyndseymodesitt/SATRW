@@ -23,7 +23,7 @@
       "complicated"
     ],
     "correct": 1,
-    "explanation": "\"Clarified\" is correct because the checklist and map provided specific details that made the plan clear and understandable. The added information≤meeting times, bus numbers, supplies needed, and a visual map≤resulted in students and chaperones knowing \"exactly where to go and when to arrive,\" which demonstrates that the plan was made clearer and more comprehensible."
+    "explanation": "\"Clarified\" is correct because the checklist and map provided specific details that made the plan clear and understandable. The added information—meeting times, bus numbers, supplies needed, and a visual map—resulted in students and chaperones knowing \"exactly where to go and when to arrive,\" which demonstrates that the plan was made clearer and more comprehensible."
   },
   {
     "id": "3",
@@ -101,7 +101,7 @@
       "It summarizes the entire narrative of the concert."
     ],
     "correct": 0,
-    "explanation": "\"It reveals the specific source of Lena's anxiety, linking outward actions to inner motivation\" is correct because the underlined sentence identifies what specifically causes Lena's nervousness. Earlier details show her external anxious behaviors≤checking her violin repeatedly and pacing—while the underlined sentence pinpoints the internal fear driving these actions: concern about the vulnerable moments of silence between musical notes."
+    "explanation": "\"It reveals the specific source of Lena's anxiety, linking outward actions to inner motivation\" is correct because the underlined sentence identifies what specifically causes Lena's nervousness. Earlier details show her external anxious behaviors—checking her violin repeatedly and pacing—while the underlined sentence pinpoints the internal fear driving these actions: concern about the vulnerable moments of silence between musical notes."
   },
   {
     "id": "9",
@@ -173,13 +173,13 @@
     "module": 1,
     "stem": "To evaluate which outreach channel drove hotline use, a public health organization aired the same 30-second PSA for two weeks on four channels: Video, Radio, Social, and Print—while keeping staffing, hours, and script unchanged. Calls were routed through unique numbers to attribute responses. The graph shows average daily calls in the week before the campaign (\"Pre\") and the campaign's second week (\"Post\"). For the next phase, the team must pick one channel for extra budget to maximize incremental impact. \n\n\n \n Which choice most effectively uses data from the graph to justify allocating more budget to Social ads in phase two?",
     "choices": [
-      "Social increased by 50% (110≤165), a gain of +55, the largest among all channels.",
+      "Social increased by 50% (110→165), a gain of +55, the largest among all channels.",
       "Video doubled from 120 to 150, far outpacing the others.",
       "Radio increased by 30 calls, the most of any channel.",
       "Print saw a modest rise of 10 calls, showing untapped potential."
     ],
     "correct": 0,
-    "explanation": "\"Social increased by 50% (110≤165), a gain of +55, the largest among all channels\" is correct because it accurately calculates both the absolute increase (55 additional calls) and percentage growth (50%) for Social media outreach, demonstrating that this channel produced the strongest performance improvement. Since the team wants to \"pick one channel for extra budget to maximize incremental impact,\" the data clearly supports investing additional resources in Social media advertising.",
+    "explanation": "\"Social increased by 50% (110→165), a gain of +55, the largest among all channels\" is correct because it accurately calculates both the absolute increase (55 additional calls) and percentage growth (50%) for Social media outreach, demonstrating that this channel produced the strongest performance improvement. Since the team wants to \"pick one channel for extra budget to maximize incremental impact,\" the data clearly supports investing additional resources in Social media advertising.",
     "chart": {
       "type": "bar",
       "layout": "horizontal",
@@ -274,11 +274,11 @@
     "choices": [
       "Keep the 10 p.m. closing on both nights and add a third late evening.",
       "End late nights entirely and return to a 6 p.m. closing.",
-      "Shift extended hours to 7≤9 p.m. and pilot a Saturday morning block to reduce overtime.",
+      "Shift extended hours to 7–9 p.m. and pilot a Saturday morning block to reduce overtime.",
       "Hire two full-time staff immediately to cover late nights."
     ],
     "correct": 2,
-    "explanation": "\"Shift extended hours to 7≤9 p.m. and pilot a Saturday morning block to reduce overtime\" is correct because it directly addresses all the key evidence while meeting the director's stated goal. This choice aligns with the peak usage data showing \"most visits between 7 and 9,\" reduces the overtime costs and staff burnout caused by 10 p.m. closings, and responds to survey feedback from families requesting \"a Saturday morning option.\""
+    "explanation": "\"Shift extended hours to 7–9 p.m. and pilot a Saturday morning block to reduce overtime\" is correct because it directly addresses all the key evidence while meeting the director's stated goal. This choice aligns with the peak usage data showing \"most visits between 7 and 9,\" reduces the overtime costs and staff burnout caused by 10 p.m. closings, and responds to survey feedback from families requesting \"a Saturday morning option.\""
   },
   {
     "id": "19",
@@ -439,7 +439,7 @@
   {
     "id": "31",
     "module": 1,
-    "stem": "Goal: Write one sentence for a grant executive summary that justifies expanding the after-school tutoring program by citing the largest measured academic effect and showing the expansion fits within the budget cap.\nResearch Notes (Riverside HS, 8-week pilot)\n\n- Program covered math & reading; for 9th graders, average math error rates≤22%; reading comprehension≤8%.\n- Average attendance: 92%; no student missed more than two sessions.\n- Cost: $135 per student; grant cap = $15,000.\n- Waitlist: 47 students (≤60% 9th graders).\n- Facilities: one unused classroom available on Wednesdays (no added facility cost).\n\n \n Which choice most effectively uses relevant information from the notes to accomplish the goal?",
+    "stem": "Goal: Write one sentence for a grant executive summary that justifies expanding the after-school tutoring program by citing the largest measured academic effect and showing the expansion fits within the budget cap.\nResearch Notes (Riverside HS, 8-week pilot)\n\n- Program covered math & reading; for 9th graders, average math error rates ↓ 22%; reading comprehension ↓ 8%.\n- Average attendance: 92%; no student missed more than two sessions.\n- Cost: $135 per student; grant cap = $15,000.\n- Waitlist: 47 students (≤60% 9th graders).\n- Facilities: one unused classroom available on Wednesdays (no added facility cost).\n\n \n Which choice most effectively uses relevant information from the notes to accomplish the goal?",
     "choices": [
       "Because 9th graders cut math errors by 22% and enrolling the 47-student waitlist would cost $6,345, well under the $15,000 cap, we recommend funding expansion.",
       "Reading scores jumped 22%, and serving 120 new students would fit under the $15,000 cap.",
@@ -727,13 +727,13 @@
     "module": 2,
     "stem": "To cut missed appointments, a clinic tested three reminder methods for two weeks. The message content and timing were the same across methods. The team will choose one method for Phase 2 that (1) reaches at least 65% confirmations and (2) produces the largest reduction in no-shows (percentage points), without adding staff hours. During the pilot, phone calls required two staff hours per day; SMS and email were automated.\n\n\n \n Which choice most effectively uses data from the table to justify selecting SMS for Phase 2?",
     "choices": [
-      "SMS meets both targets: confirmations 67% (≤65) and no-shows 18–11 (≤7)≤tied for the largest drop—while remaining automated, unlike phone.",
+      "SMS meets both targets: confirmations 67% (≥65) and no-shows 18–11 (-7)—tied for the largest drop—while remaining automated, unlike phone.",
       "Phone is best because confirmations are 70%, and a≤7 no-show drop proves staff calls are worth the time.",
-      "Email improved confirmations by +9 points to 58% and cut no-shows 17≤15 (≤2), meeting both criteria.",
+      "Email improved confirmations by +9 points to 58% and cut no-shows 17→15 (-2), meeting both criteria.",
       "Any method works: each hits≤65% confirmations and reduces no-shows by≤5 points."
     ],
     "correct": 0,
-    "explanation": "\"SMS meets both targets: confirmations 67% (≤65) and no-shows 18–11 (≤7)≤tied for the largest drop—while remaining automated, unlike phone\" is correct because it demonstrates that SMS satisfies all three selection criteria with precision. SMS achieves the required confirmation threshold (67% exceeds the 65% minimum), produces the largest possible no-show reduction (7 percentage points, tied with phone), and maintains automation without requiring additional staff hours.",
+    "explanation": "\"SMS meets both targets: confirmations 67% (≥65) and no-shows 18–11 (-7)—tied for the largest drop—while remaining automated, unlike phone\" is correct because it demonstrates that SMS satisfies all three selection criteria with precision. SMS achieves the required confirmation threshold (67% exceeds the 65% minimum), produces the largest possible no-show reduction (7 percentage points, tied with phone), and maintains automation without requiring additional staff hours.",
     "chart": {
       "type": "bar",
       "layout": "vertical",
@@ -930,13 +930,13 @@
     "module": 2,
     "stem": "Goal: Write one sentence for a museum label that situates the timing of al-Biruni's hypothesis about far-eastern landmasses relative to later voyages and translations, emphasizing that his claim predated those events.\nResearch Notes\n\n- al-Biruni: 973–1048 CE.\n- Treatise (c. 1030 CE): argues from tidal evidence that a continuous ocean links India to inhabited lands east of China.\n- Later voyages: Ming fleets (1405–1433); Columbus (1492); Magellan (1519–1522).\n- Latin translation printed 1732; broader European circulation afterward.\n- Strabo (1st c. BCE): posits an encircling ocean but does not claim inhabited lands east of China.\n\n \n Which choice most effectively uses relevant information from the notes to accomplish the goal?",
     "choices": [
-      "After Magellan (1519≤1522) proved global seas, al-Biruni wrote a commentary adopting those results; his ideas were translated into Latin in 1200.",
+      "After Magellan (1519–1522) proved global seas, al-Biruni wrote a commentary adopting those results; his ideas were translated into Latin in 1200.",
       "Building directly on Strabo's assertion that inhabited lands lay east of China, al-Biruni repeated the view in 1030 CE and it was instantly known across Europe.",
-      "In a treatise completed around 1030 CE, al-Biruni used tidal evidence to argue that an ocean links India to inhabited lands east of China≤centuries before the Ming voyages (1405≤1433) and nearly five centuries before Columbus≤a claim widely noticed in Europe only after a 1732 Latin translation.",
-      "Drawing on reports from the Ming fleets (1405≤1433), al-Biruni in 1030 CE concluded that new eastern continents existed, and his treatise circulated widely in Europe at the time."
+      "In a treatise completed around 1030 CE, al-Biruni used tidal evidence to argue that an ocean links India to inhabited lands east of China—centuries before the Ming voyages (1405–1433) and nearly five centuries before Columbus—a claim widely noticed in Europe only after a 1732 Latin translation.",
+      "Drawing on reports from the Ming fleets (1405–1433), al-Biruni in 1030 CE concluded that new eastern continents existed, and his treatise circulated widely in Europe at the time."
     ],
     "correct": 2,
-    "explanation": "\"In a treatise completed around 1030 CE, al-Biruni used tidal evidence to argue that an ocean links India to inhabited lands east of China≤centuries before the Ming voyages (1405≤1433) and nearly five centuries before Columbus≤a claim widely noticed in Europe only after a 1732 Latin translation\" is correct because it accurately situates al-Biruni's hypothesis in proper chronological context relative to later explorations and emphasizes how his 1030 CE claim predated subsequent voyages by centuries, fulfilling the goal's requirements for temporal positioning and translation timing."
+    "explanation": "\"In a treatise completed around 1030 CE, al-Biruni used tidal evidence to argue that an ocean links India to inhabited lands east of China—centuries before the Ming voyages (1405–1433) and nearly five centuries before Columbus—a claim widely noticed in Europe only after a 1732 Latin translation\" is correct because it accurately situates al-Biruni's hypothesis in proper chronological context relative to later explorations and emphasizes how his 1030 CE claim predated subsequent voyages by centuries, fulfilling the goal's requirements for temporal positioning and translation timing."
   },
   {
     "id": "64",
