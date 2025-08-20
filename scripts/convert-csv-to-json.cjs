@@ -193,7 +193,14 @@ rows.forEach((row, i) => {
   const alt     = normalize(get(row, "alt")     || fig.alt     || "") || undefined;
   const caption = normalize(get(row, "caption") || fig.caption || "") || undefined;
 
-  data.push({ id, module: moduleNum, stem, choices, correct, explanation, image, alt, caption });
+  // Parse chart data if present
+  let chart = undefined;
+  const rawChart = get(row, "chart");
+  if (rawChart) {
+    try { chart = JSON.parse(String(rawChart)); } catch { /* ignore bad JSON */ }
+  }
+
+  data.push({ id, module: moduleNum, stem, choices, correct, explanation, image, alt, caption, chart });
 });
 
 if (errors.length) {

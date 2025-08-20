@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import MarkdownMath from "./components/MarkdownMath";
+import ChartRenderer from "./components/ChartRenderer.jsx";
 
 // Process blanks in text for rendering (converts \_, \\_, ____ to styled spans)
 function renderableBlanks(s) {
@@ -308,6 +309,8 @@ export default function App() {
                   {currentQuestion.caption && <div className="figure-cap">{currentQuestion.caption}</div>}
                 </div>
               )}
+              
+              {currentQuestion.chart && <ChartRenderer chart={currentQuestion.chart} />}
               <div className="grid choices" role="list">
                 {currentQuestion.choices.map((text, i) => (
                   <button
