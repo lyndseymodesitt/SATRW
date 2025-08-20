@@ -171,7 +171,7 @@
   {
     "id": "14",
     "module": 1,
-    "stem": "To evaluate which outreach channel drove hotline use, a public health organization aired the same 30-second PSA for two weeks on four channels�??�?îVideo, Radio, Social, and Print�??�?îwhile keeping staffing, hours, and script unchanged. Calls were routed through unique numbers to attribute responses. The graph shows average daily calls in the week before the campaign (\"Pre\") and the campaign's second week (\"Post\"). For the next phase, the team must pick one channel for extra budget to maximize incremental impact. \n\\documentclass[border=5pt,tikz]{standalone}\n\\usepackage{pgfplots}\n\\pgfplotsset{compat=1.18}\n\\begin{document}\n\\begin{tikzpicture}\n\\begin{axis}[\n  title={Home Energy Audit Sign-ups by Outreach Method},\n  title style={font=\\bfseries\\large, yshift=2pt},\n  ybar,\n  width=14cm, height=9cm,\n  bar width=14pt,\n  enlarge x limits=0.25,\n  symbolic x coords={Email, Flyer, Door-to-door},\n  xtick=data,\n  xticklabel style={align=center},\n  xlabel={Method}, ylabel={Sign-ups},\n  ymin=0,\n  ymajorgrids,\n  legend cell align=left,\n  legend style={at={(0.02,0.98)}, anchor=north west},\n  nodes near coords,\n  nodes near coords align={vertical}\n]\n\\addplot+[ybar, bar shift=-9pt] coordinates {(Email,84) (Flyer,40) (Door-to-door,52)};\n\\addlegendentry{Week 1}\n\\addplot+[ybar, bar shift=9pt] coordinates {(Email,96) (Flyer,58) (Door-to-door,85)};\n\\addlegendentry{Week 2}\n\\end{axis}\n\\end{tikzpicture}\n\\end{document}\n\n \n Which choice most effectively uses data from the graph to justify allocating more budget to Social ads in phase two?",
+    "stem": "To evaluate which outreach channel drove hotline use, a public health organization aired the same 30-second PSA for two weeks on four channels�??�?îVideo, Radio, Social, and Print�??�?îwhile keeping staffing, hours, and script unchanged. Calls were routed through unique numbers to attribute responses. The graph shows average daily calls in the week before the campaign (\"Pre\") and the campaign's second week (\"Post\"). For the next phase, the team must pick one channel for extra budget to maximize incremental impact. \n\n\n \n Which choice most effectively uses data from the graph to justify allocating more budget to Social ads in phase two?",
     "choices": [
       "Social increased by 50% (110�??�?í165), a gain of +55, the largest among all channels.",
       "Video doubled from 120 to 150, far outpacing the others.",
@@ -179,7 +179,28 @@
       "Print saw a modest rise of 10 calls, showing untapped potential."
     ],
     "correct": 0,
-    "explanation": "\"Social increased by 50% (110�??�?í165), a gain of +55, the largest among all channels\" is correct because it accurately calculates both the absolute increase (55 additional calls) and percentage growth (50%) for Social media outreach, demonstrating that this channel produced the strongest performance improvement. Since the team wants to \"pick one channel for extra budget to maximize incremental impact,\" the data clearly supports investing additional resources in Social media advertising."
+    "explanation": "\"Social increased by 50% (110�??�?í165), a gain of +55, the largest among all channels\" is correct because it accurately calculates both the absolute increase (55 additional calls) and percentage growth (50%) for Social media outreach, demonstrating that this channel produced the strongest performance improvement. Since the team wants to \"pick one channel for extra budget to maximize incremental impact,\" the data clearly supports investing additional resources in Social media advertising.",
+    "chart": {
+      "type": "bar",
+      "layout": "horizontal",
+      "data": [
+        {
+          "channel": "Email",
+          "Week 1": 84,
+          "Week 2": 96
+        },
+        {
+          "channel": "Flyer",
+          "Week 1": 40,
+          "Week 2": 58
+        },
+        {
+          "channel": "Door-to-door",
+          "Week 1": 52,
+          "Week 2": 85
+        }
+      ]
+    }
   },
   {
     "id": "15",

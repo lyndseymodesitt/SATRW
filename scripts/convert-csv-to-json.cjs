@@ -242,6 +242,7 @@ rows.forEach((row, i) => {
         
         // Check if it's a bar chart (look for various bar chart indicators)
         if (latexChart.includes("\\addplot+[ybar") || latexChart.includes("\\addplot+[xbar") || 
+            latexChart.includes("\\addplot+[ybar") || latexChart.includes("\\addplot+[xbar") ||
             latexChart.includes("ybar") || latexChart.includes("xbar")) {
           console.log(`📈 Processing bar chart data for question ${id}`);
           
@@ -281,6 +282,57 @@ rows.forEach((row, i) => {
                 });
               }
             });
+            
+            // If we still don't have data, try alternative coordinate formats
+            if (data.length === 0) {
+              console.log(`🔄 Trying alternative coordinate parsing for question ${id}`);
+              const altCoords = latexChart.match(/\\addplot.*?coordinates\s*\{([^}]+)\}/g);
+              if (altCoords) {
+                altCoords.forEach((match, index) => {
+                  const coordData = match.match(/coordinates\s*\{([^}]+)\}/);
+                  if (coordData) {
+                    const coords = coordData[1].match(/\(([^)]+)\)/g);
+                    if (coords) {
+                      coords.forEach(coord => {
+                        const parts = coord.replace(/[()]/g, '').split(',').map(s => s.trim());
+                        if (parts.length === 2) {
+                          // Handle both formats: (Email,84) and (120,Video)
+                          let value, label;
+                          if (!isNaN(Number(parts[0]))) {
+                            // Format: (120,Video)
+                            value = parts[0];
+                            label = parts[1];
+                          } else {
+                            // Format: (Email,84)
+                            label = parts[0];
+                            value = parts[1];
+                          }
+                          
+                          if (value && label && !isNaN(Number(value))) {
+                            if (!labels.includes(label)) labels.push(label);
+                            if (index === 0) {
+                              const existing = data.find(d => d.channel === label);
+                              if (existing) {
+                                existing["Week 1"] = Number(value);
+                              } else {
+                                data.push({ channel: label, "Week 1": Number(value) });
+                              }
+                            } else if (index === 1) {
+                              const existing = data.find(d => d.channel === label);
+                              if (existing) {
+                                existing["Week 2"] = Number(value);
+                              } else {
+                                data.push({ channel: label, "Week 2": Number(value) });
+                              }
+                            }
+                          }
+                        }
+                      });
+                    }
+                  }
+                });
+              }
+            }
             
             if (data.length > 0) {
               console.log(`✅ Successfully extracted chart data for question ${id}:`, data);

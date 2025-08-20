@@ -44,7 +44,7 @@
 /* Inline fill-in-the-blank line */
 .blank {
   display: inline-block;
-  border-bottom: 2px solid var(--border);
+  border-bottom: 2px solid white;
   min-width: 6ch;
   line-height: 1.1;
   vertical-align: baseline;
