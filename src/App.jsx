@@ -200,6 +200,18 @@ export default function App() {
     }
   };
 
+  const goToPreviousQuestion = () => {
+    if (qIndex > 0) {
+      setQIndex((i) => i - 1);
+    }
+  };
+
+  const goToNextQuestion = () => {
+    if (qIndex + 1 < currentModuleQuestions.length) {
+      setQIndex((i) => i + 1);
+    }
+  };
+
   const toggleFlag = (qid) => {
     setFlagged((prev) => ({ ...prev, [qid]: !prev[qid] }));
   };
@@ -382,6 +394,22 @@ export default function App() {
               </div>
 
               <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
+                <button 
+                  className="btn-secondary btn" 
+                  onClick={goToPreviousQuestion}
+                  disabled={qIndex === 0}
+                  style={{ opacity: qIndex === 0 ? 0.5 : 1 }}
+                >
+                  ← Previous
+                </button>
+                <button 
+                  className="btn-secondary btn" 
+                  onClick={goToNextQuestion}
+                  disabled={qIndex + 1 >= currentModuleQuestions.length}
+                  style={{ opacity: qIndex + 1 >= currentModuleQuestions.length ? 0.5 : 1 }}
+                >
+                  Next →
+                </button>
                 <button className="btn-secondary btn" onClick={endModule}>
                   Finish Module Early
                 </button>
@@ -416,6 +444,12 @@ export default function App() {
             You can also enter a full review mode to step through any or all items.
           </p>
 
+          <div style={{ display: "flex", gap: 12, marginTop: 16, marginBottom: 16 }}>
+            <button className="btn" onClick={goReview}>Enter Review Mode</button>
+            <button className="btn btn-secondary" onClick={() => setPhase(PHASES.INTRO)}>Retake</button>
+            <button className="btn btn-secondary" onClick={() => downloadCSV(results.rows)}>Download Results (CSV)</button>
+          </div>
+
           <div style={{ marginTop: 16 }}>
             {results.rows
               .filter((r) => !r.isCorrect)
@@ -447,12 +481,6 @@ export default function App() {
                 🎉 Flawless! The answer key is intimidated.
               </div>
             )}
-          </div>
-
-          <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
-            <button className="btn" onClick={goReview}>Enter Review Mode</button>
-            <button className="btn btn-secondary" onClick={() => setPhase(PHASES.INTRO)}>Retake</button>
-            <button className="btn btn-secondary" onClick={() => downloadCSV(results.rows)}>Download Results (CSV)</button>
           </div>
         </div>
       )}

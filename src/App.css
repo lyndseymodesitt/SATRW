@@ -69,3 +69,18 @@
   vertical-align: baseline;
   height: 1.2em;
 }
+
+/* Disabled button styling */
+.btn:disabled,
+.btn-secondary:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  background-color: #6b7280;
+  color: #9ca3af;
+}
+
+.btn:disabled:hover,
+.btn-secondary:disabled:hover {
+  background-color: #6b7280;
+  color: #9ca3af;
+}
