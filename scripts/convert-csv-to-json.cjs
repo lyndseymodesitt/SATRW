@@ -87,6 +87,25 @@ const escapeAccidentalMarkdown = (s) =>
     // a_b → a\_b
     .replace(/(\w)_(\w)/g, "$1\\\\_$2");
 
+// Count obvious mojibake markers
+const mojoScore = (s) => (String(s).match(/[ÃÂ]|â.|‚Ä|Ã¢â‚¬/g) || []).length;
+
+// Try to repair double/triple-encoded text per-field
+function repairMojibake(s) {
+  const orig = String(s ?? "");
+  if (!/[ÃÂ]|â.|‚Ä|Ã¢â‚¬/.test(orig)) return orig;
+  const attempt = iconv.decode(iconv.encode(orig, "latin1"), "utf8");
+  return mojoScore(attempt) < mojoScore(orig) ? attempt : orig;
+}
+
+// Normalize numeric ranges: 24 <garbage> 48  →  24–48
+function normalizeRanges(s) {
+  return String(s ?? "").replace(
+    /(\d+)\s*(?:—|–|−|–|—|‚Äì|â€"|Ã¢â‚¬â€œ|â€šÃ„Ã¬|[\uFFFD?]{1,6})\s*(\d+)/g,
+    "$1–$2"
+  );
+}
+
 const stripUnrenderableLatex = (s) => {
   let t = String(s || "");
   t = t.replace(/\\documentclass[\s\S]*?\\begin\{document\}/gi, "");
@@ -98,13 +117,17 @@ const stripUnrenderableLatex = (s) => {
   return t.trim();
 };
 
-// Final normalize pipeline for stem/choices/explanations
+// FINAL normalize pipeline (update yours to include these two)
 const normalize = (s) =>
-  escapeAccidentalMarkdown(
-    stripUnrenderableLatex(
-      decodeHtmlEntities(
-        fixMoji(
-          inlineMarkdownObjects(s)
+  normalizeRanges(
+    repairMojibake(
+      escapeAccidentalMarkdown(
+        stripUnrenderableLatex(
+          decodeHtmlEntities(
+            fixMoji(
+              inlineMarkdownObjects(s)
+            )
+          )
         )
       )
     )
