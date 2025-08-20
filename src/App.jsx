@@ -289,7 +289,7 @@ export default function App() {
           <h1>SAT Reading & Writing Practice</h1>
           <p className="kicker">Two modules • 32 minutes each • 30-second break</p>
           <p>Click start when you're ready. (No pressure—just a very visible ticking clock.)</p>
-          <div style={{ display: "flex", gap: 12, marginTop: 16, alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 12, marginTop: 16, alignItems: "center", justifyContent: "center" }}>
             <button className="btn" onClick={startTest}>Start Test</button>
             <span className="small">
               Questions loaded: Module 1 = {modules[0].length}, Module 2 = {modules[1].length}
