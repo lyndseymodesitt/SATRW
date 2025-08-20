@@ -101,7 +101,7 @@
       "It summarizes the entire narrative of the concert."
     ],
     "correct": 0,
-    "explanation": "\"It reveals the specific source of Lena's anxiety, linking outward actions to inner motivation\" is correct because the underlined sentence identifies what specifically causes Lena's nervousness. Earlier details show her external anxious behaviors≤checking her violin repeatedly and pacing≤while the underlined sentence pinpoints the internal fear driving these actions: concern about the vulnerable moments of silence between musical notes."
+    "explanation": "\"It reveals the specific source of Lena's anxiety, linking outward actions to inner motivation\" is correct because the underlined sentence identifies what specifically causes Lena's nervousness. Earlier details show her external anxious behaviors≤checking her violin repeatedly and pacing—while the underlined sentence pinpoints the internal fear driving these actions: concern about the vulnerable moments of silence between musical notes."
   },
   {
     "id": "9",
@@ -171,7 +171,7 @@
   {
     "id": "14",
     "module": 1,
-    "stem": "To evaluate which outreach channel drove hotline use, a public health organization aired the same 30-second PSA for two weeks on four channels: Video, Radio, Social, and Print≤while keeping staffing, hours, and script unchanged. Calls were routed through unique numbers to attribute responses. The graph shows average daily calls in the week before the campaign (\"Pre\") and the campaign's second week (\"Post\"). For the next phase, the team must pick one channel for extra budget to maximize incremental impact. \n\n\n \n Which choice most effectively uses data from the graph to justify allocating more budget to Social ads in phase two?",
+    "stem": "To evaluate which outreach channel drove hotline use, a public health organization aired the same 30-second PSA for two weeks on four channels: Video, Radio, Social, and Print—while keeping staffing, hours, and script unchanged. Calls were routed through unique numbers to attribute responses. The graph shows average daily calls in the week before the campaign (\"Pre\") and the campaign's second week (\"Post\"). For the next phase, the team must pick one channel for extra budget to maximize incremental impact. \n\n\n \n Which choice most effectively uses data from the graph to justify allocating more budget to Social ads in phase two?",
     "choices": [
       "Social increased by 50% (110≤165), a gain of +55, the largest among all channels.",
       "Video doubled from 120 to 150, far outpacing the others.",
@@ -727,13 +727,13 @@
     "module": 2,
     "stem": "To cut missed appointments, a clinic tested three reminder methods for two weeks. The message content and timing were the same across methods. The team will choose one method for Phase 2 that (1) reaches at least 65% confirmations and (2) produces the largest reduction in no-shows (percentage points), without adding staff hours. During the pilot, phone calls required two staff hours per day; SMS and email were automated.\n\n\n \n Which choice most effectively uses data from the table to justify selecting SMS for Phase 2?",
     "choices": [
-      "SMS meets both targets: confirmations 67% (≤65) and no-shows 18–11 (≤7)≤tied for the largest drop≤while remaining automated, unlike phone.",
+      "SMS meets both targets: confirmations 67% (≤65) and no-shows 18–11 (≤7)≤tied for the largest drop—while remaining automated, unlike phone.",
       "Phone is best because confirmations are 70%, and a≤7 no-show drop proves staff calls are worth the time.",
       "Email improved confirmations by +9 points to 58% and cut no-shows 17≤15 (≤2), meeting both criteria.",
       "Any method works: each hits≤65% confirmations and reduces no-shows by≤5 points."
     ],
     "correct": 0,
-    "explanation": "\"SMS meets both targets: confirmations 67% (≤65) and no-shows 18–11 (≤7)≤tied for the largest drop≤while remaining automated, unlike phone\" is correct because it demonstrates that SMS satisfies all three selection criteria with precision. SMS achieves the required confirmation threshold (67% exceeds the 65% minimum), produces the largest possible no-show reduction (7 percentage points, tied with phone), and maintains automation without requiring additional staff hours.",
+    "explanation": "\"SMS meets both targets: confirmations 67% (≤65) and no-shows 18–11 (≤7)≤tied for the largest drop—while remaining automated, unlike phone\" is correct because it demonstrates that SMS satisfies all three selection criteria with precision. SMS achieves the required confirmation threshold (67% exceeds the 65% minimum), produces the largest possible no-show reduction (7 percentage points, tied with phone), and maintains automation without requiring additional staff hours.",
     "chart": {
       "type": "bar",
       "layout": "vertical",
@@ -967,7 +967,7 @@
   {
     "id": "66",
     "module": 2,
-    "stem": "Goal: Write one sentence for a high-school geology handout that emphasizes what P-waves and S-waves share≤they are body waves that travel through Earth's interior and, used together, help map internal layers≤while avoiding claims about surface-wave damage or that S-waves travel through liquids.\nResearch Notes\n\n- Types: Body waves travel through Earth's interior (P and S); surface waves (Love, Rayleigh) travel along the surface.\n- Media: P-waves (compressional) pass through solids and liquids; S-waves (shear) pass through solids only (blocked by liquids).\n- Speed/arrival: P arrive first (faster); S arrive after P.\n- Similarities: Both are interior-traveling body waves, recorded worldwide by seismometers, and used jointly to probe Earth's structure.\n- Use in inference: Differences in global arrival times and shadow zones allow scientists to locate epicenters and infer layer boundaries (e.g., liquid outer core blocks S, refracts P).\n- Ground motion/damage: Surface waves usually produce the largest ground motion at the surface.\n- Writing constraint: Emphasize similarity; do not imply S travels through liquids or that body waves cause most surface damage.\n\n \n Which choice most effectively uses relevant information from the notes to accomplish the goal?",
+    "stem": "Goal: Write one sentence for a high-school geology handout that emphasizes what P-waves and S-waves share≤they are body waves that travel through Earth's interior and, used together, help map internal layers—while avoiding claims about surface-wave damage or that S-waves travel through liquids.\nResearch Notes\n\n- Types: Body waves travel through Earth's interior (P and S); surface waves (Love, Rayleigh) travel along the surface.\n- Media: P-waves (compressional) pass through solids and liquids; S-waves (shear) pass through solids only (blocked by liquids).\n- Speed/arrival: P arrive first (faster); S arrive after P.\n- Similarities: Both are interior-traveling body waves, recorded worldwide by seismometers, and used jointly to probe Earth's structure.\n- Use in inference: Differences in global arrival times and shadow zones allow scientists to locate epicenters and infer layer boundaries (e.g., liquid outer core blocks S, refracts P).\n- Ground motion/damage: Surface waves usually produce the largest ground motion at the surface.\n- Writing constraint: Emphasize similarity; do not imply S travels through liquids or that body waves cause most surface damage.\n\n \n Which choice most effectively uses relevant information from the notes to accomplish the goal?",
     "choices": [
       "P-waves and S-waves≤both body waves that travel through Earth's interior from an earthquake's focus≤arrive at different times at global stations; used together, those timings let geophysicists map internal boundaries, including the liquid outer core where S-waves stop and P-waves bend.",
       "Because only P-waves penetrate the interior while S-waves move along the surface, the first arrivals alone determine epicenters and damage patterns.",
