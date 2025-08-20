@@ -7,44 +7,73 @@ const INPUT = "src/data/questions.csv";
 const OUTPUTS = ["public/data/questions.json", "src/data/questions.json"];
 for (const p of OUTPUTS) fs.mkdirSync(path.dirname(p), { recursive: true });
 
-// Read file (UTF-8; fallback Win-1252 if mojibake detected)
+// ---------- read & decode ----------
 const buf = fs.readFileSync(INPUT);
 let csv = buf.toString("utf8");
-if (/â€"|â€"|â€˜|â€™|â€œ|â€|Â|‚Äì|‚Äî/.test(csv)) {
+if (/â€"|â€"|â€˜|â€™|â€œ|â€|Â|‚Äì|‚Äî|Ã—|â‰¥|â‰¤|Â°|Âµ|Î¼|â†'|â†"|Â²|Â³/.test(csv)) {
   csv = iconv.decode(buf, "win1252");
   console.log("ℹ️ Detected Windows-1252 CSV; decoding accordingly.");
 }
 
-// Normalize headers (trim spaces, remove BOM, collapse multiple spaces, lower-case)
-const normalizeKey = (k) => String(k || "")
-  .replace(/^\uFEFF/, "")         // strip BOM
-  .replace(/\s+/g, " ")
-  .trim()
-  .toLowerCase();
+// ---------- parsing with forgiving headers ----------
+const normalizeKey = (k) =>
+  String(k || "").replace(/^\uFEFF/, "").replace(/\s+/g, " ").trim().toLowerCase();
 
 const rowsRaw = parse(csv, {
-  columns: (header) => header.map(normalizeKey),
+  columns: (h) => h.map(normalizeKey),
   skip_empty_lines: true,
   trim: true,
 });
-
-const rows = rowsRaw.map((r) => {
-  // also normalize any weird keys that slipped through
-  return Object.fromEntries(Object.entries(r).map(([k, v]) => [normalizeKey(k), v]));
-});
-
-// helper access by normalized name
+const rows = rowsRaw.map((r) =>
+  Object.fromEntries(Object.entries(r).map(([k, v]) => [normalizeKey(k), v]))
+);
 const get = (row, name) => row[normalizeKey(name)];
-const A2D = ["a","b","c","d"];
+const A2D = ["a", "b", "c", "d"];
 
+// ---------- helpers ----------
+const htmlNamed = {
+  "&mdash;": "—", "&ndash;": "–", "&hellip;": "…", "&middot;": "·",
+  "&times;": "×", "&divide;": "÷", "&deg;": "°", "&ge;": "≥", "&le;": "≤", "&bull;": "•",
+};
+const decodeHtmlEntities = (s) =>
+  String(s || "")
+    .replace(/&(mdash|ndash|hellip|middot|times|divide|deg|ge|le|bull);/g, (m) => htmlNamed[m] || m)
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, h) => String.fromCharCode(parseInt(h, 16)));
+
+// broad mojibake cleanup (keeps $…$ math intact)
 const fixMoji = (s) =>
-  (s ?? "")
-    .toString()
-    .replace(/‚Äì|â€"/g, "-")
-    .replace(/‚Äî|â€"/g, "-")
+  String(s ?? "")
+    .replace(/‚Äì|â€"/g, "–")
+    .replace(/‚Äî|â€"/g, "—")
     .replace(/â€˜/g, "'").replace(/â€™/g, "'")
-    .replace(/â€œ/g, '"').replace(/â€\u009d|â€\u009D|â€\x9d/g, '"')
-    .replace(/\u00A0/g, " ");
+    .replace(/â€œ/g, "\"").replace(/â€\u009d|â€\u009D|â€\x9d/g, "\"")
+    .replace(/Ã—/g, "×").replace(/Ã·/g, "÷")
+    .replace(/Â°/g, "°").replace(/Â·/g, "·")
+    .replace(/â€¦/g, "…").replace(/â€¢/g, "•")
+    .replace(/Î¼|Âµ/g, "μ")
+    .replace(/Â²/g, "²").replace(/Â³/g, "³")
+    .replace(/â‰¥/g, "≥").replace(/â‰¤/g, "≤")
+    .replace(/â†'/g, "↑").replace(/â†"/g, "↓")
+    // stray C2 (Â) before symbols
+    .replace(/Â(?=[$€£°²³¼½¾%])/g, "")
+    .replace(/\u00A0/g, " "); // nbsp -> space
+
+// find ANY inline {"markdown":"..."} or {'markdown':'...'} and inline the text
+function inlineMarkdownObjects(text) {
+  let t = String(text || "");
+  // handles nested quotes inside the captured string (escaped)
+  const re = /\{[^{}]*?(['"])markdown\1\s*:\s*(['"])((?:\\.|(?!\2).)*)\2[^{}]*?\}/g;
+  t = t.replace(re, (_, _q1, quote, body) => {
+    // unescape common sequences in the captured body
+    return body
+      .replace(/\\n/g, "\n")
+      .replace(/\\t/g, "\t")
+      .replace(/\\r/g, "")
+      .replace(/\\(['"\\])/g, "$1");
+  });
+  return t;
+}
 
 const stripUnrenderableLatex = (s) => {
   let t = String(s || "");
@@ -57,46 +86,55 @@ const stripUnrenderableLatex = (s) => {
   return t.trim();
 };
 
-let figures = {};
-try {
-  figures = JSON.parse(fs.readFileSync("src/data/figures.json", "utf8"));
-  console.log("ℹ️ Loaded figures.json mappings.");
-} catch {}
+const normalize = (s) => stripUnrenderableLatex(
+  decodeHtmlEntities(
+    fixMoji(
+      inlineMarkdownObjects(s)
+    )
+  )
+).trim();
 
+// optional figures merge
+let figures = {};
+try { figures = JSON.parse(fs.readFileSync("src/data/figures.json", "utf8")); }
+catch { /* ok if missing */ }
+
+// ---------- transform ----------
 const data = [];
 const errors = [];
 
 rows.forEach((row, i) => {
-  const rowNum = i + 2; // header is row 1
+  const rowNum = i + 2;
   const id = (get(row, "id") || String(i + 1)).toString().trim();
 
-  const moduleRaw = get(row, "module");
-  const moduleNum = Number(String(moduleRaw || "").trim().replace(/^module\s+/i, ""));
+  const moduleNum = Number(String(get(row, "module") || "").trim().replace(/^module\s+/i, ""));
   if (![1, 2].includes(moduleNum)) {
-    errors.push(`Row ${rowNum}: "Module" must be 1 or 2; got "${moduleRaw}".`);
+    errors.push(`Row ${rowNum}: "Module" must be 1 or 2; got "${get(row, "module")}".`);
   }
 
-  const stem = stripUnrenderableLatex(fixMoji(get(row, "stem")));
+  const stem = normalize(get(row, "stem"));
+  const explanation = normalize(get(row, "explanation"));
+
   const choices = [
-    fixMoji(get(row, "choice a")),
-    fixMoji(get(row, "choice b")),
-    fixMoji(get(row, "choice c")),
-    fixMoji(get(row, "choice d")),
+    normalize(get(row, "choice a")),
+    normalize(get(row, "choice b")),
+    normalize(get(row, "choice c")),
+    normalize(get(row, "choice d")),
   ];
-  const correctLetter = String(get(row, "correct answer") || "").trim().toLowerCase();
-  const correctIdx = A2D.indexOf(correctLetter);
-  const explanation = stripUnrenderableLatex(fixMoji(get(row, "explanation")));
+
+  const letter = String(get(row, "correct answer") || "").trim().toLowerCase();
+  const correct = A2D.indexOf(letter);
 
   if (!stem) errors.push(`Row ${rowNum}: "Stem" is empty.`);
   choices.forEach((c, j) => { if (!c) errors.push(`Row ${rowNum}: "Choice ${A2D[j].toUpperCase()}" is empty.`); });
-  if (correctIdx === -1) errors.push(`Row ${rowNum}: "Correct Answer" must be A/B/C/D; got "${correctLetter}".`);
+  if (correct === -1) errors.push(`Row ${rowNum}: "Correct Answer" must be A/B/C/D; got "${letter}".`);
 
   const fig = figures[id] || {};
-  const image = (get(row, "image") || fig.image || "").trim() || undefined;
-  const alt = (get(row, "alt") || fig.alt || "").trim() || undefined;
-  const caption = (get(row, "caption") || fig.caption || "").trim() || undefined;
+  const image   = normalize(get(row, "image")   || fig.image   || "") || undefined;
+  const alt     = normalize(get(row, "alt")     || fig.alt     || "") || undefined;
+  const caption = normalize(get(row, "caption") || fig.caption || "") || undefined;
 
-  data.push({ id, module: moduleNum, stem, choices, correct: correctIdx, explanation, image, alt, caption });
+  data.push({ id, module: moduleNum, stem, choices, correct, explanation, image, alt, caption });
 });
 
 if (errors.length) {
