@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import MarkdownMath from "./components/MarkdownMath";
 
+// Process blanks in text for rendering (converts \_, \\_, ____ to styled spans)
+function renderableBlanks(s) {
+  return String(s ?? "")
+    .replace(/(^|[\s([{<>"''])\\{1,2}_(?=[\s)\]}>.,;:!?'"'"']|$)/g, '$1<span class="blank"></span>')
+    .replace(/(^|[\s([{<>"''])\\{1,2}_(?=[\s)\]}>.,;:!?'"'"']|$)/g, '$1<span class="blank"></span>');
+}
+
 function useQuestions() {
   const [data, setData] = useState([]);
   const [err, setErr] = useState(null);
@@ -288,7 +295,7 @@ export default function App() {
             <>
               <div className="stem-box">
                 <MarkdownMath className="stem-text">
-                  {currentQuestion.stem}
+                  {renderableBlanks(currentQuestion.stem)}
                 </MarkdownMath>
               </div>
               
@@ -312,7 +319,7 @@ export default function App() {
                     aria-label={`Answer ${letters[i]}`}
                   >
                     <strong style={{ marginRight: 10 }}>{letters[i]}.</strong>
-                    {text}
+                    <MarkdownMath>{renderableBlanks(text)}</MarkdownMath>
                   </button>
                 ))}
               </div>
@@ -373,7 +380,7 @@ export default function App() {
                     </span>
                   </div>
                   <div style={{ marginTop: 6 }}>
-                    <MarkdownMath><em>Explanation:</em> {r.explanation}</MarkdownMath>
+                    <MarkdownMath><em>Explanation:</em> {renderableBlanks(r.explanation)}</MarkdownMath>
                   </div>
                 </div>
               ))}
@@ -447,7 +454,7 @@ export default function App() {
 
                   <div className="stem-box">
                     <MarkdownMath className="stem-text">
-                      {r.stem}
+                      {renderableBlanks(r.stem)}
                     </MarkdownMath>
                   </div>
                   
@@ -469,7 +476,7 @@ export default function App() {
                       return (
                         <div key={i} className={`choice ${cls}`} role="listitem" aria-label={`Choice ${letters[i]}`}>
                           <strong style={{ marginRight: 10 }}>{letters[i]}.</strong>
-                          {text}
+                          <MarkdownMath>{renderableBlanks(text)}</MarkdownMath>
                           {isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--good)" }}>(correct)</span>}
                           {isUser && !isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--bad)" }}>(your answer)</span>}
                           {isUser && isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--good)" }}>(your answer)</span>}
@@ -479,7 +486,7 @@ export default function App() {
                   </div>
 
                   <div style={{ marginTop: 10 }}>
-                    <MarkdownMath><em>Explanation:</em> {r.explanation}</MarkdownMath>
+                    <MarkdownMath><em>Explanation:</em> {renderableBlanks(r.explanation)}</MarkdownMath>
                   </div>
 
                   <div className="review-nav">
