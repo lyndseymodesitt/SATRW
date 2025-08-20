@@ -77,10 +77,20 @@ const decodeHtmlEntities = (s) =>
 // Inline any {"markdown":"..."} blobs that appear inside cells
 function inlineMarkdownObjects(text) {
   let t = String(text || "");
-  const re = /\{[^{}]*?(['"])markdown\1\s*:\s*(['"])((?:\\.|(?!\2).)*)\2[^{}]*?\}/g;
-  return t.replace(re, (_, _q1, quote, body) =>
+  
+  // Handle the specific CSV format with escaped quotes: ""markdown"": ""content""
+  const re1 = /\{\s*""markdown""\s*:\s*""([^"]*(?:\\.[^"]*)*)""\s*\}/g;
+  t = t.replace(re1, (_, body) =>
     body.replace(/\\n/g, "\n").replace(/\\t/g, "\t").replace(/\\r/g, "").replace(/\\(['"\\])/g, "$1")
   );
+  
+  // Also handle regular JSON format: {"markdown":"..."}
+  const re2 = /\{[^{}]*?(['"])markdown\1\s*:\s*(['"])((?:\\.|(?!\2).)*)\2[^{}]*?\}/g;
+  t = t.replace(re2, (_, _q1, quote, body) =>
+    body.replace(/\\n/g, "\n").replace(/\\t/g, "\t").replace(/\\r/g, "").replace(/\\(['"\\])/g, "$1")
+  );
+  
+  return t;
 }
 
 // Escape emphasis markers sitting *inside* words so Markdown won't italicize "perstudent"
