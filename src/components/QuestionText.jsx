@@ -192,10 +192,23 @@ export default function QuestionText({ content, className }) {
   
   if (hasResearchNotes) {
     // For questions with research notes, render as plain text to avoid markdown interpretation
+    // Also escape special characters that might be interpreted as formatting
+    const escapedText = text
+      .replace(/↓/g, '&darr;')  // Down arrow
+      .replace(/↑/g, '&uarr;')  // Up arrow
+      .replace(/≈/g, '&asymp;') // Approximately equal
+      .replace(/°/g, '&deg;')   // Degree
+      .replace(/×/g, '&times;') // Multiplication
+      .replace(/≥/g, '&ge;')    // Greater than or equal
+      .replace(/≤/g, '&le;')    // Less than or equal
+      .replace(/μ/g, '&mu;')    // Micro
+      .replace(/³/g, '&sup3;')  // Superscript 3
+      .replace(/²/g, '&sup2;')  // Superscript 2
+      .replace(/–/g, '&ndash;') // En dash
+      .replace(/—/g, '&mdash;'); // Em dash
+    
     return (
-      <div className={className} style={{ whiteSpace: 'pre-line' }}>
-        {text}
-      </div>
+      <div className={className} style={{ whiteSpace: 'pre-line' }} dangerouslySetInnerHTML={{ __html: escapedText }} />
     );
   }
   

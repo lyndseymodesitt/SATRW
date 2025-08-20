@@ -79,14 +79,21 @@ function inlineMarkdownObjects(text) {
   let t = String(text || "");
   
   // Handle the specific CSV format with escaped quotes: ""markdown"": ""content""
+  // This pattern matches: {"markdown":"content"} where quotes are escaped as ""
   const re1 = /\{\s*""markdown""\s*:\s*""([^"]*(?:\\.[^"]*)*)""\s*\}/g;
   t = t.replace(re1, (_, body) =>
     body.replace(/\\n/g, "\n").replace(/\\t/g, "\t").replace(/\\r/g, "").replace(/\\(['"\\])/g, "$1")
   );
   
+  // Also handle the CSV format with triple quotes: """markdown""": """content"""
+  const re2 = /\{\s*"""markdown"""\s*:\s*"""([^"]*(?:\\.[^"]*)*)"""\s*\}/g;
+  t = t.replace(re2, (_, body) =>
+    body.replace(/\\n/g, "\n").replace(/\\t/g, "\t").replace(/\\r/g, "").replace(/\\(['"\\])/g, "$1")
+  );
+  
   // Also handle regular JSON format: {"markdown":"..."}
-  const re2 = /\{[^{}]*?(['"])markdown\1\s*:\s*(['"])((?:\\.|(?!\2).)*)\2[^{}]*?\}/g;
-  t = t.replace(re2, (_, _q1, quote, body) =>
+  const re3 = /\{[^{}]*?(['"])markdown\1\s*:\s*(['"])((?:\\.|(?!\2).)*)\2[^{}]*?\}/g;
+  t = t.replace(re3, (_, _q1, quote, body) =>
     body.replace(/\\n/g, "\n").replace(/\\t/g, "\t").replace(/\\r/g, "").replace(/\\(['"\\])/g, "$1")
   );
   
