@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import MarkdownMath from "./components/MarkdownMath";
 import ChartRenderer from "./components/ChartRenderer.jsx";
+import QuestionText from "./components/QuestionText.jsx";
 
 // Process blanks in text for rendering (converts \_, \\_, ____ to styled spans)
 function renderableBlanks(s) {
@@ -327,9 +328,10 @@ export default function App() {
           {currentQuestion ? (
             <>
               <div className="stem-box">
-                <MarkdownMath className="stem-text">
-                  {currentQuestion.stem}
-                </MarkdownMath>
+                <QuestionText 
+                  content={currentQuestion.stem}
+                  className="stem-text"
+                />
               </div>
               
               {currentQuestion.image && (

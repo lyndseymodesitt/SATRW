@@ -231,16 +231,24 @@ rows.forEach((row, i) => {
   // Extract LaTeX charts from stem if no chart data exists
   if (!chart && stem.includes("\\documentclass")) {
     try {
+      console.log(`🔍 Processing LaTeX chart for question ${id}`);
+      
       // Extract LaTeX chart content and convert to basic chart data
+      // Handle both escaped and unescaped backslashes
       const latexMatch = stem.match(/\\begin\{tikzpicture\}[\s\S]*?\\end\{tikzpicture\}/);
       if (latexMatch) {
         const latexChart = latexMatch[0];
+        console.log(`📊 Found tikzpicture in question ${id}`);
         
-        // Check if it's a bar chart
-        if (latexChart.includes("\\addplot+[ybar") || latexChart.includes("\\addplot+[xbar")) {
+        // Check if it's a bar chart (look for various bar chart indicators)
+        if (latexChart.includes("\\addplot+[ybar") || latexChart.includes("\\addplot+[xbar") || 
+            latexChart.includes("ybar") || latexChart.includes("xbar")) {
+          console.log(`📈 Processing bar chart data for question ${id}`);
+          
           // Extract data from LaTeX coordinates
           const coordMatches = latexChart.match(/coordinates\s*\{([^}]+)\}/g);
           if (coordMatches) {
+            console.log(`📊 Found ${coordMatches.length} coordinate sets in question ${id}`);
             const data = [];
             const labels = [];
             
@@ -253,20 +261,20 @@ rows.forEach((row, i) => {
                   if (value && label && !isNaN(Number(value))) {
                     if (!labels.includes(label)) labels.push(label);
                     if (index === 0) {
-                      // First dataset (Pre)
+                      // First dataset (Week 1)
                       const existing = data.find(d => d.channel === label);
                       if (existing) {
-                        existing.Pre = Number(value);
+                        existing["Week 1"] = Number(value);
                       } else {
-                        data.push({ channel: label, Pre: Number(value) });
+                        data.push({ channel: label, "Week 1": Number(value) });
                       }
                     } else if (index === 1) {
-                      // Second dataset (Post)
+                      // Second dataset (Week 2)
                       const existing = data.find(d => d.channel === label);
                       if (existing) {
-                        existing.Post = Number(value);
+                        existing["Week 2"] = Number(value);
                       } else {
-                        data.push({ channel: label, Post: Number(value) });
+                        data.push({ channel: label, "Week 2": Number(value) });
                       }
                     }
                   }
@@ -275,6 +283,7 @@ rows.forEach((row, i) => {
             });
             
             if (data.length > 0) {
+              console.log(`✅ Successfully extracted chart data for question ${id}:`, data);
               chart = {
                 type: "bar",
                 layout: latexChart.includes("xbar") ? "vertical" : "horizontal",
@@ -283,12 +292,15 @@ rows.forEach((row, i) => {
               
               // Clean the stem by removing LaTeX chart
               stem = stem.replace(/\\documentclass[\s\S]*?\\end\{document\}/g, "").trim();
+              console.log(`🧹 Cleaned stem for question ${id}, new length: ${stem.length}`);
             }
           }
         }
+      } else {
+        console.log(`⚠️ No tikzpicture found in question ${id}`);
       }
     } catch (e) {
-      console.log(`⚠️ Could not parse LaTeX chart in question ${id}: ${e.message}`);
+      console.log(`❌ Error parsing LaTeX chart in question ${id}: ${e.message}`);
     }
   }
 
