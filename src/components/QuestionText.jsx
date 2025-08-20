@@ -183,6 +183,22 @@ export default function QuestionText({ content, className }) {
     );
   }
   
+  // Check if this contains research notes (questions 31-33 have research notes)
+  const hasResearchNotes = text.includes('Research Notes') && (
+    text.includes('Riverside HS') || 
+    text.includes('Roosevelt ES') || 
+    text.includes('Lincoln Elementary')
+  );
+  
+  if (hasResearchNotes) {
+    // For questions with research notes, render as plain text to avoid markdown interpretation
+    return (
+      <div className={className} style={{ whiteSpace: 'pre-line' }}>
+        {text}
+      </div>
+    );
+  }
+  
   // For regular questions without HTML, use ReactMarkdown with bullet point handling
   return (
     <div className={className}>
