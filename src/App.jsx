@@ -8,27 +8,26 @@ function renderableBlanks(s) {
     .replace(/(^|[\s([{<>"''])\\{1,2}_(?=[\s)\]}>.,;:!?'"'"']|$)/g, '$1<span class="blank"></span>');
 }
 
+// Comprehensive text sanitization for rendering
+function sanitizeForRender(s) {
+  return renderableBlanks(String(s ?? ""));
+}
+
 function useQuestions() {
   const [data, setData] = useState([]);
   const [err, setErr] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const url = `${import.meta.env.BASE_URL}data/questions.json`;
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`Failed to load questions.json (${res.status})`);
-        const data = await res.json();
-        setData(data);
-      } catch (error) {
-        setErr(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchQuestions();
+    const url = `${import.meta.env.BASE_URL}data/questions.json?v=${__BUILD_ID__}`;
+    fetch(url, { cache: "no-store" })
+      .then((r) => {
+        if (!r.ok) throw new Error(`Failed to load questions.json (${r.status})`);
+        return r.json();
+      })
+      .then(setData)
+      .catch(setErr)
+      .finally(() => setLoading(false));
   }, []);
 
   return { data, err, loading };
@@ -295,7 +294,7 @@ export default function App() {
             <>
               <div className="stem-box">
                 <MarkdownMath className="stem-text">
-                  {renderableBlanks(currentQuestion.stem)}
+                  {sanitizeForRender(currentQuestion.stem)}
                 </MarkdownMath>
               </div>
               
@@ -319,7 +318,7 @@ export default function App() {
                     aria-label={`Answer ${letters[i]}`}
                   >
                     <strong style={{ marginRight: 10 }}>{letters[i]}.</strong>
-                    <MarkdownMath>{renderableBlanks(text)}</MarkdownMath>
+                    <MarkdownMath>{sanitizeForRender(text)}</MarkdownMath>
                   </button>
                 ))}
               </div>
@@ -380,7 +379,7 @@ export default function App() {
                     </span>
                   </div>
                   <div style={{ marginTop: 6 }}>
-                    <MarkdownMath><em>Explanation:</em> {renderableBlanks(r.explanation)}</MarkdownMath>
+                    <MarkdownMath><em>Explanation:</em> {sanitizeForRender(r.explanation)}</MarkdownMath>
                   </div>
                 </div>
               ))}
@@ -454,7 +453,7 @@ export default function App() {
 
                   <div className="stem-box">
                     <MarkdownMath className="stem-text">
-                      {renderableBlanks(r.stem)}
+                      {sanitizeForRender(r.stem)}
                     </MarkdownMath>
                   </div>
                   
@@ -476,7 +475,7 @@ export default function App() {
                       return (
                         <div key={i} className={`choice ${cls}`} role="listitem" aria-label={`Choice ${letters[i]}`}>
                           <strong style={{ marginRight: 10 }}>{letters[i]}.</strong>
-                          <MarkdownMath>{renderableBlanks(text)}</MarkdownMath>
+                          <MarkdownMath>{sanitizeForRender(text)}</MarkdownMath>
                           {isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--good)" }}>(correct)</span>}
                           {isUser && !isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--bad)" }}>(your answer)</span>}
                           {isUser && isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--good)" }}>(your answer)</span>}
@@ -486,7 +485,7 @@ export default function App() {
                   </div>
 
                   <div style={{ marginTop: 10 }}>
-                    <MarkdownMath><em>Explanation:</em> {renderableBlanks(r.explanation)}</MarkdownMath>
+                    <MarkdownMath><em>Explanation:</em> {sanitizeForRender(r.explanation)}</MarkdownMath>
                   </div>
 
                   <div className="review-nav">

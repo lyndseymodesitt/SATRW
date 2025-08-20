@@ -45,7 +45,7 @@
 .blank {
   display: inline-block;
   border-bottom: 2px solid var(--border);
-  min-width: 8ch;        /* adjust length as you like */
+  min-width: 6ch;
   line-height: 1.1;
   vertical-align: baseline;
 }

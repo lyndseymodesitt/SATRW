@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "convert:questions": "node scripts/convert-csv-to-json.cjs",
     "prebuild": "node scripts/convert-csv-to-json.cjs",
     "build": "vite build",
     "preview": "vite preview",
