@@ -378,7 +378,7 @@ export default function App() {
           <h2>Break time</h2>
           <p>Module 2 will start automatically in <strong>{fmt(breakLeft)}</strong>.</p>
           <p className="small">Stand up, shake out your wrists, summon your inner grammar goblin.</p>
-          <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
+          <div style={{ display: "flex", gap: 12, marginTop: 8, justifyContent: "center" }}>
             <button className="btn" onClick={startSecondModule}>Start Now</button>
           </div>
         </div>
