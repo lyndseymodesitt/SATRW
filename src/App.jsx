@@ -286,7 +286,7 @@ export default function App() {
     <div className="app">
       {phase === PHASES.INTRO && (
         <div className="card">
-          <h1>SAT Reading & Writing Practice</h1>
+          <h1>SAT Reading & Writing Practice Test</h1>
           <p className="kicker">Two modules • 32 minutes each • 30-second break</p>
           <p>Click start when you're ready. (No pressure—just a very visible ticking clock.)</p>
           <div style={{ display: "flex", gap: 12, marginTop: 16, alignItems: "center", justifyContent: "center" }}>
