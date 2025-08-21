@@ -517,11 +517,11 @@ export default function App() {
           {/* Action Buttons */}
           <div className="action-buttons">
             <div className="primary-actions">
+              <button className="btn btn-primary" onClick={() => setPhase(PHASES.STUDY_PLAN)}>
+                📚 Study Plan
+              </button>
               <button className="btn btn-primary" onClick={goReview}>
                 📖 Review Questions
-              </button>
-              <button className="btn btn-secondary" onClick={() => setPhase(PHASES.STUDY_PLAN)}>
-                📚 Study Plan
               </button>
             </div>
             
