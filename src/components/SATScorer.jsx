@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { TrendingUp, Award, Target, AlertTriangle, BookOpen } from 'lucide-react';
 
 const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect = 60.6 }) => {
+  const [interactiveScore, setInteractiveScore] = useState(score);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartX, setDragStartX] = useState(0);
+  const [dragStartScore, setDragStartScore] = useState(0);
+
   const getPercentile = (score) => {
     if (score >= 750) return '99th';
     if (score >= 700) return '95th';
@@ -41,7 +46,7 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
     };
   };
 
-  const scoreLevel = getScoreLevel(score);
+  const scoreLevel = getScoreLevel(interactiveScore);
   const ScoreIcon = scoreLevel.icon;
 
   // College readiness scale data - dynamically filtered based on user's score
@@ -103,7 +108,7 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
     return relevantLevels;
   };
 
-  const readinessLevels = getRelevantReadinessLevels(score);
+  const readinessLevels = getRelevantReadinessLevels(interactiveScore);
 
   const getCurrentLevelIndex = (score) => {
     if (score >= 700) return 0;
@@ -112,7 +117,59 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
     return 0; // For scores below 480, return 0 since we only show 1 level (Building)
   };
 
-  const currentLevelIndex = getCurrentLevelIndex(score);
+  const currentLevelIndex = getCurrentLevelIndex(interactiveScore);
+
+  // Handle mouse/touch events for dragging
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setDragStartX(e.clientX || e.touches?.[0]?.clientX || 0);
+    setDragStartScore(interactiveScore);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    
+    const currentX = e.clientX || e.touches?.[0]?.clientX || 0;
+    const deltaX = currentX - dragStartX;
+    const scaleWidth = 600; // Score range from 200-800
+    const containerWidth = 400; // Approximate container width
+    
+    const scoreDelta = (deltaX / containerWidth) * scaleWidth;
+    const newScore = Math.max(200, Math.min(800, dragStartScore + scoreDelta));
+    
+    setInteractiveScore(Math.round(newScore));
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Reset to actual score when component updates
+  useEffect(() => {
+    setInteractiveScore(score);
+  }, [score]);
+
+  // Add event listeners for dragging
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener('touchmove', handleMouseMove);
+      document.addEventListener('touchend', handleMouseUp);
+      
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+        document.removeEventListener('touchmove', handleMouseMove);
+        document.removeEventListener('touchend', handleMouseUp);
+      };
+    }
+  }, [isDragging, dragStartX, dragStartScore]);
+
+  // Calculate position for the score indicator
+  const getIndicatorPosition = (score) => {
+    return Math.max(2, Math.min(94, ((score - 200) / 600) * 100));
+  };
 
   return (
     <div className="app">
@@ -176,9 +233,9 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
               </div>
               
               <div style={{ marginBottom: '24px' }}>
-                <div style={{ fontSize: '72px', fontWeight: 900, marginBottom: '8px', letterSpacing: '-0.025em' }}>{score}</div>
+                <div style={{ fontSize: '72px', fontWeight: 900, marginBottom: '8px', letterSpacing: '-0.025em' }}>{interactiveScore}</div>
                 <div style={{ fontSize: '20px', opacity: 0.9 }}>SAT Reading & Writing Score</div>
-                <div style={{ fontSize: '18px', opacity: 0.75, marginTop: '8px' }}>{getPercentile(score)} percentile</div>
+                <div style={{ fontSize: '18px', opacity: 0.75, marginTop: '8px' }}>{getPercentile(interactiveScore)} percentile</div>
               </div>
               
               <div style={{ display: 'flex', justifyContent: 'center', gap: '32px' }}>
@@ -236,29 +293,65 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
               }}></div>
               
               {/* Score indicator */}
-              <div style={{
-                position: 'absolute',
-                top: 0,
-                width: '32px',
-                height: '32px',
-                background: 'white',
-                borderRadius: '50%',
-                boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
-                border: '4px solid #3b82f6',
-                transform: 'translateY(-4px)',
-                left: `${Math.max(2, Math.min(94, ((score - 200) / 600) * 100))}%`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'left 0.5s ease'
-              }}>
+              <div 
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  width: '32px',
+                  height: '32px',
+                  background: 'white',
+                  borderRadius: '50%',
+                  boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
+                  border: '4px solid #3b82f6',
+                  transform: 'translateY(-4px)',
+                  left: `${getIndicatorPosition(interactiveScore)}%`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: isDragging ? 'none' : 'left 0.5s ease',
+                  cursor: 'grab',
+                  userSelect: 'none'
+                }}
+                onMouseDown={handleMouseDown}
+                onTouchStart={handleMouseDown}
+              >
                 <div style={{
                   width: '8px',
                   height: '8px',
                   background: '#3b82f6',
                   borderRadius: '50%',
-                  animation: 'pulse 2s infinite'
+                  animation: isDragging ? 'none' : 'pulse 2s infinite'
                 }}></div>
+              </div>
+              
+              {/* Interactive instructions */}
+              <div style={{
+                textAlign: 'center',
+                marginTop: '16px',
+                fontSize: '12px',
+                color: 'var(--muted)',
+                fontStyle: 'italic'
+              }}>
+                {interactiveScore !== score ? (
+                  <div>
+                    <span>Exploring: {interactiveScore} • </span>
+                    <button 
+                      onClick={() => setInteractiveScore(score)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#3b82f6',
+                        textDecoration: 'underline',
+                        cursor: 'pointer',
+                        fontSize: '12px'
+                      }}
+                    >
+                      Reset to your score ({score})
+                    </button>
+                  </div>
+                ) : (
+                  <span>Drag the indicator to explore different scores</span>
+                )}
               </div>
               
               {/* Score labels */}

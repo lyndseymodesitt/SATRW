@@ -3,7 +3,7 @@ import MarkdownMath from "./components/MarkdownMath";
 import ChartRenderer from "./components/ChartRenderer.jsx";
 import QuestionText from "./components/QuestionText.jsx";
 import SATReadingWritingScorer from "./components/SATScorer.jsx";
-import SATScoreReferenceChart from "./components/SATScoreReferenceChart.jsx";
+
 
 // Process blanks in text for rendering (converts \_, \\_, ____ to styled spans)
 function renderableBlanks(s) {
@@ -553,12 +553,7 @@ export default function App() {
             />
           </div>
 
-          {/* SAT Score Reference Chart */}
-          <div className="scorer-section">
-            <SATScoreReferenceChart 
-              currentScore={results.scaledScore}
-            />
-          </div>
+
         </div>
       )}
 
