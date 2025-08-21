@@ -56,28 +56,14 @@ function useQuestions() {
 
   useEffect(() => {
     const url = `${import.meta.env.BASE_URL}data/questions.json?v=${__BUILD_ID__}`;
-    console.log('Fetching questions from:', url);
-    console.log('BASE_URL:', import.meta.env.BASE_URL);
-    console.log('BUILD_ID:', __BUILD_ID__);
-    
     fetch(url, { cache: "no-store" })
       .then((r) => {
-        console.log('Fetch response status:', r.status);
         if (!r.ok) throw new Error(`Failed to load questions.json (${r.status})`);
         return r.json();
       })
-      .then((jsonData) => {
-        console.log('Questions loaded successfully:', jsonData.length, 'questions');
-        setData(jsonData);
-      })
-      .catch((error) => {
-        console.error('Error loading questions:', error);
-        setErr(error);
-      })
-      .finally(() => {
-        console.log('Loading finished');
-        setLoading(false);
-      });
+      .then(setData)
+      .catch(setErr)
+      .finally(() => setLoading(false));
   }, []);
 
   return { data, err, loading };
@@ -177,19 +163,12 @@ export default function App() {
   }, [phase, breakLeft]);
 
   const startTest = () => {
-    console.log('startTest called');
-    console.log('Current questionsData:', questionsData);
-    console.log('Current modules:', modules);
-    console.log('Current phase:', phase);
-    
     setAnswers({});
     setFlagged({});
     setModuleIdx(0);
     setQIndex(0);
     setModuleTimeLeft(MODULE_SECONDS);
     setPhase(PHASES.MODULE);
-    
-    console.log('Phase set to MODULE');
   };
 
   const startSecondModule = () => {
@@ -365,9 +344,6 @@ export default function App() {
 
       {phase === PHASES.MODULE && (
         <div className="card">
-          <div style={{ backgroundColor: '#ffeb3b', padding: '8px', marginBottom: '16px', borderRadius: '4px' }}>
-            <strong>DEBUG MODULE PHASE:</strong> Module {moduleIdx + 1}, Question {qIndex + 1}, Total Questions: {currentModuleQuestions.length}
-          </div>
           <div className="meta">
             <div>
               <div className="label">Module {moduleIdx + 1} of 2</div>

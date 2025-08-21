@@ -79,8 +79,7 @@ export default function QuestionText({ content, className }) {
             <div dangerouslySetInnerHTML={{ __html: passage }} />
           ) : (
             <ReactMarkdown
-              remarkPlugins={[remarkMath]}
-              rehypePlugins={[rehypeKatex, rehypeRaw]}
+              rehypePlugins={[rehypeRaw]}
               components={{
                 ul: ({ children, ...props }) => (
                   <ul style={{ 
@@ -113,8 +112,7 @@ export default function QuestionText({ content, className }) {
           border: "1px solid rgba(255, 255, 255, 0.1)"
         }}>
           <ReactMarkdown
-            remarkPlugins={[remarkMath]}
-            rehypePlugins={[rehypeKatex, rehypeRaw]}
+            rehypePlugins={[rehypeRaw]}
           >
             {question}
           </ReactMarkdown>
@@ -132,8 +130,7 @@ export default function QuestionText({ content, className }) {
             <div dangerouslySetInnerHTML={{ __html: passage }} />
           ) : (
             <ReactMarkdown
-              remarkPlugins={[remarkMath]}
-              rehypePlugins={[rehypeKatex, rehypeRaw]}
+              rehypePlugins={[rehypeRaw]}
               components={{
                 ul: ({ children, ...props }) => (
                   <ul style={{ 
@@ -166,8 +163,7 @@ export default function QuestionText({ content, className }) {
           border: "1px solid rgba(255, 255, 255, 0.1)"
         }}>
           <ReactMarkdown
-            remarkPlugins={[remarkMath]}
-            rehypePlugins={[rehypeKatex, rehypeRaw]}
+            rehypePlugins={[rehypeRaw]}
           >
             {question}
           </ReactMarkdown>
@@ -204,8 +200,7 @@ export default function QuestionText({ content, className }) {
   return (
     <div className={className}>
       <ReactMarkdown
-        remarkPlugins={[remarkMath]}
-        rehypePlugins={[rehypeKatex, rehypeRaw]}
+        rehypePlugins={[rehypeRaw]}
         components={{
           ul: ({ children, ...props }) => (
             <ul style={{ 
