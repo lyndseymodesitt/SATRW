@@ -541,17 +541,11 @@ export default function App() {
           </div>
 
           {/* SAT Scorer Component */}
-          <div className="scorer-section">
-            <div className="section-header">
-              <h3>🎯 Detailed Scoring Analysis</h3>
-              <p>Get your scaled score and performance breakdown</p>
-            </div>
-            <SATReadingWritingScorer 
-              score={results.scaledScore} 
-              rawScore={results.correct} 
-              percentageCorrect={results.pct} 
-            />
-          </div>
+          <SATReadingWritingScorer 
+            score={results.scaledScore} 
+            rawScore={results.correct} 
+            percentageCorrect={results.pct} 
+          />
 
 
         </div>

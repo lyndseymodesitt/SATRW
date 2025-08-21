@@ -118,6 +118,7 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
   };
 
   const currentLevelIndex = getCurrentLevelIndex(interactiveScore);
+  const actualScoreLevelIndex = getCurrentLevelIndex(score);
 
   // Handle mouse/touch events for dragging
   const handleMouseDown = (e) => {
@@ -454,7 +455,7 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
                   </div>
                   
                   {/* Current indicator */}
-                  {index === currentLevelIndex && (
+                  {index === actualScoreLevelIndex && (
                     <div style={{
                       position: 'absolute',
                       top: '-8px',
@@ -493,6 +494,9 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
                        scoreLevel.color.includes('amber') ? '#f59e0b' : '#ef4444',
                 fontWeight: 600
               }}>{scoreLevel.level}</span> category. {scoreLevel.description}
+            </p>
+            <p style={{ color: 'var(--text)', marginTop: '12px', fontSize: '14px', opacity: 0.8 }}>
+              Please see your study plan for details on where to focus.
             </p>
           </div>
         </div>
