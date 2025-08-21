@@ -336,6 +336,9 @@ export default function App() {
           {totalQuestions === 0 && (
             <p className="bad small">No questions found. Check that <code>data/questions.json</code> has items and that the "Module" column is 1 or 2.</p>
           )}
+          <div className="small" style={{ marginTop: 8, padding: 8, backgroundColor: '#f0f0f0', borderRadius: 4 }}>
+            Debug: Total questions loaded: {totalQuestions} | Loading: {loading ? 'Yes' : 'No'} | Error: {loadErr ? loadErr.message : 'None'}
+          </div>
         </div>
       )}
 
