@@ -108,9 +108,6 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
     return relevantLevels;
   };
 
-  // Use interactive levels for the display (single level based on slider position)
-  const readinessLevels = getInteractiveReadinessLevel(interactiveScore);
-
   // Get only the single level that corresponds to the current interactive score
   const getInteractiveReadinessLevel = (score) => {
     const allLevels = [
@@ -153,6 +150,9 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
     if (score >= 480) return [allLevels[2]];
     return [allLevels[3]];
   };
+
+  // Use interactive levels for the display (single level based on slider position)
+  const readinessLevels = getInteractiveReadinessLevel(interactiveScore);
 
   const getCurrentLevelIndex = (score) => {
     if (score >= 700) return 0;
