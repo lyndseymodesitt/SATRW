@@ -123,7 +123,7 @@
     ],
     "correct": 3,
     "explanation": "\"It signals Noor's decision and transitions from hesitation to active preparation\" is correct because the underlined portion marks the pivotal moment when Noor moves from uncertainty to commitment. Before this moment, she \"hovered,\" \"considered slipping out,\" and rehearsed silently in her head, while afterward her \"steps lightened\" and she could \"focus on breathing and the first word,\" showing the transition from indecision to active performance preparation.",
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "10",
@@ -137,7 +137,7 @@
     ],
     "correct": 0,
     "explanation": "\"Identifies a problem, tests a solution, and reports improved results\" is correct because the passage follows a clear three-part experimental structure. It begins by identifying the food waste problem (\"bins often filled with unopened apples and milk cartons\"), describes testing a specific intervention (the \"share table\" with monitoring), and reports measurable positive outcomes (\"bin totals had fallen by almost a third\") along with institutional follow-up steps.",
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "11",
@@ -151,7 +151,7 @@
     ],
     "correct": 0,
     "explanation": "\"Many shoppers requested more time on the surveys\" is correct because the passage explicitly states that the store extended Friday's quiet hour \"after tallying responses that asked for 'a little more time to finish picking books.'\" This direct textual evidence shows that customer feedback through the checkout surveys was the specific reason for the thirty-minute extension on Friday.",
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "12",
@@ -165,7 +165,7 @@
     ],
     "correct": 0,
     "explanation": "\"Uncertainty about phone compatibility\" is correct because the passage explicitly states that \"riders who didn't try tap-to-pay most often cited uncertainty about whether their phones were compatible.\" This direct quote from the exit survey results provides the specific reason that non-adopters gave for avoiding the new payment system during the three-day pilot program.",
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "13",
@@ -179,7 +179,7 @@
     ],
     "correct": 3,
     "explanation": "\"She waited, as always, for the signal to bless her steps\" most effectively illustrates the claim because it demonstrates both elements: ritual behavior through the phrase \"as always,\" which indicates a repeated, habitual practice, and the creation of safety through \"bless her steps,\" which frames the crosswalk signal as providing protection or good fortune for her journey home.",
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "14",
@@ -214,7 +214,7 @@
         }
       ]
     },
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "15",
@@ -228,7 +228,7 @@
     ],
     "correct": 3,
     "explanation": "\"When the phone vibrated with 'Mom,' she let it hum into silence\" most effectively illustrates the claim because it directly demonstrates the narrator's deliberate choice to avoid speaking with her mother. The quotation shows that the narrator recognizes the caller as \"Mom\" but consciously decides not to answer, allowing the phone to continue vibrating until it stops, which clearly supports the claim about intentional avoidance.",
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "16",
@@ -268,7 +268,7 @@
         }
       ]
     },
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "17",
@@ -282,7 +282,7 @@
     ],
     "correct": 1,
     "explanation": "\"Keep the calmer subject, test the preview text to raise clicks, and reserve 'Urgent' for true advisories\" is correct because it directly responds to the communications lead's principle that \"reach without trust is a short-term win.\" This choice addresses the key problems identified in the data: the high unsubscribe rate (50) and complaints about alarmist tone from \"Urgent\" subject lines, while proposing a balanced approach that maintains audience trust and tests ways to improve engagement.",
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "18",
@@ -296,7 +296,7 @@
     ],
     "correct": 2,
     "explanation": "\"Shift extended hours to 7–9 p.m. and pilot a Saturday morning block to reduce overtime\" is correct because it directly addresses all the key evidence while meeting the director's stated goal. This choice aligns with the peak usage data showing \"most visits between 7 and 9,\" reduces the overtime costs and staff burnout caused by 10 p.m. closings, and responds to survey feedback from families requesting \"a Saturday morning option.\"",
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "19",
@@ -310,7 +310,7 @@
     ],
     "correct": 2,
     "explanation": "\"Use a single, 12-foot central aisle with two designated demo/music zones away from entrances and driveways; add one-way flow signage and schedule two permitted 'cluster' event days only\" is correct because it systematically addresses all the identified problems while preserving the sales benefits. This solution ensures fire safety compliance with the required 12-foot aisle width, relocates congestion away from the problematic east entrance and neighbor driveways, and maintains the clustering elements that produced the 12 percent sales increase through designated zones and special event days.",
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "20",
@@ -324,7 +324,7 @@
     ],
     "correct": 1,
     "explanation": "\"Me\" is correct because it provides the objective case pronoun required after the preposition \"between.\" In the construction \"Between Maya... and <span class=\"blank\"></span>,\" the pronoun serves as the object of the preposition \"between,\" which grammatically demands the objective case form \"me\" rather than the subjective case \"I\" that would be used when the pronoun functions as a sentence subject.",
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "21",
@@ -338,7 +338,7 @@
     ],
     "correct": 1,
     "explanation": "\"Had submitted\" is correct because the past perfect tense is required to show that the submission was completed before the August 15 facilities committee meeting. The time marker \"By the time the facilities committee met on August 15\" indicates that the students' submission occurred prior to this past event, and past perfect tense (\"had submitted\") properly expresses an action completed before another past action.",
-    "difficulty": "Easy"
+    "difficulty": "Hard"
   },
   {
     "id": "22",
@@ -352,7 +352,7 @@
     ],
     "correct": 1,
     "explanation": "\"Meets\" is correct because it provides the singular verb form that agrees with the singular subject \"panel.\" Although the prepositional phrase \"of urban foresters and public-health researchers\" contains plural nouns, prepositional phrases do not affect subject-verb agreement, so the verb must agree with \"panel\" rather than with the objects of the preposition.",
-    "difficulty": "Easy"
+    "difficulty": "Hard"
   },
   {
     "id": "23",
@@ -366,7 +366,7 @@
     ],
     "correct": 2,
     "explanation": "\"Noted and reported\" is correct because it maintains proper parallel structure with compound verbs sharing the same subject (\"circulation coordinators\"). The conjunction \"and\" appropriately connects the two verbs without requiring additional punctuation, creating a clean, grammatically correct construction that avoids comma splices or unnecessary semicolons.",
-    "difficulty": "Easy"
+    "difficulty": "Hard"
   },
   {
     "id": "24",
@@ -380,7 +380,7 @@
     ],
     "correct": 0,
     "explanation": "\"The species counts from paired plots, together with an annotated map showing expanded canopy gaps, represent\" is correct because the head of the subject is \"counts\" (plural), and the phrase \"together with an annotated map showing expanded canopy gaps\" is a parenthetical addition that does not change the number of the subject. Therefore, the plural verb \"represent\" correctly agrees with the plural subject \"counts.\"",
-    "difficulty": "Easy"
+    "difficulty": "Hard"
   },
   {
     "id": "25",
@@ -394,7 +394,7 @@
     ],
     "correct": 0,
     "explanation": "A colon is correct because it provides the standard punctuation required after \"as follows\" to introduce the complex quoted privacy statement. The colon properly signals that what follows is the exact content of the privacy note, which contains multiple clauses connected by semicolons and commas, making the colon essential for establishing the hierarchical punctuation structure in this sophisticated academic sentence.",
-    "difficulty": "Easy"
+    "difficulty": "Hard"
   },
   {
     "id": "26",
@@ -408,7 +408,7 @@
     ],
     "correct": 0,
     "explanation": "A comma is correct because it properly separates the second item in a three-part series that requires standard comma usage. The sentence contains a complex series with three main actions: \"removed accumulated grime,\" \"repaired canvas tears with archival materials that matched the original weave patterns,\" and \"applied protective varnish layers.\" The comma after \"patterns\" correctly separates the lengthy second element from the third element in this sophisticated series structure.",
-    "difficulty": "Easy"
+    "difficulty": "Hard"
   },
   {
     "id": "27",
@@ -422,7 +422,7 @@
     ],
     "correct": 1,
     "explanation": "\"Accordingly\" is correct because it shows that researchers are logically responding to the evidence about social influences on financial behavior by developing new models. The transition indicates that the new research direction follows as a natural consequence of discovering that traditional individual-focused models are inadequate for explaining socially influenced economic behaviors.",
-    "difficulty": "Easy"
+    "difficulty": "Hard"
   },
   {
     "id": "28",
@@ -436,7 +436,7 @@
     ],
     "correct": 0,
     "explanation": "\"For this reason\" is correct because it shows that American municipalities are changing their zoning policies as a direct response to the European research findings that contradicted critics' concerns. The transition indicates that the evidence about successful mixed-use development is causing policy makers to act, creating a clear cause-and-effect relationship between research findings and municipal policy changes.",
-    "difficulty": "Easy"
+    "difficulty": "Hard"
   },
   {
     "id": "29",
@@ -450,7 +450,7 @@
     ],
     "correct": 1,
     "explanation": "\"Consequently\" is correct because it shows that cognitive scientists are changing their theoretical framework as a direct result of the new research findings about distributed neural networks. The transition indicates that discovering memory's network-based nature logically leads to reconceptualizing memory theory, creating a clear cause-and-effect relationship between empirical findings and theoretical revision.",
-    "difficulty": "Easy"
+    "difficulty": "Hard"
   },
   {
     "id": "30",
@@ -464,7 +464,7 @@
     ],
     "correct": 0,
     "explanation": "\"Hence\" is correct because it indicates that the ethical conclusion follows logically and directly from the philosophical reasoning presented. The transition shows that if consciousness requires biological neural architecture (as the neurophilosophers argue), then the logical consequence is that ethicists should delay granting moral status to AI systems, creating a clear cause-and-effect chain from philosophical premise to ethical conclusion.",
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "31",
@@ -478,7 +478,7 @@
     ],
     "correct": 0,
     "explanation": "\"Because 9th graders cut math errors by 22% and enrolling the 47-student waitlist would cost $6,345, well under the $15,000 cap, we recommend funding expansion\" is correct because it accomplishes both parts of the goal by citing the largest measured academic effect (22% math error reduction) and demonstrating budget feasibility through accurate calculation showing that serving the waitlist ($6,345) falls well within the grant cap.",
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "32",
@@ -492,7 +492,7 @@
     ],
     "correct": 0,
     "explanation": "\"Because K–2 absenteeism fell 14%—the largest student outcome—and equipping the 22 priority rooms costs 22 × ($320 + 2×$45) = $9,020, under the $10,000 cap, we recommend Phase 2 targeting those rooms\" is correct because it accomplishes all three goal requirements: cites the largest measured academic effect (14% absenteeism reduction), demonstrates budget compliance through accurate calculation, and honors the priority constraint by targeting the 22 traffic-facing rooms with elevated PM2.5 levels.",
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "33",
@@ -506,7 +506,7 @@
     ],
     "correct": 0,
     "explanation": "\"Given the 26% reduction in K–2 heat-related nurse visits—the largest measured student health outcome—installing shade sails in the 8 priority high-UV areas would cost $8,000, well within our $10,000 budget cap, making Phase 2 deployment both educationally justified and financially feasible\" is correct because it accomplishes all three goal requirements with precision: identifies the largest student health outcome, provides accurate budget calculation, and adheres to the priority protocol by targeting high-UV areas.",
-    "difficulty": "Easy"
+    "difficulty": "Medium"
   },
   {
     "id": "34",
@@ -520,7 +520,7 @@
     ],
     "correct": 1,
     "explanation": "\"Deliberate\" is correct because the phrase \"studied casualness\" describes Aunt Lila's intentionally performed nonchalance rather than natural behavior. The context clues \"looked past me to the road, humming as if the air were interesting\" reveal that her casual demeanor is carefully crafted, with \"as if\" specifically indicating that her interest in the air is pretended rather than genuine, demonstrating deliberate performance of relaxed behavior.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "35",
@@ -534,7 +534,7 @@
     ],
     "correct": 0,
     "explanation": "\"Simplified\" is correct because the information sheet eliminated confusion and made the tournament plan easier to follow. The evidence shows that after the sheet was posted, \"players stopped texting the group chat and headed to the right gates,\" indicating that the clear, organized information reduced the need for additional communication and enabled immediate, correct action.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "36",
@@ -548,7 +548,7 @@
     ],
     "correct": 0,
     "explanation": "\"Consolidated\" is correct because the board brought together multiple scattered pieces of information into a single, organized resource that crews could easily access. The passage shows that various details like \"tool checkout times, station maps, safety notes, and a five-minute rotation chart\" were combined into one location, transforming \"scattered reminders into one clear plan\" and enabling efficient coordination.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "37",
@@ -562,7 +562,7 @@
     ],
     "correct": 0,
     "explanation": "\"Streamlined\" is correct because the guide eliminated inefficiencies and made the science fair setup process flow more smoothly. The evidence shows that after the guide was posted, students arrived \"with materials pre-tagged and queued at the right outlets\" instead of \"clogging the hallway asking where to plug in,\" demonstrating that the process became more efficient and organized without the previous bottlenecks and confusion.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "38",
@@ -576,7 +576,7 @@
     ],
     "correct": 2,
     "explanation": "\"Codified\" is correct because the playbook systematically organized and formalized the guidelines that had previously been \"scattered across old messages and conversations.\" The word captures how informal, dispersed instructions were transformed into a structured, official document that volunteers could easily reference, resulting in clear role assignments and efficient coordination without confusion.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "39",
@@ -590,7 +590,7 @@
     ],
     "correct": 1,
     "explanation": "\"It marks the turning point from worry to purposeful action\" is correct because the underlined sentence represents the pivotal moment when Nia shifts from passive anxiety to active problem-solving. Before this point, she experiences worry and fear about losing her grandfather's recordings, but the sentence shows her taking decisive action by requesting an extension and beginning the export process, transforming the narrative from problem identification to solution implementation.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "40",
@@ -604,7 +604,7 @@
     ],
     "correct": 2,
     "explanation": "\"It states the guiding principle that motivates the changes described afterward\" is correct because the underlined sentence articulates Ms. Corbett's educational philosophy about valuing visible process, which directly drives all her subsequent actions. After deciding that \"visible process\" matters most, she immediately implements this principle by moving notebooks to table edges, instructing judges to ask about mistakes, and posting signs that frame notebooks as part of the exhibit.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "41",
@@ -618,7 +618,7 @@
     ],
     "correct": 1,
     "explanation": "\"Partly agree: door teams helped, but consistent opening routines caused the sustained improvement\" is correct because Text 2 acknowledges the door teams as a \"helpful nudge\" while arguing that \"the new first-5-minute routine\" was the primary driver of lasting change. This represents partial agreement with Text 1's claim about door teams having positive effects, while disagreeing about which factor was most important for sustained improvement.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "42",
@@ -632,7 +632,7 @@
     ],
     "correct": 0,
     "explanation": "\"The projector failed after a power issue\" is correct because the passage clearly establishes the sequence of technical problems that forced Marta to change her presentation format. The text states that \"the hallway lights blinked twice; the projector cycled, then went dark\" and that the electrician was \"on the way, but not soon,\" making it impossible to proceed with the planned slide presentation and directly prompting the switch to hands-on activities.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "43",
@@ -646,7 +646,7 @@
     ],
     "correct": 1,
     "explanation": "\"A delivery truck blocked the service entrance\" is correct because the passage explicitly identifies this as the specific cause of Thursday's increased wait times. The text states that \"a delivery truck blocked the service entrance, delaying hot trays,\" which directly resulted in wait times rising to fourteen minutes despite the continued presence of volunteers and other successful interventions from earlier in the week.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "44",
@@ -660,7 +660,7 @@
     ],
     "correct": 0,
     "explanation": "\"Practical fixes—brief training, clear inventories, and maintenance—turned the library's tool-lending pilot into a sustainable service\" is correct because it captures the passage's central narrative of problem-solving leading to program success. The text shows how specific interventions like \"two-minute orientation,\" \"laminated cards,\" and \"volunteers signed up to do maintenance\" resolved initial difficulties and enabled the program to \"continue through summer,\" demonstrating sustainable implementation.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "45",
@@ -700,7 +700,7 @@
         }
       ]
     },
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "46",
@@ -714,7 +714,7 @@
     ],
     "correct": 0,
     "explanation": "\"Because on-task behavior rose 18%, the 7 priority rooms can be equipped for 7 � $1,640 = $11,480, within the $12,000 cap?approve Phase 2 targeting those rooms\" is correct because it accomplishes all three goal requirements with precision: cites the largest student outcome (18% increase in on-task behavior), provides accurate budget calculation showing compliance with the cap, and adheres to the priority rule by targeting the 7 rooms with average noise levels ?�?65 dB.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "47",
@@ -754,7 +754,7 @@
         }
       ]
     },
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "48",
@@ -768,7 +768,7 @@
     ],
     "correct": 3,
     "explanation": "\"She smiled too brightly at the receptionist and asked for water\" most effectively illustrates the claim because it shows Ana performing exaggerated cheerfulness in a public interaction to conceal her internal anxiety. The phrase \"too brightly\" indicates that her smile is excessive and artificial—a deliberate attempt to project calm confidence while masking her nervous state through performative social behavior.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "49",
@@ -803,7 +803,7 @@
         }
       ]
     },
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "50",
@@ -817,7 +817,7 @@
     ],
     "correct": 1,
     "explanation": "\"Run 3:30–4:30 drop-in (quiet zones enforced); then offer same-day 20-minute appointments 4:30–6:00 on Tue/Thu using the extra proctor; route others to a volunteer-supervised study hall\" is correct because it systematically addresses all constraints while optimizing outcomes. This solution maintains throughput through drop-in hours, boosts completion rates with targeted appointments, reduces noise through quiet zones, operates within the 6:15 building lock, uses available Tuesday/Thursday staffing, and avoids union violations.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "51",
@@ -831,7 +831,7 @@
     ],
     "correct": 2,
     "explanation": "\"Had amended\" is correct because the past perfect tense is required to show that the coordinator's amendment of the entries was completed before the September report was sent to the council. The time marker \"By the time the September report went to the council\" establishes that the amendment occurred prior to this past event, and past perfect tense properly expresses an action completed before another past action in the sequence.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "52",
@@ -845,7 +845,7 @@
     ],
     "correct": 0,
     "explanation": "A colon is correct because it provides the standard punctuation required after a complete clause that introduces exact quoted content. The structure \"She added one final line:\" followed by the specific wording of that line follows formal English conventions for introducing direct quotations or exact statements, making the colon the grammatically appropriate choice.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "53",
@@ -859,7 +859,7 @@
     ],
     "correct": 1,
     "explanation": "\"Whom\" is correct because it provides the objective case pronoun required after the preposition \"to\" in the construction \"the mentor to whom.\" When a relative pronoun serves as the object of a preposition within a relative clause, the objective case \"whom\" must be used rather than the subjective case \"who\" that functions as a clause subject.",
-    "difficulty": "Medium"
+    "difficulty": "Easy"
   },
   {
     "id": "54",
@@ -1013,7 +1013,7 @@
     ],
     "correct": 2,
     "explanation": "\"Sirius A—an A-type star about twice the Sun's mass—orbits with the faint white dwarf Sirius B in a ~50-year dance that lets astronomers weigh both stars from their motion; the system's great apparent brightness reflects proximity plus A's luminosity, not the white dwarf\" is correct because it accomplishes all three goal requirements with scientific precision: emphasizes Sirius A's mass through numerical comparison to the Sun (twice as massive), attributes mass determination to the 50-year binary orbital analysis, and clearly distinguishes between the bright main-sequence star Sirius A and its faint white dwarf companion Sirius B.",
-    "difficulty": "Medium"
+    "difficulty": "Hard"
   },
   {
     "id": "65",
@@ -1027,7 +1027,7 @@
     ],
     "correct": 2,
     "explanation": "\"With a first-class lever—fulcrum between effort and load, as in a crowbar—a longer effort arm than load arm yields MA > 1 (greater output force), whereas a third-class lever—effort between fulcrum and load, as in the forearm with the biceps—has MA < 1 but moves the load farther and faster for the same torque\" is correct because it accomplishes all four goal requirements with scientific precision: contrasts the fulcrum/effort/load arrangements accurately, explains the mechanical advantage implications for each type, provides correct examples (crowbar and forearm), and avoids incorrectly claiming that third-class levers amplify force.",
-    "difficulty": "Medium"
+    "difficulty": "Hard"
   },
   {
     "id": "66",
@@ -1041,6 +1041,6 @@
     ],
     "correct": 0,
     "explanation": "\"P-waves and S-waves—both body waves that travel through Earth's interior from an earthquake's focus—arrive at different times at global stations; used together, those timings let geophysicists map internal boundaries, including the liquid outer core where S-waves stop and P-waves bend\" is correct because it accomplishes all goal requirements with scientific precision: emphasizes the shared characteristics of both wave types as interior-traveling body waves, explains their joint use in mapping Earth's internal structure, and correctly describes their different behaviors at liquid boundaries without falsely claiming that S-waves travel through liquids.",
-    "difficulty": "Medium"
+    "difficulty": "Hard"
   }
 ]
