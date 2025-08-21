@@ -108,7 +108,51 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
     return relevantLevels;
   };
 
-  const readinessLevels = getRelevantReadinessLevels(interactiveScore);
+  // Use interactive levels for the display (single level based on slider position)
+  const readinessLevels = getInteractiveReadinessLevel(interactiveScore);
+
+  // Get only the single level that corresponds to the current interactive score
+  const getInteractiveReadinessLevel = (score) => {
+    const allLevels = [
+      { 
+        range: "700+", 
+        level: "Elite", 
+        color: "bg-gradient-to-r from-emerald-400 to-green-500",
+        textColor: "text-emerald-400",
+        description: "Top colleges",
+        minScore: 700
+      },
+      { 
+        range: "600+", 
+        level: "Strong", 
+        color: "bg-gradient-to-r from-blue-400 to-cyan-500",
+        textColor: "text-blue-400",
+        description: "Well prepared",
+        minScore: 600
+      },
+      { 
+        range: "480+", 
+        level: "Ready", 
+        color: "bg-gradient-to-r from-amber-400 to-orange-500",
+        textColor: "text-amber-400",
+        description: "College ready",
+        minScore: 480
+      },
+      { 
+        range: "<480", 
+        level: "Building", 
+        color: "bg-gradient-to-r from-red-400 to-pink-500",
+        textColor: "text-red-400",
+        description: "Skill building needed",
+        minScore: 0
+      }
+    ];
+
+    if (score >= 700) return [allLevels[0]];
+    if (score >= 600) return [allLevels[1]];
+    if (score >= 480) return [allLevels[2]];
+    return [allLevels[3]];
+  };
 
   const getCurrentLevelIndex = (score) => {
     if (score >= 700) return 0;
@@ -117,8 +161,20 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
     return 0; // For scores below 480, return 0 since we only show 1 level (Building)
   };
 
+  // Find the index of the user's actual score level within the filtered readinessLevels
+  const getActualScoreLevelIndex = (userScore) => {
+    const userLevel = getRelevantReadinessLevels(userScore).find(level => {
+      if (userScore >= 700) return level.minScore === 700;
+      if (userScore >= 600) return level.minScore === 600;
+      if (userScore >= 480) return level.minScore === 480;
+      return level.minScore === 0; // Building level
+    });
+    
+    return readinessLevels.findIndex(level => level.minScore === userLevel?.minScore);
+  };
+
   const currentLevelIndex = getCurrentLevelIndex(interactiveScore);
-  const actualScoreLevelIndex = getCurrentLevelIndex(score);
+  const actualScoreLevelIndex = getActualScoreLevelIndex(score);
 
   // Handle mouse/touch events for dragging
   const handleMouseDown = (e) => {
@@ -379,11 +435,13 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
             padding: '24px',
             boxShadow: '0 8px 24px rgba(0,0,0,0.18)'
           }}>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: readinessLevels.length > 1 ? 'repeat(auto-fit, minmax(250px, 1fr))' : '1fr',
-              gap: '24px'
-            }}>
+                                    <div style={{
+                          display: 'grid',
+                          gridTemplateColumns: '1fr',
+                          gap: '24px',
+                          maxWidth: '400px',
+                          margin: '0 auto'
+                        }}>
               {readinessLevels.map((level, index) => (
                 <div 
                   key={index}
@@ -455,24 +513,33 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
                   </div>
                   
                   {/* Current indicator */}
-                  {index === actualScoreLevelIndex && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '-8px',
-                      right: '-8px',
-                      background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-                      color: 'white',
-                      fontSize: '12px',
-                      padding: '4px 12px',
-                      borderRadius: '20px',
-                      fontWeight: 700,
-                      boxShadow: '0 8px 24px rgba(59, 130, 246, 0.4)',
-                      border: '1px solid rgba(255,255,255,0.2)',
-                      animation: 'bounce 1s infinite'
-                    }}>
-                      You're Here!
-                    </div>
-                  )}
+                  {(() => {
+                    // Check if this level corresponds to the user's actual score
+                    let isUserLevel = false;
+                    if (score >= 700 && level.minScore === 700) isUserLevel = true;
+                    else if (score >= 600 && score < 700 && level.minScore === 600) isUserLevel = true;
+                    else if (score >= 480 && score < 600 && level.minScore === 480) isUserLevel = true;
+                    else if (score < 480 && level.minScore === 0) isUserLevel = true;
+                    
+                    return isUserLevel ? (
+                      <div style={{
+                        position: 'absolute',
+                        top: '-8px',
+                        right: '-8px',
+                        background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+                        color: 'white',
+                        fontSize: '12px',
+                        padding: '4px 12px',
+                        borderRadius: '20px',
+                        fontWeight: 700,
+                        boxShadow: '0 8px 24px rgba(59, 130, 246, 0.4)',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        animation: 'bounce 1s infinite'
+                      }}>
+                        You're Here!
+                      </div>
+                    ) : null;
+                  })()}
                 </div>
               ))}
             </div>
