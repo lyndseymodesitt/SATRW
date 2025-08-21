@@ -305,6 +305,71 @@ export default function App() {
     URL.revokeObjectURL(a.href);
   }
 
+  function downloadPDF() {
+    // Import jsPDF dynamically to avoid SSR issues
+    import('jspdf').then(({ default: jsPDF }) => {
+      const doc = new jsPDF();
+      
+      // Set up fonts and styling
+      doc.setFontSize(20);
+      doc.setFont(undefined, 'bold');
+      doc.text('SAT Reading & Writing Results', 20, 30);
+      
+      doc.setFontSize(12);
+      doc.setFont(undefined, 'normal');
+      
+      // Score summary
+      doc.text(`Overall Score: ${results.scaledScore}/800`, 20, 50);
+      doc.text(`Questions Correct: ${results.correct}/${results.total}`, 20, 60);
+      doc.text(`Percentage: ${results.pct}%`, 20, 70);
+      
+      // Performance breakdown
+      doc.text('Performance Breakdown:', 20, 90);
+      doc.text(`• Correct Answers: ${results.correct}`, 30, 100);
+      doc.text(`• Incorrect/Unanswered: ${results.total - results.correct}`, 30, 110);
+      
+      // Module breakdown
+      const module1Questions = results.rows.filter(r => r.module === 1);
+      const module2Questions = results.rows.filter(r => r.module === 2);
+      const module1Correct = module1Questions.filter(r => r.isCorrect).length;
+      const module2Correct = module2Questions.filter(r => r.isCorrect).length;
+      
+      doc.text('Module Performance:', 20, 130);
+      doc.text(`• Module 1: ${module1Correct}/${module1Questions.length} (${Math.round((module1Correct/module1Questions.length)*100)}%)`, 30, 140);
+      doc.text(`• Module 2: ${module2Correct}/${module2Questions.length} (${Math.round((module2Correct/module2Questions.length)*100)}%)`, 30, 150);
+      
+      // Question details (first page only, can add more pages if needed)
+      doc.text('Question Details:', 20, 170);
+      let yPos = 180;
+      let pageNum = 1;
+      
+      results.rows.forEach((r, index) => {
+        if (yPos > 250) {
+          doc.addPage();
+          pageNum++;
+          yPos = 20;
+          doc.setFontSize(12);
+          doc.setFont(undefined, 'normal');
+        }
+        
+        const status = r.isCorrect ? '✓' : '✗';
+        const questionText = `Q${r.id} (Module ${r.module}): ${status}`;
+        doc.text(questionText, 20, yPos);
+        yPos += 10;
+      });
+      
+      // Footer
+      doc.setFontSize(10);
+      doc.text(`Generated on ${new Date().toLocaleDateString()}`, 20, 280);
+      
+      // Save the PDF
+      doc.save('sat-rw-results.pdf');
+    }).catch(error => {
+      console.error('Error generating PDF:', error);
+      alert('Error generating PDF. Please try again.');
+    });
+  }
+
   if (loading) {
     return (
       <div className="app">
@@ -535,7 +600,10 @@ export default function App() {
                 🔄 Retake Test
               </button>
               <button className="btn btn-outline" onClick={() => downloadCSV(results.rows)}>
-                📥 Download Results
+                📥 Download CSV
+              </button>
+              <button className="btn btn-outline" onClick={downloadPDF}>
+                📄 Download PDF
               </button>
             </div>
           </div>
@@ -638,18 +706,25 @@ export default function App() {
                   </div>
 
                   <div style={{ marginTop: 10 }}>
-                    <MarkdownMath>
-                      {`**Explanation:** ${(() => {
-                        console.log('Raw explanation:', r.explanation);
-                        console.log('Explanation type:', typeof r.explanation);
-                        // Handle potential object values in explanation
-                        if (r.explanation && typeof r.explanation === 'object') {
-                          console.log('Explanation object:', r.explanation);
-                          return sanitizeForRender(JSON.stringify(r.explanation));
-                        }
-                        return sanitizeForRender(r.explanation || '');
-                      })()}`}
-                    </MarkdownMath>
+                    <div style={{ marginBottom: '8px' }}>
+                      <strong>Explanation:</strong>
+                    </div>
+                    <div>
+                      <pre style={{ fontSize: '12px', color: 'var(--muted)' }}>
+                        Raw: {JSON.stringify(r.explanation)}
+                        Type: {typeof r.explanation}
+                        Stringified: {String(r.explanation)}
+                      </pre>
+                      <div style={{ marginTop: '8px' }}>
+                        {(() => {
+                          // Handle potential object values in explanation
+                          if (r.explanation && typeof r.explanation === 'object') {
+                            return JSON.stringify(r.explanation);
+                          }
+                          return r.explanation || '';
+                        })()}
+                      </div>
+                    </div>
                   </div>
 
                   <div className="review-nav">
