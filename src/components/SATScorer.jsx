@@ -115,76 +115,160 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
   const currentLevelIndex = getCurrentLevelIndex(score);
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 min-h-screen">
-      {/* Test Element - Remove this after confirming new styling works */}
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-xl mb-4 text-center font-bold">
-        🎨 NEW STYLING ACTIVE - Modern Box Design
-      </div>
-      
-      {/* Score Display Box */}
-      <div className="bg-gradient-to-br from-slate-800 to-gray-800 rounded-3xl p-8 mb-8 shadow-2xl border border-slate-700/50 backdrop-blur-sm">
-        <div className={`bg-gradient-to-br ${scoreLevel.color} rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden`}>
-          {/* Decorative background elements */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-16 translate-x-16"></div>
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
+    <div className="app">
+      <div className="card">
+        {/* Score Display Section */}
+        <div className="scorer-section">
+          <div className="section-header">
+            <h3>🎯 Detailed Scoring Analysis</h3>
+            <p>Get your scaled score and performance breakdown</p>
+          </div>
           
-          <div className="relative z-10 text-center">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="bg-white/20 p-3 rounded-2xl backdrop-blur-sm">
-                <ScoreIcon size={32} />
-              </div>
-              <span className="text-2xl font-semibold">{scoreLevel.level}</span>
-            </div>
+          <div className="score-display" style={{
+            background: `linear-gradient(135deg, ${scoreLevel.color.includes('emerald') ? '#10b981' : 
+                                                   scoreLevel.color.includes('blue') ? '#3b82f6' : 
+                                                   scoreLevel.color.includes('amber') ? '#f59e0b' : '#ef4444'}, 
+                                                   ${scoreLevel.color.includes('emerald') ? '#059669' : 
+                                                   scoreLevel.color.includes('blue') ? '#1d4ed8' : 
+                                                   scoreLevel.color.includes('amber') ? '#d97706' : '#dc2626'})`,
+            borderRadius: '24px',
+            padding: '32px',
+            marginBottom: '32px',
+            color: 'white',
+            textAlign: 'center',
+            boxShadow: '0 25px 50px rgba(0,0,0,0.25)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            {/* Decorative background elements */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              width: '128px',
+              height: '128px',
+              background: 'rgba(255,255,255,0.05)',
+              borderRadius: '50%',
+              transform: 'translate(-64px, -64px)'
+            }}></div>
+            <div style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              width: '96px',
+              height: '96px',
+              background: 'rgba(255,255,255,0.05)',
+              borderRadius: '50%',
+              transform: 'translate(48px, 48px)'
+            }}></div>
             
-            <div className="mb-6">
-              <div className="text-7xl font-black mb-2 tracking-tight">{score}</div>
-              <div className="text-xl opacity-90">SAT Reading & Writing Score</div>
-              <div className="text-lg opacity-75 mt-2">{getPercentile(score)} percentile</div>
-            </div>
-            
-            <div className="flex justify-center gap-8">
-              <div className="text-center bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/20">
-                <div className="text-2xl font-bold">{rawScore}/66</div>
-                <div className="text-sm opacity-75">Questions Correct</div>
+            <div style={{ position: 'relative', zIndex: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '16px' }}>
+                <div style={{
+                  background: 'rgba(255,255,255,0.2)',
+                  padding: '12px',
+                  borderRadius: '16px',
+                  backdropFilter: 'blur(10px)'
+                }}>
+                  <ScoreIcon size={32} />
+                </div>
+                <span style={{ fontSize: '24px', fontWeight: 600 }}>{scoreLevel.level}</span>
               </div>
-              <div className="text-center bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/20">
-                <div className="text-2xl font-bold">{percentageCorrect}%</div>
-                <div className="text-sm opacity-75">Accuracy</div>
+              
+              <div style={{ marginBottom: '24px' }}>
+                <div style={{ fontSize: '72px', fontWeight: 900, marginBottom: '8px', letterSpacing: '-0.025em' }}>{score}</div>
+                <div style={{ fontSize: '20px', opacity: 0.9 }}>SAT Reading & Writing Score</div>
+                <div style={{ fontSize: '18px', opacity: 0.75, marginTop: '8px' }}>{getPercentile(score)} percentile</div>
+              </div>
+              
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '32px' }}>
+                <div style={{
+                  textAlign: 'center',
+                  background: 'rgba(255,255,255,0.1)',
+                  borderRadius: '16px',
+                  padding: '16px',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255,255,255,0.2)'
+                }}>
+                  <div style={{ fontSize: '24px', fontWeight: 700 }}>{rawScore}/66</div>
+                  <div style={{ fontSize: '14px', opacity: 0.75 }}>Questions Correct</div>
+                </div>
+                <div style={{
+                  textAlign: 'center',
+                  background: 'rgba(255,255,255,0.1)',
+                  borderRadius: '16px',
+                  padding: '16px',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255,255,255,0.2)'
+                }}>
+                  <div style={{ fontSize: '24px', fontWeight: 700 }}>{percentageCorrect}%</div>
+                  <div style={{ fontSize: '14px', opacity: 0.75 }}>Accuracy</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* College Readiness Scale Box */}
-      <div className="bg-gradient-to-br from-slate-800 to-gray-800 rounded-3xl p-8 shadow-2xl border border-slate-700/50 backdrop-blur-sm">
-        <div className="bg-gradient-to-br from-gray-800/80 to-slate-800/80 rounded-3xl p-8 border border-gray-700/50">
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-2xl shadow-lg">
-              <BookOpen className="text-white" size={24} />
-            </div>
-            <h2 className="text-2xl font-bold text-white">College Readiness Scale</h2>
+        {/* College Readiness Scale Section */}
+        <div className="scorer-section">
+          <div className="section-header">
+            <h3>📚 College Readiness Scale</h3>
+            <p>See where you stand and what's next</p>
           </div>
-
-          {/* Visual Scale Box */}
-          <div className="bg-gradient-to-br from-gray-700/60 to-slate-700/60 rounded-2xl p-6 mb-8 border border-gray-600/50">
-            <div className="relative">
+          
+          {/* Visual Scale */}
+          <div className="scale-container" style={{
+            background: 'var(--card)',
+            border: '1px solid var(--border)',
+            borderRadius: '16px',
+            padding: '24px',
+            marginBottom: '32px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.18)'
+          }}>
+            <div style={{ position: 'relative' }}>
               {/* Background track */}
-              <div className="h-6 bg-gradient-to-r from-red-200 via-amber-200 via-blue-200 to-emerald-200 rounded-full shadow-inner border border-gray-300/20"></div>
+              <div style={{
+                height: '24px',
+                background: 'linear-gradient(to right, #fecaca, #fed7aa, #bfdbfe, #bbf7d0)',
+                borderRadius: '12px',
+                boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)',
+                border: '1px solid rgba(156, 163, 175, 0.2)'
+              }}></div>
               
               {/* Score indicator */}
-              <div 
-                className="absolute top-0 w-8 h-8 bg-white rounded-full shadow-xl border-4 border-blue-500 transform -translate-y-1 transition-all duration-500 flex items-center justify-center"
-                style={{ 
-                  left: `${Math.max(2, Math.min(94, ((score - 200) / 600) * 100))}%`,
-                  transform: 'translateX(-50%) translateY(-4px)'
-                }}
-              >
-                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                width: '32px',
+                height: '32px',
+                background: 'white',
+                borderRadius: '50%',
+                boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
+                border: '4px solid #3b82f6',
+                transform: 'translateY(-4px)',
+                left: `${Math.max(2, Math.min(94, ((score - 200) / 600) * 100))}%`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'left 0.5s ease'
+              }}>
+                <div style={{
+                  width: '8px',
+                  height: '8px',
+                  background: '#3b82f6',
+                  borderRadius: '50%',
+                  animation: 'pulse 2s infinite'
+                }}></div>
               </div>
               
               {/* Score labels */}
-              <div className="flex justify-between mt-4 text-xs text-gray-400">
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginTop: '16px',
+                fontSize: '12px',
+                color: 'var(--muted)'
+              }}>
                 <span>200</span>
                 <span>400</span>
                 <span>600</span>
@@ -193,67 +277,130 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
             </div>
           </div>
 
-          {/* Readiness Levels Box */}
-          <div className="bg-gradient-to-br from-gray-700/40 to-slate-700/40 rounded-2xl p-6 border border-gray-600/30">
-            <div className={`grid grid-cols-1 ${readinessLevels.length > 1 ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-6`}>
+          {/* Readiness Levels */}
+          <div className="readiness-levels" style={{
+            background: 'var(--card)',
+            border: '1px solid var(--border)',
+            borderRadius: '16px',
+            padding: '24px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.18)'
+          }}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: readinessLevels.length > 1 ? 'repeat(auto-fit, minmax(250px, 1fr))' : '1fr',
+              gap: '24px'
+            }}>
               {readinessLevels.map((level, index) => (
                 <div 
                   key={index}
-                  className={`relative p-6 rounded-2xl transition-all duration-300 ${
-                    index === currentLevelIndex
-                      ? 'ring-4 ring-blue-400/50 shadow-2xl transform scale-105 bg-gradient-to-br from-gray-600/60 to-slate-600/60'
-                      : 'hover:scale-105 bg-gradient-to-br from-gray-600/40 to-slate-600/40 hover:from-gray-600/50 hover:to-slate-600/50'
-                  } border border-gray-600/30`}
+                  style={{
+                    position: 'relative',
+                    padding: '24px',
+                    borderRadius: '16px',
+                    transition: 'all 0.3s ease',
+                    background: index === currentLevelIndex ? 
+                      'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1))' : 
+                      'var(--card)',
+                    border: index === currentLevelIndex ? 
+                      '2px solid rgba(59, 130, 246, 0.5)' : 
+                      '1px solid var(--border)',
+                    transform: index === currentLevelIndex ? 'scale(1.05)' : 'scale(1)',
+                    boxShadow: index === currentLevelIndex ? 
+                      '0 20px 40px rgba(59, 130, 246, 0.3)' : 
+                      '0 8px 24px rgba(0,0,0,0.18)'
+                  }}
                 >
-                  {/* Background gradient */}
-                  <div className={`absolute inset-0 ${level.color} rounded-2xl opacity-10`}></div>
-                  
-                  {/* Content */}
-                  <div className="relative z-10 text-center">
-                    {/* Level indicator */}
-                    <div className={`inline-flex items-center justify-center w-16 h-16 ${level.color} rounded-2xl mb-4 text-white font-bold text-lg shadow-lg border border-white/20`}>
-                      {level.range.replace('+', '').replace('<', '')}
-                    </div>
-                    
-                    {/* Level name */}
-                    <div className={`text-xl font-bold mb-2 ${level.textColor}`}>
-                      {level.level}
-                    </div>
-                    
-                    {/* Score range */}
-                    <div className="text-gray-400 font-medium mb-2">
-                      {level.range}
-                    </div>
-                    
-                    {/* Description */}
-                    <div className="text-sm text-gray-500">
-                      {level.description}
-                    </div>
-                    
-                    {/* Current indicator */}
-                    {index === currentLevelIndex && (
-                      <div className="absolute -top-2 -right-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs px-3 py-1 rounded-full font-bold animate-bounce shadow-lg border border-white/20">
-                        You're Here!
-                      </div>
-                    )}
+                  {/* Level indicator */}
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '64px',
+                    height: '64px',
+                    background: level.color.includes('emerald') ? '#10b981' : 
+                               level.color.includes('blue') ? '#3b82f6' : 
+                               level.color.includes('amber') ? '#f59e0b' : '#ef4444',
+                    borderRadius: '16px',
+                    marginBottom: '16px',
+                    color: 'white',
+                    fontWeight: 700,
+                    fontSize: '18px',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+                    border: '1px solid rgba(255,255,255,0.2)'
+                  }}>
+                    {level.range.replace('+', '').replace('<', '')}
                   </div>
                   
-                  {/* Glow effect for current level */}
+                  {/* Level name */}
+                  <div style={{
+                    fontSize: '20px',
+                    fontWeight: 700,
+                    marginBottom: '8px',
+                    color: level.textColor.includes('emerald') ? '#10b981' : 
+                           level.textColor.includes('blue') ? '#3b82f6' : 
+                           level.textColor.includes('amber') ? '#f59e0b' : '#ef4444'
+                  }}>
+                    {level.level}
+                  </div>
+                  
+                  {/* Score range */}
+                  <div style={{
+                    color: 'var(--muted)',
+                    fontWeight: 500,
+                    marginBottom: '8px'
+                  }}>
+                    {level.range}
+                  </div>
+                  
+                  {/* Description */}
+                  <div style={{
+                    fontSize: '14px',
+                    color: 'var(--muted)'
+                  }}>
+                    {level.description}
+                  </div>
+                  
+                  {/* Current indicator */}
                   {index === currentLevelIndex && (
-                    <div className="absolute inset-0 rounded-2xl animate-pulse shadow-xl shadow-blue-400/30"></div>
+                    <div style={{
+                      position: 'absolute',
+                      top: '-8px',
+                      right: '-8px',
+                      background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+                      color: 'white',
+                      fontSize: '12px',
+                      padding: '4px 12px',
+                      borderRadius: '20px',
+                      fontWeight: 700,
+                      boxShadow: '0 8px 24px rgba(59, 130, 246, 0.4)',
+                      border: '1px solid rgba(255,255,255,0.2)',
+                      animation: 'bounce 1s infinite'
+                    }}>
+                      You're Here!
+                    </div>
                   )}
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Bottom description Box */}
-          <div className="mt-8 bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-2xl p-6 border border-blue-700/30">
-            <div className="text-center">
-              <p className="text-gray-300">
-                Your score places you in the <span className={`${scoreLevel.textColor || 'text-white'} font-semibold`}>{scoreLevel.level}</span> category. {scoreLevel.description}
-              </p>
-            </div>
+          {/* Bottom description */}
+          <div style={{
+            marginTop: '32px',
+            background: 'linear-gradient(135deg, rgba(30, 58, 138, 0.2), rgba(147, 51, 234, 0.2))',
+            borderRadius: '16px',
+            padding: '24px',
+            border: '1px solid rgba(59, 130, 246, 0.3)',
+            textAlign: 'center'
+          }}>
+            <p style={{ color: 'var(--text)' }}>
+              Your score places you in the <span style={{
+                color: scoreLevel.color.includes('emerald') ? '#10b981' : 
+                       scoreLevel.color.includes('blue') ? '#3b82f6' : 
+                       scoreLevel.color.includes('amber') ? '#f59e0b' : '#ef4444',
+                fontWeight: 600
+              }}>{scoreLevel.level}</span> category. {scoreLevel.description}
+            </p>
           </div>
         </div>
       </div>
