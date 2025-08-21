@@ -116,6 +116,11 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
 
   return (
     <div className="max-w-5xl mx-auto p-6 bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 min-h-screen">
+      {/* Test Element - Remove this after confirming new styling works */}
+      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-xl mb-4 text-center font-bold">
+        🎨 NEW STYLING ACTIVE - Modern Box Design
+      </div>
+      
       {/* Score Display Box */}
       <div className="bg-gradient-to-br from-slate-800 to-gray-800 rounded-3xl p-8 mb-8 shadow-2xl border border-slate-700/50 backdrop-blur-sm">
         <div className={`bg-gradient-to-br ${scoreLevel.color} rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden`}>
