@@ -467,29 +467,85 @@ export default function App() {
       )}
 
       {phase === PHASES.SUMMARY && (
-        <div className="card">
-          <h2>Your SAT Reading & Writing Results</h2>
-          <div className="kicker" style={{ marginBottom: 8 }}>
-            Raw Score: <strong className="good">{results.correct}/{results.total}</strong> correct (
-            <strong>{results.pct}%</strong>)
+        <div className="card results-page">
+          {/* Header Section */}
+          <div className="results-header">
+            <div className="results-title">
+              <h1>🎯 Your SAT Results</h1>
+              <p className="results-subtitle">Reading & Writing Section</p>
+            </div>
+            
+            {/* Score Display */}
+            <div className="score-display">
+              <div className="score-circle">
+                <div className="score-number">{results.correct}</div>
+                <div className="score-total">/ {results.total}</div>
+              </div>
+              <div className="score-percentage">{results.pct}%</div>
+            </div>
           </div>
-          <p className="small">
-            Use the SAT scorer below to see your scaled score (200-800) and detailed analysis.
-            You can also enter review mode to see missed questions or retake the test.
-          </p>
 
-                           <div style={{ display: "flex", gap: 12, marginTop: 16, marginBottom: 16 }}>
-                   <button className="btn" onClick={goReview}>Enter Review Mode</button>
-                   <button className="btn btn-secondary" onClick={() => setPhase(PHASES.STUDY_PLAN)}>Study Plan</button>
-                   <button className="btn btn-secondary" onClick={() => setPhase(PHASES.INTRO)}>Retake Test</button>
-                   <button className="btn btn-secondary" onClick={() => downloadCSV(results.rows)}>Download Results (CSV)</button>
-                 </div>
+          {/* Performance Summary */}
+          <div className="performance-summary">
+            <div className="summary-grid">
+              <div className="summary-item correct">
+                <div className="summary-icon">✅</div>
+                <div className="summary-content">
+                  <div className="summary-label">Correct</div>
+                  <div className="summary-value">{results.correct}</div>
+                </div>
+              </div>
+              
+              <div className="summary-item incorrect">
+                <div className="summary-icon">❌</div>
+                <div className="summary-content">
+                  <div className="summary-label">Incorrect</div>
+                  <div className="summary-value">{results.total - results.correct}</div>
+                </div>
+              </div>
+              
+              <div className="summary-item accuracy">
+                <div className="summary-icon">📊</div>
+                <div className="summary-content">
+                  <div className="summary-label">Accuracy</div>
+                  <div className="summary-value">{results.pct}%</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          {/* New SAT Scorer Component */}
-          <SATReadingWritingScorer 
-            initialCorrectAnswers={results.correct}
-            showDetailedResults={true}
-          />
+          {/* Action Buttons */}
+          <div className="action-buttons">
+            <div className="primary-actions">
+              <button className="btn btn-primary" onClick={goReview}>
+                📖 Review Questions
+              </button>
+              <button className="btn btn-secondary" onClick={() => setPhase(PHASES.STUDY_PLAN)}>
+                📚 Study Plan
+              </button>
+            </div>
+            
+            <div className="secondary-actions">
+              <button className="btn btn-outline" onClick={() => setPhase(PHASES.INTRO)}>
+                🔄 Retake Test
+              </button>
+              <button className="btn btn-outline" onClick={() => downloadCSV(results.rows)}>
+                📥 Download Results
+              </button>
+            </div>
+          </div>
+
+          {/* SAT Scorer Component */}
+          <div className="scorer-section">
+            <div className="section-header">
+              <h3>🎯 Detailed Scoring Analysis</h3>
+              <p>Get your scaled score and performance breakdown</p>
+            </div>
+            <SATReadingWritingScorer 
+              initialCorrectAnswers={results.correct}
+              showDetailedResults={true}
+            />
+          </div>
         </div>
       )}
 
