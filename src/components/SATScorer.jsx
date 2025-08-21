@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator, BookOpen, TrendingUp, RotateCcw, Info, BarChart, Target, CheckCircle, AlertCircle } from 'lucide-react';
+import { Calculator, BookOpen, TrendingUp, BarChart, Target, CheckCircle, AlertCircle } from 'lucide-react';
 
 const SATScorer = () => {
   const [questions, setQuestions] = useState([]);
@@ -336,9 +336,7 @@ const SATReadingWritingScorer = ({ initialCorrectAnswers = 0, showDetailedResult
           <Calculator className="text-blue-600" size={28} />
           <h1 className="text-3xl font-bold text-gray-800">SAT Reading & Writing Scorer</h1>
         </div>
-        <p className="text-gray-600">
-          Calculate your SAT Reading & Writing scaled score (200-800) based on the number of questions answered correctly out of 66 total questions.
-        </p>
+
       </div>
 
       <div className="grid md:grid-cols-2 gap-8">
@@ -352,7 +350,7 @@ const SATReadingWritingScorer = ({ initialCorrectAnswers = 0, showDetailedResult
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2">
+                <label className="block text-lg font-semibold mb-3 text-gray-800">
                   Questions Correct (out of 66)
                 </label>
                 <input
@@ -361,61 +359,21 @@ const SATReadingWritingScorer = ({ initialCorrectAnswers = 0, showDetailedResult
                   max="66"
                   value={correctAnswers}
                   onChange={(e) => handleScoreChange(e.target.value)}
-                  className="w-full px-4 py-3 text-lg border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter number correct..."
+                  className="w-full px-6 py-4 text-2xl font-bold text-center border-2 border-blue-200 rounded-xl focus:ring-4 focus:ring-blue-300 focus:border-blue-500 bg-white shadow-sm"
+                  placeholder="0"
                 />
-                <div className="text-xs text-gray-500 mt-1">
+                <div className="text-xs text-gray-500 mt-2 text-center">
                   Enter number of questions answered correctly (0-66)
                 </div>
-                <div className="text-xs bg-yellow-50 text-yellow-700 p-2 mt-2 rounded border border-yellow-200">
-                  <strong>SAT Scoring:</strong> Incorrect and unanswered questions are treated the same - no penalty for guessing!
+                <div className="text-xs bg-blue-50 text-blue-700 p-3 mt-3 rounded-lg border border-blue-200 text-center">
+                  <strong>SAT Scoring:</strong> No penalty for guessing - incorrect and unanswered questions count the same!
                 </div>
               </div>
 
-              {/* Quick Score Buttons */}
-              <div className="grid grid-cols-3 gap-2">
-                {[33, 50, 60].map(score => (
-                  <button
-                    key={score}
-                    onClick={() => setCorrectAnswers(score)}
-                    className="px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded transition-colors"
-                  >
-                    {score}/66
-                  </button>
-                ))}
-              </div>
             </div>
-            
-            <button
-              onClick={resetScore}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors mt-4"
-            >
-              <RotateCcw size={16} />
-              Reset Score
-            </button>
           </div>
 
-          {/* Question Distribution Info */}
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <div className="flex items-center gap-2 mb-3">
-              <Info className="text-gray-600" size={16} />
-              <h3 className="font-medium">Test Structure</h3>
-            </div>
-            <div className="text-sm space-y-2">
-              <div>
-                <span className="font-medium">Total Questions:</span> 66
-              </div>
-              <div>
-                <span className="font-medium">Easy Questions:</span> 28 (1.0x weight)
-              </div>
-              <div>
-                <span className="font-medium">Medium Questions:</span> 26 (1.2x weight)
-              </div>
-              <div>
-                <span className="font-medium">Hard Questions:</span> 12 (1.5x weight)
-              </div>
-            </div>
-          </div>
+
         </div>
 
         {/* Results Section */}
