@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "dev": "vite",
+    "start": "vite",
     "convert:questions": "node scripts/convert-csv-to-json.cjs",
     "prebuild": "node scripts/convert-csv-to-json.cjs",
     "build": "vite build",
@@ -13,9 +15,7 @@
   "dependencies": {
     "csv-parse": "^6.1.0",
     "iconv-lite": "^0.6.3",
-    "jspdf": "^3.0.1",
     "katex": "^0.16.22",
-    "lucide-react": "^0.540.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-markdown": "^10.1.0",

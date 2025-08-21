@@ -3,6 +3,7 @@ import MarkdownMath from "./components/MarkdownMath";
 import ChartRenderer from "./components/ChartRenderer.jsx";
 import QuestionText from "./components/QuestionText.jsx";
 import SATReadingWritingScorer from "./components/SATScorer.jsx";
+import SATStudyPlan from "./components/SATStudyPlan.jsx";
 
 
 // Process blanks in text for rendering (converts \_, \\_, ____ to styled spans)
@@ -310,23 +311,78 @@ export default function App() {
     import('jspdf').then(({ default: jsPDF }) => {
       const doc = new jsPDF();
       
+      // Page dimensions
+      const pageWidth = doc.internal.pageSize.width;
+      const margin = 20;
+      const contentWidth = pageWidth - (2 * margin);
+      
+      // Helper function to wrap text
+      const wrapText = (text, maxWidth) => {
+        const words = text.split(' ');
+        const lines = [];
+        let currentLine = '';
+        
+        words.forEach(word => {
+          const testLine = currentLine + word + ' ';
+          const testWidth = doc.getTextWidth(testLine);
+          
+          if (testWidth > maxWidth && currentLine !== '') {
+            lines.push(currentLine.trim());
+            currentLine = word + ' ';
+          } else {
+            currentLine = testLine;
+          }
+        });
+        
+        if (currentLine.trim()) {
+          lines.push(currentLine.trim());
+        }
+        
+        return lines;
+      };
+      
+      // Helper function to add text with wrapping
+      const addWrappedText = (text, x, y, maxWidth) => {
+        const lines = wrapText(text, maxWidth);
+        lines.forEach((line, index) => {
+          doc.text(line, x, y + (index * 7));
+        });
+        return lines.length * 7; // Return height used
+      };
+      
       // Set up fonts and styling
       doc.setFontSize(20);
       doc.setFont(undefined, 'bold');
-      doc.text('SAT Reading & Writing Results', 20, 30);
+      doc.text('SAT Reading & Writing Results', margin, 30);
       
       doc.setFontSize(12);
       doc.setFont(undefined, 'normal');
       
+      let yPos = 50;
+      
       // Score summary
-      doc.text(`Overall Score: ${results.scaledScore}/800`, 20, 50);
-      doc.text(`Questions Correct: ${results.correct}/${results.total}`, 20, 60);
-      doc.text(`Percentage: ${results.pct}%`, 20, 70);
+      doc.setFont(undefined, 'bold');
+      doc.text('Score Summary:', margin, yPos);
+      yPos += 15;
+      doc.setFont(undefined, 'normal');
+      
+      doc.text(`Overall Score: ${results.scaledScore}/800`, margin + 10, yPos);
+      yPos += 10;
+      doc.text(`Questions Correct: ${results.correct}/${results.total}`, margin + 10, yPos);
+      yPos += 10;
+      doc.text(`Percentage: ${results.pct}%`, margin + 10, yPos);
+      yPos += 20;
       
       // Performance breakdown
-      doc.text('Performance Breakdown:', 20, 90);
-      doc.text(`• Correct Answers: ${results.correct}`, 30, 100);
-      doc.text(`• Incorrect/Unanswered: ${results.total - results.correct}`, 30, 110);
+      doc.setFont(undefined, 'bold');
+      doc.text('Performance Breakdown:', margin, yPos);
+      yPos += 15;
+      doc.setFont(undefined, 'normal');
+      
+      doc.text(`• Correct Answers: ${results.correct}`, margin + 10, yPos);
+      yPos += 10;
+      doc.text(`• Incorrect/Unanswered: ${results.total - results.correct}`, margin + 10, yPos);
+      yPos += 20;
       
       // Module breakdown
       const module1Questions = results.rows.filter(r => r.module === 1);
@@ -334,33 +390,19 @@ export default function App() {
       const module1Correct = module1Questions.filter(r => r.isCorrect).length;
       const module2Correct = module2Questions.filter(r => r.isCorrect).length;
       
-      doc.text('Module Performance:', 20, 130);
-      doc.text(`• Module 1: ${module1Correct}/${module1Questions.length} (${Math.round((module1Correct/module1Questions.length)*100)}%)`, 30, 140);
-      doc.text(`• Module 2: ${module2Correct}/${module2Questions.length} (${Math.round((module2Correct/module2Questions.length)*100)}%)`, 30, 150);
+      doc.setFont(undefined, 'bold');
+      doc.text('Module Performance:', margin, yPos);
+      yPos += 15;
+      doc.setFont(undefined, 'normal');
       
-      // Question details (first page only, can add more pages if needed)
-      doc.text('Question Details:', 20, 170);
-      let yPos = 180;
-      let pageNum = 1;
-      
-      results.rows.forEach((r, index) => {
-        if (yPos > 250) {
-          doc.addPage();
-          pageNum++;
-          yPos = 20;
-          doc.setFontSize(12);
-          doc.setFont(undefined, 'normal');
-        }
-        
-        const status = r.isCorrect ? '✓' : '✗';
-        const questionText = `Q${r.id} (Module ${r.module}): ${status}`;
-        doc.text(questionText, 20, yPos);
-        yPos += 10;
-      });
+      doc.text(`• Module 1: ${module1Correct}/${module1Questions.length} (${Math.round((module1Correct/module1Questions.length)*100)}%)`, margin + 10, yPos);
+      yPos += 10;
+      doc.text(`• Module 2: ${module2Correct}/${module2Questions.length} (${Math.round((module2Correct/module2Questions.length)*100)}%)`, margin + 10, yPos);
+      yPos += 20;
       
       // Footer
       doc.setFontSize(10);
-      doc.text(`Generated on ${new Date().toLocaleDateString()}`, 20, 280);
+      doc.text(`Generated on ${new Date().toLocaleDateString()}`, margin, yPos + 20);
       
       // Save the PDF
       doc.save('sat-rw-results.pdf');
@@ -741,22 +783,11 @@ export default function App() {
       )}
 
       {phase === PHASES.STUDY_PLAN && (
-        <div className="card">
-          <div style={{ marginBottom: 16 }}>
-            <button className="btn btn-secondary" onClick={() => setPhase(PHASES.SUMMARY)}>
-              ← Back to Results
-            </button>
-          </div>
-          <div className="text-center py-8">
-            <h3>📚 Study Plan</h3>
-            <p className="text-gray-600 mb-4">
-              Your detailed scoring analysis is available in the main results view above.
-            </p>
-            <p className="text-gray-500 text-sm">
-              Use the scoring breakdown and reference chart to identify areas for improvement.
-            </p>
-          </div>
-        </div>
+        <SATStudyPlan 
+          studentAnswers={results.rows}
+          totalQuestions={results.total}
+          onBack={() => setPhase(PHASES.SUMMARY)}
+        />
       )}
     </div>
   );
