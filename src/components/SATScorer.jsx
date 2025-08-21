@@ -188,10 +188,10 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
     
     const currentX = e.clientX || e.touches?.[0]?.clientX || 0;
     const deltaX = currentX - dragStartX;
-    const scaleWidth = 600; // Score range from 200-800
-    const containerWidth = 400; // Approximate container width
     
-    const scoreDelta = (deltaX / containerWidth) * scaleWidth;
+    // Calculate score change based on mouse movement
+    // 1 pixel = 1.5 score points (600 score range / 400 pixel range)
+    const scoreDelta = (deltaX * 1.5);
     const newScore = Math.max(200, Math.min(800, dragStartScore + scoreDelta));
     
     setInteractiveScore(Math.round(newScore));
@@ -221,7 +221,7 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
         document.removeEventListener('touchend', handleMouseUp);
       };
     }
-  }, [isDragging, dragStartX, dragStartScore]);
+  }, [isDragging, dragStartX, dragStartScore, handleMouseMove, handleMouseUp]);
 
   // Calculate position for the score indicator
   const getIndicatorPosition = (score) => {
