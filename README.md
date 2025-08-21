@@ -1,6 +1,8 @@
-# SAT Reading & Writing Project Viewer
+# SAT Project Viewer
 
-A React-based application for viewing and practicing SAT Reading & Writing questions.
+A React-based application for viewing SAT questions with interactive charts and markdown support.
+
+<!-- Deployment trigger: force new deployment after failed italics fix deployment -->
 
 ## Features
 - Interactive question viewer with math rendering support
