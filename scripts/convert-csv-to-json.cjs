@@ -392,7 +392,9 @@ rows.forEach((row, i) => {
     }
   }
 
-  data.push({ id, module: moduleNum, stem, choices, correct, explanation, image, alt, caption, chart });
+  const difficulty = String(get(row, "difficulty") || "").trim();
+  
+  data.push({ id, module: moduleNum, stem, choices, correct, explanation, image, alt, caption, chart, difficulty });
 });
 
 if (errors.length) {
