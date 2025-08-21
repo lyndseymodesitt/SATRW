@@ -330,23 +330,26 @@ const SATReadingWritingScorer = ({ initialCorrectAnswers = 0, showDetailedResult
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white">
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <Calculator className="text-blue-600" size={28} />
-          <h1 className="text-3xl font-bold text-gray-800">SAT Reading & Writing Scorer</h1>
+    <div className="max-w-5xl mx-auto p-8">
+      <div className="mb-10">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl shadow-lg">
+            <Calculator className="text-white" size={32} />
+          </div>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            SAT Reading & Writing Scorer
+          </h1>
         </div>
-
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-2 gap-10">
         {/* Input Section */}
-        <div className="space-y-6">
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg border">
+        <div className="space-y-8">
+          <div className="bg-gradient-to-br from-slate-50 to-blue-50 p-8 rounded-2xl border border-slate-200 shadow-lg">
             
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div>
-                <label className="block text-lg font-semibold mb-3 text-gray-800">
+                <label className="block text-xl font-bold mb-4 text-slate-800">
                   Questions Correct (out of 66)
                 </label>
                 <input
@@ -355,13 +358,13 @@ const SATReadingWritingScorer = ({ initialCorrectAnswers = 0, showDetailedResult
                   max="66"
                   value={correctAnswers}
                   onChange={(e) => handleScoreChange(e.target.value)}
-                  className="w-full px-6 py-4 text-2xl font-bold text-center border-2 border-blue-200 rounded-xl focus:ring-4 focus:ring-blue-300 focus:border-blue-500 bg-white shadow-sm"
+                  className="w-full px-8 py-6 text-3xl font-bold text-center border-3 border-slate-300 rounded-2xl focus:ring-4 focus:ring-blue-400 focus:border-blue-500 bg-white shadow-lg transition-all duration-200 hover:shadow-xl"
                   placeholder="0"
                 />
-                <div className="text-xs text-gray-500 mt-2 text-center">
+                <div className="text-sm text-slate-600 mt-3 text-center">
                   Enter number of questions answered correctly (0-66)
                 </div>
-                <div className="text-xs bg-blue-50 text-blue-700 p-3 mt-3 rounded-lg border border-blue-200 text-center">
+                <div className="text-sm bg-gradient-to-r from-blue-100 to-purple-100 text-slate-700 p-4 mt-4 rounded-xl border border-blue-200 text-center font-medium">
                   <strong>SAT Scoring:</strong> No penalty for guessing - incorrect and unanswered questions count the same!
                 </div>
               </div>
@@ -373,38 +376,40 @@ const SATReadingWritingScorer = ({ initialCorrectAnswers = 0, showDetailedResult
         </div>
 
         {/* Results Section */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           {results && (
             <>
-              <div className="bg-gradient-to-br from-purple-600 to-blue-600 text-white p-6 rounded-lg">
-                <div className="flex items-center gap-2 mb-4">
-                  <TrendingUp size={24} />
-                  <h2 className="text-2xl font-bold">Your R&W Score</h2>
+              <div className="bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 text-white p-8 rounded-2xl shadow-xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 bg-white/20 rounded-lg">
+                    <TrendingUp size={28} />
+                  </div>
+                  <h2 className="text-3xl font-bold">Your R&W Score</h2>
                 </div>
                 
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <div className="text-center">
-                    <div className="text-5xl font-bold mb-2">{results.scaledScore}</div>
-                    <div className="text-lg opacity-90">{getPercentile(results.scaledScore)}th Percentile</div>
+                    <div className="text-6xl font-black mb-3">{results.scaledScore}</div>
+                    <div className="text-xl opacity-90 font-medium">{getPercentile(results.scaledScore)}th Percentile</div>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/20">
+                  <div className="grid grid-cols-2 gap-6 pt-6 border-t border-white/20">
                     <div className="text-center">
-                      <div className="text-2xl font-bold">{results.rawScore}</div>
-                      <div className="text-sm opacity-90">Questions Correct</div>
+                      <div className="text-3xl font-bold">{results.rawScore}</div>
+                      <div className="text-sm opacity-90 font-medium">Questions Correct</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold">{results.incorrectOrUnanswered}</div>
-                      <div className="text-sm opacity-90">Wrong/Unanswered</div>
+                      <div className="text-3xl font-bold">{results.incorrectOrUnanswered}</div>
+                      <div className="text-sm opacity-90 font-medium">Wrong/Unanswered</div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-gray-50 p-6 rounded-lg">
+              <div className="bg-gradient-to-br from-slate-50 to-gray-50 p-8 rounded-2xl border border-slate-200 shadow-lg">
                 <button
                   onClick={() => setShowDetails(!showDetails)}
-                  className="flex items-center gap-2 text-blue-600 hover:text-blue-800 mb-4"
+                  className="flex items-center gap-3 text-slate-700 hover:text-slate-900 mb-6 font-semibold text-lg transition-colors duration-200"
                 >
                   <span className="font-medium">
                     {showDetails ? 'Hide' : 'Show'} Detailed Analysis
@@ -412,59 +417,74 @@ const SATReadingWritingScorer = ({ initialCorrectAnswers = 0, showDetailedResult
                 </button>
 
                 {showDetails && (
-                  <div className="space-y-6">
-                    <div className="border-l-4 border-blue-500 pl-4">
-                      <h3 className="font-semibold text-lg mb-3">Scoring Breakdown</h3>
-                      <div className="grid grid-cols-2 gap-4 text-sm">
-                        <div>
-                          <span className="font-medium">Raw Score:</span>
-                          <span className="ml-2">{results.rawScore}/66</span>
+                  <div className="space-y-8">
+                    <div className="border-l-4 border-blue-500 pl-6">
+                      <h3 className="font-bold text-xl mb-4 text-slate-800">Scoring Breakdown</h3>
+                      <div className="grid grid-cols-2 gap-6 text-base">
+                        <div className="bg-white p-3 rounded-lg border border-slate-200">
+                          <span className="font-semibold text-slate-700">Raw Score:</span>
+                          <span className="ml-2 font-bold text-slate-900">{results.rawScore}/66</span>
                         </div>
-                        <div>
-                          <span className="font-medium">Weighted Score:</span>
-                          <span className="ml-2">{results.weightedScore}/{results.maxWeightedScore}</span>
+                        <div className="bg-white p-3 rounded-lg border border-slate-200">
+                          <span className="font-semibold text-slate-700">Weighted Score:</span>
+                          <span className="ml-2 font-bold text-slate-900">{results.weightedScore}/{results.maxWeightedScore}</span>
                         </div>
-                        <div>
-                          <span className="font-medium">Scaled Score:</span>
-                          <span className="ml-2">{results.scaledScore}/800</span>
+                        <div className="bg-white p-3 rounded-lg border border-slate-200">
+                          <span className="font-semibold text-slate-700">Scaled Score:</span>
+                          <span className="ml-2 font-bold text-slate-900">{results.scaledScore}/800</span>
                         </div>
-                        <div>
-                          <span className="font-medium">Percentage Correct:</span>
-                          <span className="ml-2">{results.percentageCorrect}%</span>
+                        <div className="bg-white p-3 rounded-lg border border-slate-200">
+                          <span className="font-semibold text-slate-700">Percentage Correct:</span>
+                          <span className="ml-2 font-bold text-slate-900">{results.percentageCorrect}%</span>
                         </div>
-                        <div>
-                          <span className="font-medium">Wrong/Unanswered:</span>
-                          <span className="ml-2">{results.incorrectOrUnanswered}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="border-l-4 border-green-500 pl-4">
-                      <h3 className="font-semibold text-lg mb-3">Estimated Performance by Difficulty</h3>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                          <span>Easy Questions (28 total):</span>
-                          <span className="font-medium">{results.correctByDifficulty.easy} correct</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Medium Questions (26 total):</span>
-                          <span className="font-medium">{results.correctByDifficulty.medium} correct</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Hard Questions (12 total):</span>
-                          <span className="font-medium">{results.correctByDifficulty.hard} correct</span>
+                        <div className="bg-white p-3 rounded-lg border border-slate-200">
+                          <span className="font-semibold text-slate-700">Wrong/Unanswered:</span>
+                          <span className="ml-2 font-bold text-slate-900">{results.incorrectOrUnanswered}</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-blue-50 p-4 rounded-lg">
-                      <h4 className="font-semibold mb-2">How SAT Scoring Works:</h4>
-                      <ul className="text-sm space-y-1 list-disc list-inside">
-                        <li><strong>No guessing penalty:</strong> Incorrect and unanswered questions count the same</li>
-                        <li><strong>Raw score:</strong> Total number of questions answered correctly</li>
-                        <li><strong>Weighted scoring:</strong> Easy (1.0x), Medium (1.2x), Hard (1.5x)</li>
-                        <li><strong>Scale conversion:</strong> Raw score converted to 200-800 scale</li>
-                        <li><strong>Strategy tip:</strong> Always guess if you're unsure - no penalty!</li>
+                    <div className="border-l-4 border-green-500 pl-6">
+                      <h3 className="font-bold text-xl mb-4 text-slate-800">Estimated Performance by Difficulty</h3>
+                      <div className="space-y-4 text-base">
+                        <div className="bg-white p-4 rounded-lg border border-slate-200 flex justify-between items-center">
+                          <span className="font-semibold text-slate-700">Easy Questions (28 total):</span>
+                          <span className="font-bold text-green-600 text-lg">{results.correctByDifficulty.easy} correct</span>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg border border-slate-200 flex justify-between items-center">
+                          <span className="font-semibold text-slate-700">Medium Questions (26 total):</span>
+                          <span className="font-bold text-blue-600 text-lg">{results.correctByDifficulty.medium} correct</span>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg border border-slate-200 flex justify-between items-center">
+                          <span className="font-semibold text-slate-700">Hard Questions (12 total):</span>
+                          <span className="font-bold text-purple-600 text-lg">{results.correctByDifficulty.hard} correct</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
+                      <h4 className="font-bold text-lg mb-4 text-slate-800">How SAT Scoring Works:</h4>
+                      <ul className="text-base space-y-3 list-none">
+                        <li className="flex items-start gap-3">
+                          <span className="text-blue-600 font-bold">✓</span>
+                          <span><strong>No guessing penalty:</strong> Incorrect and unanswered questions count the same</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <span className="text-blue-600 font-bold">✓</span>
+                          <span><strong>Raw score:</strong> Total number of questions answered correctly</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <span className="text-blue-600 font-bold">✓</span>
+                          <span><strong>Weighted scoring:</strong> Easy (1.0x), Medium (1.2x), Hard (1.5x)</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <span className="text-blue-600 font-bold">✓</span>
+                          <span><strong>Scale conversion:</strong> Raw score converted to 200-800 scale</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <span className="text-blue-600 font-bold">💡</span>
+                          <span><strong>Strategy tip:</strong> Always guess if you're unsure - no penalty!</span>
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -472,13 +492,13 @@ const SATReadingWritingScorer = ({ initialCorrectAnswers = 0, showDetailedResult
               </div>
 
               {/* Sample Score Reference */}
-              <div className="bg-white border rounded-lg p-4">
-                <h3 className="font-semibold mb-3">Score Reference</h3>
-                <div className="space-y-2 text-sm">
+              <div className="bg-gradient-to-br from-slate-50 to-gray-50 p-6 rounded-xl border border-slate-200 shadow-lg">
+                <h3 className="font-bold text-xl mb-4 text-slate-800">Score Reference</h3>
+                <div className="space-y-3">
                   {getSampleScores().map((sample, idx) => (
-                    <div key={idx} className="flex justify-between items-center">
-                      <span>{sample.correct}/66 ({sample.description})</span>
-                      <span className={`font-medium ${getScoreColor(sample.result.scaledScore)}`}>
+                    <div key={idx} className="bg-white p-4 rounded-lg border border-slate-200 flex justify-between items-center hover:shadow-md transition-shadow duration-200">
+                      <span className="font-medium text-slate-700">{sample.correct}/66 ({sample.description})</span>
+                      <span className={`font-bold text-lg ${getScoreColor(sample.result.scaledScore)}`}>
                         {sample.result.scaledScore}
                       </span>
                     </div>
