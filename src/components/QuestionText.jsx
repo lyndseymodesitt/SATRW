@@ -190,6 +190,17 @@ export default function QuestionText({ content, className }) {
     text.includes('Lincoln Elementary')
   );
   
+  // Debug logging
+  console.log('QuestionText debug:', {
+    hasResearchNotes,
+    containsResearchNotes: text.includes('Research Notes'),
+    containsRiversideHS: text.includes('Riverside HS'),
+    containsRooseveltES: text.includes('Roosevelt ES'),
+    containsLincolnElementary: text.includes('Lincoln Elementary'),
+    textLength: text.length,
+    textPreview: text.substring(0, 100)
+  });
+  
   if (hasResearchNotes) {
     // For questions with research notes, render as plain text to avoid markdown interpretation
     // Also escape special characters that might be interpreted as formatting
@@ -206,6 +217,8 @@ export default function QuestionText({ content, className }) {
       .replace(/²/g, '&sup2;')  // Superscript 2
       .replace(/–/g, '&ndash;') // En dash
       .replace(/—/g, '&mdash;'); // Em dash
+    
+    console.log('Rendering research notes as plain text with escapedText:', escapedText.substring(0, 100));
     
     return (
       <div className={className} style={{ whiteSpace: 'pre-line' }} dangerouslySetInnerHTML={{ __html: escapedText }} />

@@ -569,9 +569,10 @@ export default function App() {
                   </div>
 
                   <div className="stem-box">
-                    <MarkdownMath className="stem-text">
-                      {sanitizeForRender(r.stem)}
-                    </MarkdownMath>
+                    <QuestionText 
+                      content={r.stem}
+                      className="stem-text"
+                    />
                   </div>
                   
                   {r.image && (
