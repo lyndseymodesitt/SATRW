@@ -451,31 +451,100 @@ const SATReadingWritingScorer = ({ initialCorrectAnswers = 0, showDetailedResult
                         </div>
                         How SAT Scoring Works:
                       </h4>
-                      <ul className="space-y-3 text-gray-300 leading-relaxed">
-                        <li className="flex items-start gap-3">
-                          <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
+                      <div className="space-y-3 text-gray-300 leading-relaxed">
+                        <div className="flex items-start gap-3">
                           <span><strong className="text-blue-400">No guessing penalty:</strong> Incorrect and unanswered questions count the same</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
+                        </div>
+                        <div className="flex items-start gap-3">
                           <span><strong className="text-purple-400">Raw score:</strong> Total number of questions answered correctly</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                        </div>
+                        <div className="flex items-start gap-3">
                           <span><strong className="text-green-400">Weighted scoring:</strong> Easy (1.0x), Medium (1.2x), Hard (1.5x)</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <div className="w-2 h-2 bg-amber-400 rounded-full mt-2 flex-shrink-0"></div>
+                        </div>
+                        <div className="flex items-start gap-3">
                           <span><strong className="text-amber-400">Scale conversion:</strong> Raw score converted to 200-800 scale</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <div className="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"></div>
+                        </div>
+                        <div className="flex items-start gap-3">
                           <span><strong className="text-red-400">Strategy tip:</strong> Always guess if you're unsure - no penalty!</span>
-                        </li>
-                      </ul>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
+              </div>
+
+              {/* Modern Score Reference */}
+              <div className="bg-gradient-to-br from-gray-800/70 to-slate-800/70 backdrop-blur-sm border border-gray-700/50 shadow-2xl p-8 rounded-3xl">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-2xl">
+                    <TrendingUp className="text-white" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-100">Score Reference Guide</h3>
+                    <p className="text-gray-400 text-sm">See how different scores translate to scaled results</p>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {getSampleScores().map((sample, idx) => (
+                    <div key={idx} className="group relative bg-gradient-to-br from-gray-700/60 to-gray-600/60 backdrop-blur-sm border border-gray-600/50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1">
+                      {/* Hover glow effect */}
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-indigo-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-indigo-500/10 transition-all duration-300"></div>
+                      
+                      <div className="relative z-10">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                              <span className="text-white font-bold text-lg">{sample.correct}</span>
+                            </div>
+                            <div>
+                              <div className="text-sm text-gray-400 font-medium">Questions Correct</div>
+                              <div className="text-lg font-bold text-gray-100">{sample.description}</div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-400 text-sm">Scaled Score</span>
+                            <div className={`text-3xl font-black ${getScoreColor(sample.result.scaledScore)}`}>
+                              {sample.result.scaledScore}
+                            </div>
+                          </div>
+                          
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-400 text-sm">Percentile</span>
+                            <span className="text-gray-300 font-semibold">{getPercentile(sample.result.scaledScore)}th</span>
+                          </div>
+                          
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-400 text-sm">Accuracy</span>
+                            <span className="text-gray-300 font-semibold">{Math.round((sample.correct / 66) * 100)}%</span>
+                          </div>
+                        </div>
+                        
+                        {/* Progress bar */}
+                        <div className="mt-4 w-full bg-gray-600/50 rounded-full h-2 overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full transition-all duration-1000 ease-out"
+                            style={{ width: `${(sample.correct / 66) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Additional context */}
+                <div className="mt-8 p-6 bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-2xl border border-blue-700/30">
+                  <div className="text-center">
+                    <div className="text-sm text-blue-300 mb-2">💡 Pro Tip</div>
+                    <div className="text-gray-300 text-sm leading-relaxed">
+                      Higher scores typically indicate stronger performance on medium and hard questions, 
+                      which carry more weight in the final scaled score calculation.
+                    </div>
+                  </div>
+                </div>
               </div>
             </>
           )}
