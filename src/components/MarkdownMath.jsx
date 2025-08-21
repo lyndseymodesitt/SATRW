@@ -1,16 +1,18 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import rehypeRaw from "rehype-raw";
-import "katex/dist/katex.min.css";
+import rehypeRaw from "rehype-raw";          // allow our <span class="blank"> etc.
+// NOTE: no remark-math, no rehype-katex
 
 export default function MarkdownMath({ children, className }) {
   return (
     <div className={className}>
       <ReactMarkdown
-        remarkPlugins={[remarkMath]}
-        rehypePlugins={[rehypeKatex, rehypeRaw]}
+        rehypePlugins={[rehypeRaw]}
+        components={{
+          // Neutralize accidental italics entirely
+          em: ({ children }) => <span style={{ fontStyle: "normal" }}>{children}</span>,
+          i:  ({ children }) => <span style={{ fontStyle: "normal" }}>{children}</span>,
+        }}
       >
         {String(children ?? "")}
       </ReactMarkdown>

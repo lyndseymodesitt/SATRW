@@ -1,8 +1,7 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import rehypeRaw from "rehype-raw";
+import rehypeRaw from "rehype-raw";          // allow our <span class="blank"> etc.
+// NOTE: no remark-math, no rehype-katex
 
 export default function QuestionText({ content, className }) {
   const text = String(content ?? "");
@@ -38,9 +37,11 @@ export default function QuestionText({ content, className }) {
               <div dangerouslySetInnerHTML={{ __html: passage }} />
             ) : (
               <ReactMarkdown
-                remarkPlugins={[remarkMath]}
-                rehypePlugins={[rehypeKatex, rehypeRaw]}
+                rehypePlugins={[rehypeRaw]}
                 components={{
+                  // Neutralize accidental italics entirely
+                  em: ({ children }) => <span style={{ fontStyle: "normal" }}>{children}</span>,
+                  i:  ({ children }) => <span style={{ fontStyle: "normal" }}>{children}</span>,
                   ul: ({ children, ...props }) => (
                     <ul style={{ 
                       textAlign: 'left', 
@@ -190,38 +191,12 @@ export default function QuestionText({ content, className }) {
     text.includes('Lincoln Elementary')
   );
   
-  // Debug logging
-  console.log('QuestionText debug:', {
-    hasResearchNotes,
-    containsResearchNotes: text.includes('Research Notes'),
-    containsRiversideHS: text.includes('Riverside HS'),
-    containsRooseveltES: text.includes('Roosevelt ES'),
-    containsLincolnElementary: text.includes('Lincoln Elementary'),
-    textLength: text.length,
-    textPreview: text.substring(0, 100)
-  });
-  
   if (hasResearchNotes) {
     // For questions with research notes, render as plain text to avoid markdown interpretation
-    // Also escape special characters that might be interpreted as formatting
-    const escapedText = text
-      .replace(/↓/g, '&darr;')  // Down arrow
-      .replace(/↑/g, '&uarr;')  // Up arrow
-      .replace(/≈/g, '&asymp;') // Approximately equal
-      .replace(/°/g, '&deg;')   // Degree
-      .replace(/×/g, '&times;') // Multiplication
-      .replace(/≥/g, '&ge;')    // Greater than or equal
-      .replace(/≤/g, '&le;')    // Less than or equal
-      .replace(/μ/g, '&mu;')    // Micro
-      .replace(/³/g, '&sup3;')  // Superscript 3
-      .replace(/²/g, '&sup2;')  // Superscript 2
-      .replace(/–/g, '&ndash;') // En dash
-      .replace(/—/g, '&mdash;'); // Em dash
-    
-    console.log('Rendering research notes as plain text with escapedText:', escapedText.substring(0, 100));
-    
     return (
-      <div className={className} style={{ whiteSpace: 'pre-line' }} dangerouslySetInnerHTML={{ __html: escapedText }} />
+      <div className={className} style={{ whiteSpace: 'pre-line' }}>
+        {text}
+      </div>
     );
   }
   
