@@ -638,7 +638,18 @@ export default function App() {
                   </div>
 
                   <div style={{ marginTop: 10 }}>
-                    <MarkdownMath><em>Explanation:</em> {sanitizeForRender(r.explanation)}</MarkdownMath>
+                    <MarkdownMath>
+                      {`**Explanation:** ${(() => {
+                        console.log('Raw explanation:', r.explanation);
+                        console.log('Explanation type:', typeof r.explanation);
+                        // Handle potential object values in explanation
+                        if (r.explanation && typeof r.explanation === 'object') {
+                          console.log('Explanation object:', r.explanation);
+                          return sanitizeForRender(JSON.stringify(r.explanation));
+                        }
+                        return sanitizeForRender(r.explanation || '');
+                      })()}`}
+                    </MarkdownMath>
                   </div>
 
                   <div className="review-nav">
