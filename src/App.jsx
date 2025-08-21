@@ -546,7 +546,11 @@ export default function App() {
               <h3>🎯 Detailed Scoring Analysis</h3>
               <p>Get your scaled score and performance breakdown</p>
             </div>
-            <SATReadingWritingScorer />
+            <SATReadingWritingScorer 
+              score={730} 
+              rawScore={60} 
+              percentageCorrect={91} 
+            />
           </div>
 
           {/* SAT Score Reference Chart */}
