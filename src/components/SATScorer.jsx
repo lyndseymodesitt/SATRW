@@ -343,10 +343,6 @@ const SATReadingWritingScorer = ({ initialCorrectAnswers = 0, showDetailedResult
         {/* Input Section */}
         <div className="space-y-6">
           <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg border">
-            <div className="flex items-center gap-2 mb-4">
-              <BookOpen className="text-blue-600" size={20} />
-              <h2 className="text-xl font-semibold">Question Score</h2>
-            </div>
             
             <div className="space-y-4">
               <div>
