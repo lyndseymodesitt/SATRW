@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator, BookOpen, TrendingUp, RotateCcw, Info } from 'lucide-react';
+import { Calculator, BookOpen, TrendingUp, RotateCcw, Info, BarChart, Target, CheckCircle, AlertCircle } from 'lucide-react';
 
 const SATScorer = () => {
   const [questions, setQuestions] = useState([]);
@@ -539,4 +539,385 @@ const SATReadingWritingScorer = ({ initialCorrectAnswers = 0, showDetailedResult
   );
 };
 
-export { SATReadingWritingScorer };
+const SATPerformanceAnalyzer = ({ studentAnswers = [], totalQuestions = 66 }) => {
+  const [analysis, setAnalysis] = useState(null);
+  const [showDetails, setShowDetails] = useState({});
+
+  // SAT R&W Question Classification based on actual practice test content
+  const questionClassification = {
+    // Standard English Conventions (20-22 questions)
+    standardEnglishConventions: {
+      name: "Standard English Conventions",
+      description: "Grammar, punctuation, and sentence structure",
+      questions: [20, 21, 22, 23, 24, 25, 26, 51, 52, 53, 54, 55, 56, 57, 58],
+      subcategories: {
+        "Verb tense/agreement": [21, 22, 51, 57, 58], // Past perfect, present/past tense, subject-verb agreement
+        "Punctuation/mechanics": [23, 24, 25, 26, 52, 54, 55, 56], // Colons, commas, semicolons, dashes
+        "Pronoun clarity/agreement": [20, 53], // Object pronouns, relative pronouns (who/whom)
+      }
+    },
+    
+    // Expression of Ideas (10-14 questions)
+    expressionOfIdeas: {
+      name: "Expression of Ideas",
+      description: "Rhetorical skills, transitions, and sentence combining",
+      questions: [27, 28, 29, 30, 59, 60, 61, 62],
+      subcategories: {
+        "Logical transitions": [27, 28, 29, 30, 59, 60, 61, 62], // Accordingly, consequently, for this reason, etc.
+      }
+    },
+    
+    // Information & Ideas (16-18 questions)
+    informationAndIdeas: {
+      name: "Information & Ideas",
+      description: "Reading comprehension, inference, and analysis",
+      questions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 34, 35, 36, 37, 38, 39, 40, 42, 43, 44],
+      subcategories: {
+        "Vocabulary in context": [1, 2, 3, 4, 5, 34, 35, 36, 37, 38], // Precise word choice (rattled, clarified, etc.)
+        "Reading comprehension": [6, 7, 42, 43, 44], // Main idea, author's purpose, cause/effect
+        "Text structure/function": [8, 9, 10, 39, 40], // Function of sentences/passages in text
+      }
+    },
+    
+    // Command of Evidence (8-10 questions)
+    commandOfEvidence: {
+      name: "Command of Evidence",
+      description: "Data interpretation and evidence analysis",
+      questions: [11, 12, 13, 14, 15, 16, 17, 18, 19, 45, 47, 49],
+      subcategories: {
+        "Data interpretation": [14, 16, 45, 47, 49], // Charts, graphs, tables analysis
+        "Evidence selection": [11, 12, 13, 15, 17, 18, 19], // Choosing supporting quotes/evidence
+      }
+    },
+    
+    // Comparative Analysis (2-4 questions)
+    comparativeAnalysis: {
+      name: "Comparative Analysis",
+      description: "Analyzing relationships between texts",
+      questions: [41, 48],
+      subcategories: {
+        "Text comparison": [41, 48], // How texts relate to each other, evidence selection
+      }
+    },
+
+    // Goal-oriented writing (Research-based questions)
+    goalOrientedWriting: {
+      name: "Goal-Oriented Writing",
+      description: "Research synthesis and academic writing",
+      questions: [31, 32, 33, 46, 50, 63, 64, 65, 66],
+      subcategories: {
+        "Research synthesis": [31, 32, 33, 46, 50], // Combining data sources, meeting constraints
+        "Academic/scientific writing": [63, 64, 65, 66], // Technical writing with precise language
+      }
+    }
+  };
+
+  // Difficulty mapping based on question numbers
+  const difficultyMapping = {
+    // Module 1 (Questions 1-33)
+    easy: [1, 2, 3, 4, 5, 6, 7, 8],
+    medium: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 30, 31, 32, 33],
+    hard: [21, 22, 23, 24, 25, 26, 27, 28, 29],
+    
+    // Module 2 (Questions 34-66)
+    module2Easy: [34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53],
+    module2Hard: [54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66]
+  };
+
+  const analyzePerformance = () => {
+    const categoryResults = {};
+    let overallCorrect = 0;
+
+    // Initialize category tracking
+    Object.keys(questionClassification).forEach(category => {
+      categoryResults[category] = {
+        ...questionClassification[category],
+        correct: 0,
+        total: questionClassification[category].questions.length,
+        percentage: 0,
+        subcategoryResults: {}
+      };
+
+      // Initialize subcategories
+      Object.keys(questionClassification[category].subcategories || {}).forEach(subcat => {
+        categoryResults[category].subcategoryResults[subcat] = {
+          correct: 0,
+          total: questionClassification[category].subcategories[subcat].length,
+          percentage: 0
+        };
+      });
+    });
+
+    // Analyze student answers
+    studentAnswers.forEach((answer, index) => {
+      const questionNumber = index + 1;
+      const isCorrect = answer.isCorrect;
+      
+      if (isCorrect) overallCorrect++;
+
+      // Find which categories this question belongs to
+      Object.keys(questionClassification).forEach(category => {
+        if (questionClassification[category].questions.includes(questionNumber)) {
+          if (isCorrect) {
+            categoryResults[category].correct++;
+          }
+
+          // Check subcategories
+          Object.keys(questionClassification[category].subcategories || {}).forEach(subcat => {
+            if (questionClassification[category].subcategories[subcat].includes(questionNumber)) {
+              if (isCorrect) {
+                categoryResults[category].subcategoryResults[subcat].correct++;
+              }
+            }
+          });
+        }
+      });
+    });
+
+    // Calculate percentages
+    Object.keys(categoryResults).forEach(category => {
+      if (categoryResults[category].total > 0) {
+        categoryResults[category].percentage = 
+          (categoryResults[category].correct / categoryResults[category].total) * 100;
+      }
+
+      Object.keys(categoryResults[category].subcategoryResults).forEach(subcat => {
+        if (categoryResults[category].subcategoryResults[subcat].total > 0) {
+          categoryResults[category].subcategoryResults[subcat].percentage = 
+            (categoryResults[category].subcategoryResults[subcat].correct / 
+             categoryResults[category].subcategoryResults[subcat].total) * 100;
+        }
+      });
+    });
+
+    // Difficulty analysis
+    const difficultyResults = {
+      easy: { correct: 0, total: difficultyMapping.easy.length },
+      medium: { correct: 0, total: difficultyMapping.medium.length },
+      hard: { correct: 0, total: difficultyMapping.hard.length },
+      module2Easy: { correct: 0, total: difficultyMapping.module2Easy.length },
+      module2Hard: { correct: 0, total: difficultyMapping.module2Hard.length }
+    };
+
+    studentAnswers.forEach((answer, index) => {
+      const questionNumber = index + 1;
+      if (answer.isCorrect) {
+        Object.keys(difficultyMapping).forEach(difficulty => {
+          if (difficultyMapping[difficulty].includes(questionNumber)) {
+            difficultyResults[difficulty].correct++;
+          }
+        });
+      }
+    });
+
+    Object.keys(difficultyResults).forEach(difficulty => {
+      difficultyResults[difficulty].percentage = 
+        (difficultyResults[difficulty].correct / difficultyResults[difficulty].total) * 100;
+    });
+
+    return {
+      overall: {
+        correct: overallCorrect,
+        total: totalQuestions,
+        percentage: (overallCorrect / totalQuestions) * 100
+      },
+      categories: categoryResults,
+      difficulty: difficultyResults
+    };
+  };
+
+  useEffect(() => {
+    if (studentAnswers.length > 0) {
+      setAnalysis(analyzePerformance());
+    }
+  }, [studentAnswers]);
+
+  const getPerformanceColor = (percentage) => {
+    if (percentage >= 80) return 'text-green-600 bg-green-50 border-green-200';
+    if (percentage >= 60) return 'text-blue-600 bg-blue-50 border-blue-200';
+    if (percentage >= 40) return 'text-yellow-600 bg-yellow-50 border-yellow-200';
+    return 'text-red-600 bg-red-50 border-red-200';
+  };
+
+  const getRecommendations = (categoryKey, categoryData) => {
+    const percentage = categoryData.percentage;
+    
+    const recommendations = {
+      standardEnglishConventions: {
+        weak: "Focus on verb tense consistency (especially past perfect vs. simple past) and punctuation rules. Practice identifying when to use colons vs. semicolons vs. commas, and review pronoun cases (who vs. whom).",
+        moderate: "Review advanced punctuation scenarios and subject-verb agreement with complex phrases. Practice identifying correct pronoun cases in formal writing.",
+        strong: "Continue practicing the most complex grammar scenarios. Focus on sophisticated punctuation in academic writing contexts."
+      },
+      expressionOfIdeas: {
+        weak: "Work on logical flow between ideas. Practice identifying appropriate transitions like 'accordingly,' 'consequently,' 'nevertheless.' Study cause-effect relationships in text.",
+        moderate: "Focus on subtle transition differences and understanding when to use contrasting vs. supporting transitions in complex arguments.",
+        strong: "Master sophisticated transitions and continue practicing complex rhetorical relationships between ideas."
+      },
+      informationAndIdeas: {
+        weak: "Practice vocabulary in context questions - focus on precise word choice. Work on identifying main ideas and understanding how text structure supports meaning.",
+        moderate: "Focus on complex inference questions and understanding how specific sentences function within larger passages.",
+        strong: "Challenge yourself with sophisticated vocabulary questions and complex text structure analysis."
+      },
+      commandOfEvidence: {
+        weak: "Practice reading charts, tables, and data visualizations. Work on connecting data to claims and selecting the strongest evidence.",
+        moderate: "Focus on complex data interpretation and choosing evidence that best supports specific arguments or conclusions.",
+        strong: "Continue practicing with multi-step data analysis and sophisticated evidence selection."
+      },
+      comparativeAnalysis: {
+        weak: "Practice comparing different texts' approaches to similar topics. Focus on identifying how authors use evidence differently.",
+        moderate: "Work on subtle differences between texts and selecting evidence that shows relationships between passages.",
+        strong: "Continue practicing sophisticated text comparison and evidence selection from multiple sources."
+      },
+      goalOrientedWriting: {
+        weak: "Practice synthesis questions that combine multiple data sources. Work on meeting specific writing goals with constraints (budget, timeline, etc.).",
+        moderate: "Focus on complex research scenarios that require precise academic language and scientific accuracy.",
+        strong: "Challenge yourself with the most complex synthesis questions involving multiple constraints and technical precision."
+      }
+    };
+
+    if (percentage < 50) return recommendations[categoryKey]?.weak || "Focus on fundamental skills in this area.";
+    if (percentage < 75) return recommendations[categoryKey]?.moderate || "Continue practicing to strengthen this area.";
+    return recommendations[categoryKey]?.strong || "Maintain your strong performance in this area.";
+  };
+
+  const toggleDetails = (category) => {
+    setShowDetails(prev => ({
+      ...prev,
+      [category]: !prev[category]
+    }));
+  };
+
+  if (!analysis || studentAnswers.length === 0) {
+    return (
+      <div className="max-w-4xl mx-auto p-6 bg-white">
+        <div className="text-center py-8">
+          <BarChart className="mx-auto text-gray-400 mb-4" size={48} />
+          <p className="text-gray-600">Complete the practice test to see your performance analysis.</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-6xl mx-auto p-6 bg-white">
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-4">
+          <Target className="text-blue-600" size={28} />
+          <h1 className="text-3xl font-bold text-gray-800">Performance Analysis</h1>
+        </div>
+        <p className="text-gray-600">
+          Detailed breakdown of your SAT Reading & Writing performance with targeted recommendations.
+        </p>
+      </div>
+
+      {/* Overall Performance */}
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg mb-8">
+        <h2 className="text-2xl font-bold mb-4">Overall Performance</h2>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="text-center">
+            <div className="text-3xl font-bold">{analysis.overall.correct}</div>
+            <div className="text-sm opacity-90">Questions Correct</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold">{Math.round(analysis.overall.percentage)}%</div>
+            <div className="text-sm opacity-90">Overall Score</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold">{analysis.overall.total - analysis.overall.correct}</div>
+            <div className="text-sm opacity-90">Need Improvement</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Category Performance */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-6">Performance by Skill Area</h2>
+        <div className="space-y-4">
+          {Object.entries(analysis.categories).map(([categoryKey, categoryData]) => (
+            <div key={categoryKey} className={`border rounded-lg p-4 ${getPerformanceColor(categoryData.percentage)}`}>
+              <div 
+                className="flex justify-between items-center cursor-pointer"
+                onClick={() => toggleDetails(categoryKey)}
+              >
+                <div className="flex-1">
+                  <div className="flex items-center gap-3">
+                    {categoryData.percentage >= 70 ? (
+                      <CheckCircle size={20} className="text-green-600" />
+                    ) : (
+                      <AlertCircle size={20} className="text-yellow-600" />
+                    )}
+                    <div>
+                      <h3 className="text-lg font-semibold">{categoryData.name}</h3>
+                      <p className="text-sm opacity-75">{categoryData.description}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold">{Math.round(categoryData.percentage)}%</div>
+                  <div className="text-sm">{categoryData.correct}/{categoryData.total}</div>
+                </div>
+              </div>
+
+              {showDetails[categoryKey] && (
+                <div className="mt-4 pt-4 border-t border-current border-opacity-20">
+                  <div className="mb-4">
+                    <h4 className="font-semibold mb-2">Subcategory Breakdown:</h4>
+                    <div className="space-y-2">
+                      {Object.entries(categoryData.subcategoryResults).map(([subcat, subcatData]) => (
+                        subcatData.total > 0 && (
+                          <div key={subcat} className="flex justify-between text-sm">
+                            <span>{subcat}</span>
+                            <span className="font-medium">
+                              {Math.round(subcatData.percentage)}% ({subcatData.correct}/{subcatData.total})
+                            </span>
+                          </div>
+                        )
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white bg-opacity-50 p-3 rounded">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      <BookOpen size={16} />
+                      Recommendations:
+                    </h4>
+                    <p className="text-sm">{getRecommendations(categoryKey, categoryData)}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Difficulty Analysis */}
+      <div className="bg-gray-50 p-6 rounded-lg">
+        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+          <TrendingUp size={24} />
+          Performance by Difficulty
+        </h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
+          {Object.entries(analysis.difficulty).map(([difficulty, data]) => {
+            const displayNames = {
+              easy: 'Easy',
+              medium: 'Medium', 
+              hard: 'Hard',
+              module2Easy: 'Module 2 Easy',
+              module2Hard: 'Module 2 Hard'
+            };
+            
+            return (
+              <div key={difficulty} className="text-center p-4 bg-white rounded border">
+                <div className="text-lg font-semibold">{displayNames[difficulty]}</div>
+                <div className="text-2xl font-bold text-blue-600">{Math.round(data.percentage)}%</div>
+                <div className="text-sm text-gray-600">{data.correct}/{data.total}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export { SATReadingWritingScorer, SATPerformanceAnalyzer };

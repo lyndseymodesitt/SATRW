@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import MarkdownMath from "./components/MarkdownMath";
 import ChartRenderer from "./components/ChartRenderer.jsx";
 import QuestionText from "./components/QuestionText.jsx";
-import { SATReadingWritingScorer } from "./components/SATScorer.jsx";
+import { SATReadingWritingScorer, SATPerformanceAnalyzer } from "./components/SATScorer.jsx";
 
 // Process blanks in text for rendering (converts \_, \\_, ____ to styled spans)
 function renderableBlanks(s) {
@@ -78,6 +78,7 @@ const PHASES = {
   BREAK: "break",
   SUMMARY: "summary",
   REVIEW: "review",
+  STUDY_PLAN: "study_plan",
 };
 
 const letters = ["A", "B", "C", "D"];
@@ -477,11 +478,12 @@ export default function App() {
             You can also enter review mode to see missed questions or retake the test.
           </p>
 
-          <div style={{ display: "flex", gap: 12, marginTop: 16, marginBottom: 16 }}>
-            <button className="btn" onClick={goReview}>Enter Review Mode</button>
-                          <button className="btn btn-secondary" onClick={() => setPhase(PHASES.INTRO)}>Retake Test</button>
-            <button className="btn btn-secondary" onClick={() => downloadCSV(results.rows)}>Download Results (CSV)</button>
-          </div>
+                           <div style={{ display: "flex", gap: 12, marginTop: 16, marginBottom: 16 }}>
+                   <button className="btn" onClick={goReview}>Enter Review Mode</button>
+                   <button className="btn btn-secondary" onClick={() => setPhase(PHASES.STUDY_PLAN)}>Study Plan</button>
+                   <button className="btn btn-secondary" onClick={() => setPhase(PHASES.INTRO)}>Retake Test</button>
+                   <button className="btn btn-secondary" onClick={() => downloadCSV(results.rows)}>Download Results (CSV)</button>
+                 </div>
 
           {/* New SAT Scorer Component */}
           <SATReadingWritingScorer 
@@ -591,6 +593,23 @@ export default function App() {
               );
             })()
           )}
+        </div>
+      )}
+
+      {phase === PHASES.STUDY_PLAN && (
+        <div className="card">
+          <div style={{ marginBottom: 16 }}>
+            <button className="btn btn-secondary" onClick={() => setPhase(PHASES.SUMMARY)}>
+              ← Back to Results
+            </button>
+          </div>
+          <SATPerformanceAnalyzer 
+            studentAnswers={results.rows.map((row) => ({
+              isCorrect: row.isCorrect,
+              questionNumber: row.id
+            }))}
+            totalQuestions={66}
+          />
         </div>
       )}
     </div>
