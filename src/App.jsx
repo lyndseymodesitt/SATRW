@@ -547,9 +547,9 @@ export default function App() {
               <p>Get your scaled score and performance breakdown</p>
             </div>
             <SATReadingWritingScorer 
-              score={730} 
-              rawScore={60} 
-              percentageCorrect={91} 
+              score={results.scaledScore} 
+              rawScore={results.correct} 
+              percentageCorrect={results.pct} 
             />
           </div>
 

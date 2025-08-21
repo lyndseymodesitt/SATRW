@@ -44,43 +44,61 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
   const scoreLevel = getScoreLevel(score);
   const ScoreIcon = scoreLevel.icon;
 
-  // College readiness scale data
-  const readinessLevels = [
-    { 
-      range: "700+", 
-      level: "Elite", 
-      color: "bg-gradient-to-r from-emerald-400 to-green-500",
-      textColor: "text-emerald-400",
-      description: "Top colleges"
-    },
-    { 
-      range: "600+", 
-      level: "Strong", 
-      color: "bg-gradient-to-r from-blue-400 to-cyan-500",
-      textColor: "text-blue-400",
-      description: "Well prepared"
-    },
-    { 
-      range: "480+", 
-      level: "Ready", 
-      color: "bg-gradient-to-r from-amber-400 to-orange-500",
-      textColor: "text-amber-400",
-      description: "College ready"
-    },
-    { 
-      range: "<480", 
-      level: "Building", 
-      color: "bg-gradient-to-r from-red-400 to-pink-500",
-      textColor: "text-red-400",
-      description: "Skill building"
+  // College readiness scale data - dynamically filtered based on user's score
+  const getRelevantReadinessLevels = (userScore) => {
+    const allLevels = [
+      { 
+        range: "700+", 
+        level: "Elite", 
+        color: "bg-gradient-to-r from-emerald-400 to-green-500",
+        textColor: "text-emerald-400",
+        description: "Top colleges",
+        minScore: 700
+      },
+      { 
+        range: "600+", 
+        level: "Strong", 
+        color: "bg-gradient-to-r from-blue-400 to-cyan-500",
+        textColor: "text-blue-400",
+        description: "Well prepared",
+        minScore: 600
+      },
+      { 
+        range: "480+", 
+        level: "Ready", 
+        color: "bg-gradient-to-r from-amber-400 to-orange-500",
+        textColor: "text-amber-400",
+        description: "College ready",
+        minScore: 480
+      }
+    ];
+
+    // Filter to show only levels relevant to the user's score
+    // Always show the user's current level and the next level up
+    const userLevelIndex = allLevels.findIndex(level => userScore >= level.minScore);
+    if (userLevelIndex === -1) {
+      // User score is below 480, show Ready level
+      return [allLevels[2]];
     }
-  ];
+    
+    // Show user's level and next level up (if available)
+    const relevantLevels = allLevels.slice(userLevelIndex, Math.min(userLevelIndex + 2, allLevels.length));
+    
+    // If user is at Elite level, also show Strong for context
+    if (userLevelIndex === 0) {
+      relevantLevels.push(allLevels[1]);
+    }
+    
+    return relevantLevels;
+  };
+
+  const readinessLevels = getRelevantReadinessLevels(score);
 
   const getCurrentLevelIndex = (score) => {
     if (score >= 700) return 0;
     if (score >= 600) return 1;
     if (score >= 480) return 2;
-    return 3;
+    return 0; // Default to first level shown
   };
 
   const currentLevelIndex = getCurrentLevelIndex(score);
@@ -146,8 +164,8 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
           </div>
         </div>
 
-        {/* Readiness Levels */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {/* Readiness Levels - Dynamically shows relevant levels based on user's score */}
+        <div className={`grid grid-cols-1 md:grid-cols-${Math.min(readinessLevels.length, 3)} gap-4`}>
           {readinessLevels.map((level, index) => (
             <div 
               key={index}
