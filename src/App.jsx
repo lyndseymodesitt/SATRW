@@ -3,6 +3,7 @@ import MarkdownMath from "./components/MarkdownMath";
 import ChartRenderer from "./components/ChartRenderer.jsx";
 import QuestionText from "./components/QuestionText.jsx";
 import { SATReadingWritingScorer, SATPerformanceAnalyzer } from "./components/SATScorer.jsx";
+import SATScoreReferenceChart from "./components/SATScoreReferenceChart.jsx";
 
 // Process blanks in text for rendering (converts \_, \\_, ____ to styled spans)
 function renderableBlanks(s) {
@@ -250,7 +251,11 @@ export default function App() {
       allQuestions.length > 0
         ? Math.round((1000 * correct) / allQuestions.length) / 10
         : 0;
-    return { rows, correct, total: allQuestions.length, pct };
+    
+    // Calculate scaled score (200-800) based on correct answers
+    const scaledScore = allQuestions.length > 0 ? Math.round(200 + (correct / allQuestions.length) * 600) : 200;
+    
+    return { rows, correct, total: allQuestions.length, pct, scaledScore };
   }, [allQuestions, answers, flagged]);
 
   // Build review item list based on filter
@@ -544,6 +549,13 @@ export default function App() {
             <SATReadingWritingScorer 
               initialCorrectAnswers={results.correct}
               showDetailedResults={true}
+            />
+          </div>
+
+          {/* SAT Score Reference Chart */}
+          <div className="scorer-section">
+            <SATScoreReferenceChart 
+              currentScore={results.scaledScore}
             />
           </div>
         </div>
