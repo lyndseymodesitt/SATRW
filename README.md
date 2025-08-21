@@ -2,7 +2,7 @@
 
 A React-based application for viewing SAT questions with interactive charts and markdown support.
 
-<!-- Deployment trigger: force new deployment after failed italics fix deployment -->
+<!-- Deployment trigger: force new deployment after fixing duplicate export build issue -->
 
 ## Features
 - Interactive question viewer with math rendering support
