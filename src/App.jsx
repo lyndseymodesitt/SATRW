@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import MarkdownMath from "./components/MarkdownMath";
 import ChartRenderer from "./components/ChartRenderer.jsx";
 import QuestionText from "./components/QuestionText.jsx";
+import { SATReadingWritingScorer } from "./components/SATScorer.jsx";
 
 // Process blanks in text for rendering (converts \_, \\_, ____ to styled spans)
 function renderableBlanks(s) {
@@ -465,54 +466,27 @@ export default function App() {
 
       {phase === PHASES.SUMMARY && (
         <div className="card">
-          <h2>Results Summary</h2>
+          <h2>Your SAT Reading & Writing Results</h2>
           <div className="kicker" style={{ marginBottom: 8 }}>
-            Score: <strong className="good">{results.correct}/{results.total}</strong> correct (
+            Raw Score: <strong className="good">{results.correct}/{results.total}</strong> correct (
             <strong>{results.pct}%</strong>)
           </div>
           <p className="small">
-            Below you'll see the items you missed, with the correct answer and an explanation.
-            You can also enter a full review mode to step through any or all items.
+            Use the SAT scorer below to see your scaled score (200-800) and detailed analysis.
+            You can also enter review mode to see missed questions or retake the test.
           </p>
 
           <div style={{ display: "flex", gap: 12, marginTop: 16, marginBottom: 16 }}>
             <button className="btn" onClick={goReview}>Enter Review Mode</button>
-            <button className="btn btn-secondary" onClick={() => setPhase(PHASES.INTRO)}>Retake</button>
+                          <button className="btn btn-secondary" onClick={() => setPhase(PHASES.INTRO)}>Retake Test</button>
             <button className="btn btn-secondary" onClick={() => downloadCSV(results.rows)}>Download Results (CSV)</button>
           </div>
 
-          <div style={{ marginTop: 16 }}>
-            {results.rows
-              .filter((r) => !r.isCorrect)
-              .map((r) => (
-                <div key={r.id} className="result-row">
-                  <div className="label">Module {r.module}</div>{" "}
-                  {r.flagged && <span className="label" style={{ marginLeft: 8 }}>★ Flagged</span>}
-                  <div style={{ marginTop: 8 }}>
-                    <strong>Q{r.id}.</strong> {r.stem}
-                  </div>
-                  <div className="small" style={{ marginTop: 6 }}>
-                    Your answer:{" "}
-                    <span className="bad">
-                      {r.userChoice != null ? `${letters[r.userChoice]}. ${r.choices[r.userChoice]}` : "No answer"}
-                    </span>
-                    {"  "}• Correct:{" "}
-                    <span className="good">
-                      {letters[r.correctChoice]}. {r.choices[r.correctChoice]}
-                    </span>
-                  </div>
-                  <div style={{ marginTop: 6 }}>
-                    <MarkdownMath><em>Explanation:</em> {sanitizeForRender(r.explanation)}</MarkdownMath>
-                  </div>
-                </div>
-              ))}
-
-            {results.rows.every((r) => r.isCorrect) && (
-              <div className="result-row">
-                🎉 Flawless! The answer key is intimidated.
-              </div>
-            )}
-          </div>
+          {/* New SAT Scorer Component */}
+          <SATReadingWritingScorer 
+            initialCorrectAnswers={results.correct}
+            showDetailedResults={true}
+          />
         </div>
       )}
 
