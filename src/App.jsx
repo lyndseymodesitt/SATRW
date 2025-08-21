@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import MarkdownMath from "./components/MarkdownMath";
 import ChartRenderer from "./components/ChartRenderer.jsx";
 import QuestionText from "./components/QuestionText.jsx";
-import { SATReadingWritingScorer, SATPerformanceAnalyzer } from "./components/SATScorer.jsx";
+import SATReadingWritingScorer from "./components/SATScorer.jsx";
 import SATScoreReferenceChart from "./components/SATScoreReferenceChart.jsx";
 
 // Process blanks in text for rendering (converts \_, \\_, ____ to styled spans)
@@ -546,10 +546,7 @@ export default function App() {
               <h3>🎯 Detailed Scoring Analysis</h3>
               <p>Get your scaled score and performance breakdown</p>
             </div>
-            <SATReadingWritingScorer 
-              initialCorrectAnswers={results.correct}
-              showDetailedResults={true}
-            />
+            <SATReadingWritingScorer />
           </div>
 
           {/* SAT Score Reference Chart */}
@@ -671,13 +668,15 @@ export default function App() {
               ← Back to Results
             </button>
           </div>
-          <SATPerformanceAnalyzer 
-            studentAnswers={results.rows.map((row) => ({
-              isCorrect: row.isCorrect,
-              questionNumber: row.id
-            }))}
-            totalQuestions={66}
-          />
+          <div className="text-center py-8">
+            <h3>📚 Study Plan</h3>
+            <p className="text-gray-600 mb-4">
+              Your detailed scoring analysis is available in the main results view above.
+            </p>
+            <p className="text-gray-500 text-sm">
+              Use the scoring breakdown and reference chart to identify areas for improvement.
+            </p>
+          </div>
         </div>
       )}
     </div>
