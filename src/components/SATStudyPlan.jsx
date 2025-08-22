@@ -433,15 +433,12 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                   className="p-5 border"
                   style={{ backgroundColor: 'rgba(127, 29, 29, 0.25)', borderColor: 'rgba(185, 28, 28, 0.5)', color: 'rgb(252, 165, 165)', borderRadius: 12, boxShadow: '0 6px 18px rgba(0,0,0,0.25)' }}
                 >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-2 rounded-lg border" style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', borderColor: 'rgba(239, 68, 68, 0.35)' }}>
-                      <area.icon size={18} style={{ color: 'rgb(252, 165, 165)' }} />
-                    </div>
+                  <div className="flex items-center justify-between">
                     <span className="font-semibold" style={{ color: 'rgb(226, 232, 240)', fontSize: 16 }}>{area.name}</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-bold" style={{ fontSize: 18, color: 'rgb(254, 205, 211)' }}>{area.percentage}%</div>
-                    <div className="text-xs" style={{ color: 'rgb(252, 165, 165)' }}>{area.correct}/{area.total} correct</div>
+                    <div className="text-right">
+                      <div className="font-bold" style={{ fontSize: 18, color: 'rgb(254, 205, 211)' }}>{area.percentage}%</div>
+                      <div className="text-xs" style={{ color: 'rgb(252, 165, 165)' }}>{area.correct}/{area.total} correct</div>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -467,9 +464,6 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                 onClick={() => toggleSection(key)}
               >
                 <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-xl border" style={{ ...getIconStyles(area.color), width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <IconComponent size={20} />
-                  </div>
                   <div>
                     <h3 className="font-semibold" style={{ fontSize: 18 }}>{area.name}</h3>
                     <p className="text-sm" style={{ opacity: 0.75 }}>{area.description}</p>
