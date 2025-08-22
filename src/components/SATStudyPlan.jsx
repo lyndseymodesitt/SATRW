@@ -158,6 +158,32 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
     }
   };
 
+  const getColorStyles = (color, needsWork) => {
+    const colors = {
+      blue: needsWork ? { backgroundColor: 'rgba(30, 58, 138, 0.2)', borderColor: 'rgba(29, 78, 216, 0.5)', color: 'rgb(147, 197, 253)' } : { backgroundColor: 'rgba(30, 58, 138, 0.4)', borderColor: 'rgb(37, 99, 235)', color: 'rgb(191, 219, 254)' },
+      green: needsWork ? { backgroundColor: 'rgba(20, 83, 45, 0.2)', borderColor: 'rgba(21, 128, 61, 0.5)', color: 'rgb(134, 239, 172)' } : { backgroundColor: 'rgba(20, 83, 45, 0.4)', borderColor: 'rgb(22, 163, 74)', color: 'rgb(187, 247, 208)' },
+      purple: needsWork ? { backgroundColor: 'rgba(88, 28, 135, 0.2)', borderColor: 'rgba(109, 40, 217, 0.5)', color: 'rgb(196, 181, 253)' } : { backgroundColor: 'rgba(88, 28, 135, 0.4)', borderColor: 'rgb(147, 51, 234)', color: 'rgb(221, 214, 254)' },
+      indigo: needsWork ? { backgroundColor: 'rgba(49, 46, 129, 0.2)', borderColor: 'rgba(67, 56, 202, 0.5)', color: 'rgb(165, 180, 252)' } : { backgroundColor: 'rgba(49, 46, 129, 0.4)', borderColor: 'rgb(99, 102, 241)', color: 'rgb(199, 210, 254)' },
+      amber: needsWork ? { backgroundColor: 'rgba(120, 53, 15, 0.2)', borderColor: 'rgba(146, 64, 14, 0.5)', color: 'rgb(252, 211, 77)' } : { backgroundColor: 'rgba(120, 53, 15, 0.4)', borderColor: 'rgb(217, 119, 6)', color: 'rgb(253, 230, 138)' },
+      emerald: needsWork ? { backgroundColor: 'rgba(6, 78, 59, 0.2)', borderColor: 'rgba(4, 120, 87, 0.5)', color: 'rgb(110, 231, 183)' } : { backgroundColor: 'rgba(6, 78, 59, 0.4)', borderColor: 'rgb(5, 150, 105)', color: 'rgb(167, 243, 208)' },
+      rose: needsWork ? { backgroundColor: 'rgba(159, 18, 57, 0.2)', borderColor: 'rgba(190, 18, 60, 0.5)', color: 'rgb(251, 113, 133)' } : { backgroundColor: 'rgba(159, 18, 57, 0.4)', borderColor: 'rgb(225, 29, 72)', color: 'rgb(252, 165, 165)' }
+    };
+    return colors[color] || colors.blue;
+  };
+
+  const getIconStyles = (color) => {
+    const colors = {
+      blue: { backgroundColor: 'rgba(59, 130, 246, 0.2)', borderColor: 'rgba(59, 130, 246, 0.3)' },
+      green: { backgroundColor: 'rgba(34, 197, 94, 0.2)', borderColor: 'rgba(34, 197, 94, 0.3)' },
+      purple: { backgroundColor: 'rgba(168, 85, 247, 0.2)', borderColor: 'rgba(168, 85, 247, 0.3)' },
+      indigo: { backgroundColor: 'rgba(99, 102, 241, 0.2)', borderColor: 'rgba(99, 102, 241, 0.3)' },
+      amber: { backgroundColor: 'rgba(245, 158, 11, 0.2)', borderColor: 'rgba(245, 158, 11, 0.3)' },
+      emerald: { backgroundColor: 'rgba(16, 185, 129, 0.2)', borderColor: 'rgba(16, 185, 129, 0.3)' },
+      rose: { backgroundColor: 'rgba(244, 63, 94, 0.2)', borderColor: 'rgba(244, 63, 94, 0.3)' }
+    };
+    return colors[color] || colors.blue;
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gradient-to-br from-gray-900 to-slate-900 min-h-screen">
       {/* Header */}
@@ -200,15 +226,15 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
         {/* Overview Stats */}
         <div className="grid md:grid-cols-3 gap-6 text-center mb-8">
           <div>
-            <div className="text-2xl font-bold text-blue-400 bg-blue-900/20 border border-blue-700/50 rounded-lg p-3">{currentTimeframe.dailyTime}</div>
+            <div className="text-2xl font-bold rounded-lg p-3" style={{ color: 'rgb(96, 165, 250)', backgroundColor: 'rgba(30, 58, 138, 0.2)', border: '1px solid rgba(29, 78, 216, 0.5)' }}>{currentTimeframe.dailyTime}</div>
             <div className="text-sm text-gray-400">Minutes per day</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-purple-400 bg-purple-900/20 border border-purple-700/50 rounded-lg p-3">{priorityAreas.length}</div>
+            <div className="text-2xl font-bold rounded-lg p-3" style={{ color: 'rgb(196, 181, 253)', backgroundColor: 'rgba(88, 28, 135, 0.2)', border: '1px solid rgba(109, 40, 217, 0.5)' }}>{priorityAreas.length}</div>
             <div className="text-sm text-gray-400">Priority areas</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-green-400 bg-green-900/20 border border-green-700/50 rounded-lg p-3">{Object.keys(performance).length - priorityAreas.length}</div>
+            <div className="text-2xl font-bold rounded-lg p-3" style={{ color: 'rgb(134, 239, 172)', backgroundColor: 'rgba(20, 83, 45, 0.2)', border: '1px solid rgba(21, 128, 61, 0.5)' }}>{Object.keys(performance).length - priorityAreas.length}</div>
             <div className="text-sm text-gray-400">Strong areas</div>
           </div>
         </div>
@@ -237,9 +263,9 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                 const IconComponent = area.icon;
                 
                 return (
-                  <div key={key} className={`flex items-center justify-between p-4 rounded-xl border ${getColorClasses(area.color, area.needsWork)}`}>
+                  <div key={key} className="flex items-center justify-between p-4 rounded-xl border" style={getColorStyles(area.color, area.needsWork)}>
                     <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-lg ${getIconBackgroundClasses(area.color)}`}>
+                      <div className="p-2 rounded-lg border" style={getIconStyles(area.color)}>
                         <IconComponent size={16} />
                       </div>
                       <div>
@@ -295,11 +321,12 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
           return (
             <div
               key={key}
-              className={`border rounded-2xl p-6 transition-all ${getColorClasses(area.color, area.needsWork)}`}
+              className="border rounded-2xl p-6 transition-all"
+              style={getColorStyles(area.color, area.needsWork)}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-xl ${getIconBackgroundClasses(area.color)}`}>
+                  <div className="p-3 rounded-xl border" style={getIconStyles(area.color)}>
                     <IconComponent size={24} />
                   </div>
                   <div>
