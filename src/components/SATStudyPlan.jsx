@@ -348,20 +348,41 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
 
                 const IconComponent = area.icon;
                 return (
-                  <div key={key} className="rounded-2xl border-2 p-4" style={getColorStyles(area.color, area.needsWork)}>
+                  <div
+                    key={key}
+                    className="rounded-xl p-5 border transition-colors"
+                    style={{
+                      backgroundColor: 'rgba(2, 6, 23, 0.8)', // deep slate
+                      borderColor: 'rgba(71, 85, 105, 0.45)',
+                      color: 'rgb(226, 232, 240)'
+                    }}
+                  >
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg border" style={getIconStyles(area.color)}>
-                          <IconComponent size={20} />
+                      <div className="flex items-center gap-4">
+                        <div
+                          className="rounded-lg border flex items-center justify-center"
+                          style={{
+                            ...getIconStyles(area.color),
+                            width: 36,
+                            height: 36
+                          }}
+                        >
+                          <IconComponent size={18} />
                         </div>
                         <div>
-                          <div className="font-semibold text-lg">{area.name}</div>
-                          <div className="text-sm opacity-75">Current: {area.percentage}% ({area.correct}/{area.total})</div>
+                          <div className="font-semibold" style={{ fontSize: 16 }}>{area.name}</div>
+                          <div className="text-sm" style={{ color: 'rgb(148, 163, 184)' }}>
+                            Current: {area.percentage}% ({area.correct}/{area.total})
+                          </div>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-2xl font-bold text-blue-300">{timeAllocation} min</div>
-                        <div className="text-xs opacity-75">{area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}</div>
+                        <div className="font-bold" style={{ fontSize: 18, color: 'rgb(165, 180, 252)' }}>
+                          {timeAllocation} min
+                        </div>
+                        <div className="text-xs" style={{ color: 'rgb(148, 163, 184)' }}>
+                          {area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}
+                        </div>
                       </div>
                     </div>
                   </div>
