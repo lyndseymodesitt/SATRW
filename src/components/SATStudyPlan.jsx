@@ -212,29 +212,17 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
   };
 
   const getIconColorClasses = (color) => {
-    const colorMap = {
-      blue: 'bg-blue-500/20 border-blue-500/30',
-      green: 'bg-green-500/20 border-green-500/30',
-      purple: 'bg-purple-500/20 border-purple-500/30',
-      indigo: 'bg-indigo-500/20 border-indigo-500/30',
-      amber: 'bg-amber-500/20 border-amber-500/30',
-      emerald: 'bg-emerald-500/20 border-emerald-500/30',
-      rose: 'bg-rose-500/20 border-rose-500/30'
-    };
-    return colorMap[color] || colorMap.blue;
+    // Use simple background colors that are guaranteed to be in Tailwind
+    return 'bg-gray-600/40 border-gray-500/50';
   };
 
   const getColorClasses = (color, needsWork) => {
-    const colors = {
-      blue: needsWork ? 'bg-blue-900/20 border-blue-700/50 text-blue-300' : 'bg-blue-900/40 border-blue-600 text-blue-200',
-      green: needsWork ? 'bg-green-900/20 border-green-700/50 text-green-300' : 'bg-green-900/40 border-green-600 text-green-200',
-      purple: needsWork ? 'bg-purple-900/20 border-purple-700/50 text-purple-300' : 'bg-purple-900/40 border-purple-600 text-purple-200',
-      indigo: needsWork ? 'bg-indigo-900/20 border-indigo-700/50 text-indigo-300' : 'bg-indigo-900/40 border-indigo-600 text-indigo-200',
-      amber: needsWork ? 'bg-amber-900/20 border-amber-700/50 text-amber-300' : 'bg-amber-900/40 border-amber-600 text-amber-200',
-      emerald: needsWork ? 'bg-emerald-900/20 border-emerald-700/50 text-emerald-300' : 'bg-emerald-900/40 border-emerald-600 text-emerald-200',
-      rose: needsWork ? 'bg-rose-900/20 border-rose-700/50 text-rose-300' : 'bg-rose-900/40 border-rose-600 text-rose-200'
-    };
-    return colors[color] || colors.blue;
+    // Simplify to basic gray styling that will always work
+    if (needsWork) {
+      return 'bg-gray-800/60 border-gray-600/50 text-gray-200 rounded-2xl';
+    } else {
+      return 'bg-gray-700/60 border-gray-500/50 text-gray-100 rounded-2xl';
+    }
   };
 
   return (
@@ -386,7 +374,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
           return (
             <div
               key={key}
-              className={`border rounded-2xl p-6 transition-all ${getColorClasses(area.color, area.needsWork)}`}
+              className={`border border-gray-600 rounded-2xl p-6 transition-all bg-gray-800/50 text-gray-200`}
             >
               <div 
                 className="flex items-center justify-between cursor-pointer"
