@@ -390,19 +390,15 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                 const IconComponent = area.icon;
                 return (
                   <div key={key} className="p-5" style={getAllocationCardStyles(area.color, area.needsWork)}>
-                    <div className="flex items-center justify-between">
-                      {/* Left: icon chip (subtle), title, current % */}
-                      <div className="flex items-center gap-3">
-                        <div className="rounded-lg border flex items-center justify-center" style={{ ...getSubtleIconStyles(area.color), width: 34, height: 34 }}>
-                          <IconComponent size={16} />
-                        </div>
-                        <div>
-                          <div className="font-semibold" style={{ fontSize: 16 }}>{area.name}</div>
-                          <div className="text-sm" style={{ opacity: 0.8 }}>Current: {area.percentage}% ({area.correct}/{area.total})</div>
-                        </div>
+                    <div className="flex items-start justify-between">
+                      {/* Left: icon on top, then title and current % */}
+                      <div className="flex flex-col items-start">
+                        <IconComponent size={20} style={{ opacity: 0.9, marginBottom: 6 }} />
+                        <div className="font-semibold" style={{ fontSize: 16 }}>{area.name}</div>
+                        <div className="text-sm" style={{ opacity: 0.8 }}>Current: {area.percentage}% ({area.correct}/{area.total})</div>
                       </div>
                       {/* Right: minutes and priority */}
-                      <div className="text-right" style={{ minWidth: 120 }}>
+                      <div className="text-right" style={{ minWidth: 140 }}>
                         <div className="font-bold" style={{ fontSize: 18 }}>{timeAllocation} min</div>
                         <div className="text-xs" style={{ opacity: 0.8 }}>
                           {area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}
