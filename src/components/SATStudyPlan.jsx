@@ -259,10 +259,10 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       backgroundColor: base.backgroundColor,
       borderColor: base.borderColor,
       color: 'rgb(226, 232, 240)',
-      borderRadius: 12,
+      borderRadius: 14,
       borderWidth: 2,
       borderStyle: 'solid',
-      boxShadow: '0 6px 18px rgba(0,0,0,0.2)'
+      boxShadow: '0 8px 24px rgba(0,0,0,0.22)'
     };
   };
 
@@ -376,7 +376,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
         {/* Time Breakdown by Skill */}
         <div>
           <h3 className="text-lg font-semibold text-gray-200" style={{ marginTop: 32, marginBottom: 16, textAlign: 'center' }}>Daily Time Allocation by Skill Area</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6" style={{ gap: 24 }}>
             {Object.entries(performance)
               .sort((a, b) => a[1].percentage - b[1].percentage)
               .map(([key, area]) => {
@@ -389,7 +389,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
 
                 const IconComponent = area.icon;
                 return (
-                  <div key={key} className="p-5" style={{ ...getAllocationCardStyles(area.color, area.needsWork), textAlign: 'left' }}>
+                  <div key={key} className="p-6" style={{ ...getAllocationCardStyles(area.color, area.needsWork), textAlign: 'left', padding: 24 }}>
                     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                       {/* Left: icon on top, then title and current % */}
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
