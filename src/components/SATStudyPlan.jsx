@@ -393,8 +393,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                       {/* Left: icon on top, then title and current % */}
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                        <IconComponent size={20} style={{ opacity: 0.7, marginBottom: 6 }} />
-                        <div style={{ fontSize: 16, fontWeight: 600 }}>{area.name}</div>
+                        <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>{area.name}</div>
                         <div style={{ fontSize: 14, opacity: 0.8 }}>Current: {area.percentage}% ({area.correct}/{area.total})</div>
                       </div>
                       {/* Right: minutes and priority */}
