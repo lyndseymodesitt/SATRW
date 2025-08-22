@@ -326,7 +326,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       {/* Study Plan Summary */}
       <div className="mb-8">
         <h2 className="text-xl font-semibold text-gray-200 mb-4">Study Plan Summary</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           <div
             className="p-5 border text-center"
             style={{ backgroundColor: 'rgba(30, 58, 138, 0.35)', borderColor: 'rgb(59, 130, 246)', color: 'rgb(191, 219, 254)', borderRadius: 12, boxShadow: '0 6px 18px rgba(0,0,0,0.25)' }}
