@@ -211,6 +211,19 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
     }));
   };
 
+  const getIconColorClasses = (color) => {
+    const colorMap = {
+      blue: 'bg-blue-500/20 border-blue-500/30',
+      green: 'bg-green-500/20 border-green-500/30',
+      purple: 'bg-purple-500/20 border-purple-500/30',
+      indigo: 'bg-indigo-500/20 border-indigo-500/30',
+      amber: 'bg-amber-500/20 border-amber-500/30',
+      emerald: 'bg-emerald-500/20 border-emerald-500/30',
+      rose: 'bg-rose-500/20 border-rose-500/30'
+    };
+    return colorMap[color] || colorMap.blue;
+  };
+
   const getColorClasses = (color, needsWork) => {
     const colors = {
       blue: needsWork ? 'bg-blue-900/20 border-blue-700/50 text-blue-300' : 'bg-blue-900/40 border-blue-600 text-blue-200',
@@ -307,7 +320,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                   <div key={key} className="bg-gray-700/40 rounded-xl p-4 border border-gray-600/50">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg bg-${area.color}-500/20 border border-${area.color}-500/30`}>
+                        <div className={`p-2 rounded-lg ${getIconColorClasses(area.color)}`}>
                           <IconComponent size={16} />
                         </div>
                         <div>
@@ -380,7 +393,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                 onClick={() => toggleSection(key)}
               >
                 <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-xl bg-${area.color}-500/20 border border-${area.color}-500/30`}>
+                  <div className={`p-3 rounded-xl ${getIconColorClasses(area.color)}`}>
                     <IconComponent size={24} />
                   </div>
                   <div>
