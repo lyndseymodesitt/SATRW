@@ -267,8 +267,8 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
 
       {/* Timeframe Selection */}
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-200 mb-6 text-center">Choose Your Timeline</h2>
-        <div className="grid grid-cols-3 gap-6">
+        <h2 className="text-xl font-semibold text-gray-200 mb-4">Choose Your Timeline</h2>
+        <div className="grid grid-cols-3 gap-4">
           {/* 2 Weeks - Red */}
           <button
             onClick={() => setSelectedTimeframe('2weeks')}
@@ -316,19 +316,28 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
 
       {/* Study Plan Summary */}
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-200 mb-6 text-center">Study Plan Summary</h2>
-        <div className="space-y-4">
-          <div className="rounded-2xl border-2 p-6 text-center" style={{ backgroundColor: 'rgba(30, 58, 138, 0.35)', borderColor: 'rgb(59, 130, 246)', color: 'rgb(191, 219, 254)' }}>
-            <div className="text-4xl font-bold mb-2">{currentTimeframe.dailyTime}</div>
-            <div className="text-lg opacity-75">Minutes per day</div>
+        <h2 className="text-xl font-semibold text-gray-200 mb-4">Study Plan Summary</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div
+            className="rounded-xl p-5 border text-center"
+            style={{ backgroundColor: 'rgba(2, 6, 23, 0.8)', borderColor: 'rgba(71, 85, 105, 0.45)', color: 'rgb(226, 232, 240)' }}
+          >
+            <div className="font-bold" style={{ fontSize: 28, color: 'rgb(165, 180, 252)' }}>{currentTimeframe.dailyTime}</div>
+            <div className="text-sm" style={{ color: 'rgb(148, 163, 184)' }}>Minutes per day</div>
           </div>
-          <div className="rounded-2xl border-2 p-6 text-center" style={{ backgroundColor: 'rgba(88, 28, 135, 0.35)', borderColor: 'rgb(168, 85, 247)', color: 'rgb(221, 214, 254)' }}>
-            <div className="text-4xl font-bold mb-2">{priorityAreas.length}</div>
-            <div className="text-lg opacity-75">Priority areas</div>
+          <div
+            className="rounded-xl p-5 border text-center"
+            style={{ backgroundColor: 'rgba(2, 6, 23, 0.8)', borderColor: 'rgba(71, 85, 105, 0.45)', color: 'rgb(226, 232, 240)' }}
+          >
+            <div className="font-bold" style={{ fontSize: 28, color: 'rgb(216, 180, 254)' }}>{priorityAreas.length}</div>
+            <div className="text-sm" style={{ color: 'rgb(148, 163, 184)' }}>Priority areas</div>
           </div>
-          <div className="rounded-2xl border-2 p-6 text-center" style={{ backgroundColor: 'rgba(20, 83, 45, 0.35)', borderColor: 'rgb(34, 197, 94)', color: 'rgb(187, 247, 208)' }}>
-            <div className="text-4xl font-bold mb-2">{Object.keys(performance).length - priorityAreas.length}</div>
-            <div className="text-lg opacity-75">Strong areas</div>
+          <div
+            className="rounded-xl p-5 border text-center"
+            style={{ backgroundColor: 'rgba(2, 6, 23, 0.8)', borderColor: 'rgba(71, 85, 105, 0.45)', color: 'rgb(226, 232, 240)' }}
+          >
+            <div className="font-bold" style={{ fontSize: 28, color: 'rgb(134, 239, 172)' }}>{Object.keys(performance).length - priorityAreas.length}</div>
+            <div className="text-sm" style={{ color: 'rgb(148, 163, 184)' }}>Strong areas</div>
           </div>
         </div>
 
@@ -399,27 +408,30 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       {/* Priority Areas */}
       {priorityAreas.length > 0 && (
         <div className="mb-8">
-          <div className="rounded-2xl border-2 p-6" style={{ backgroundColor: 'rgba(153, 27, 27, 0.3)', borderColor: 'rgba(220, 38, 38, 0.6)' }}>
-            <div className="flex items-center gap-3 mb-4">
-              <AlertCircle className="text-red-300" size={24} />
-              <h2 className="text-xl font-semibold" style={{ color: 'rgb(254, 205, 211)' }}>Priority Focus Areas</h2>
+          <div
+            className="rounded-xl p-5 border"
+            style={{ backgroundColor: 'rgba(2, 6, 23, 0.8)', borderColor: 'rgba(71, 85, 105, 0.45)' }}
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <AlertCircle size={20} style={{ color: 'rgb(252, 165, 165)' }} />
+              <h2 className="text-base font-semibold" style={{ color: 'rgb(226, 232, 240)' }}>Priority Focus Areas</h2>
             </div>
-            <p style={{ color: 'rgb(254, 205, 211)' }} className="mb-4">These areas need the most attention based on your practice test:</p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {priorityAreas.slice(0, 3).map(([key, area]) => (
-                <div key={key} className="rounded-xl p-6 border-2" style={{ backgroundColor: 'rgba(127, 29, 29, 0.25)', borderColor: 'rgba(185, 28, 28, 0.5)' }}>
+                <div
+                  key={key}
+                  className="rounded-xl p-5 border"
+                  style={{ backgroundColor: 'rgba(17, 24, 39, 0.7)', borderColor: 'rgba(71, 85, 105, 0.35)' }}
+                >
                   <div className="flex items-center gap-3 mb-3">
                     <div className="p-2 rounded-lg border" style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', borderColor: 'rgba(239, 68, 68, 0.35)' }}>
-                      <area.icon size={20} style={{ color: 'rgb(252, 165, 165)' }} />
+                      <area.icon size={18} style={{ color: 'rgb(252, 165, 165)' }} />
                     </div>
-                    <span className="font-semibold text-lg" style={{ color: 'rgb(252, 165, 165)' }}>{area.name}</span>
+                    <span className="font-semibold" style={{ color: 'rgb(226, 232, 240)', fontSize: 16 }}>{area.name}</span>
                   </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold mb-1" style={{ color: 'rgb(254, 205, 211)' }}>{area.percentage}%</div>
-                    <div className="text-sm" style={{ color: 'rgb(252, 165, 165)' }}>{area.correct}/{area.total} correct</div>
-                    <div className="mt-3 px-3 py-1 rounded-full text-xs font-medium" style={{ backgroundColor: 'rgba(127, 29, 29, 0.35)', color: 'rgb(252, 165, 165)' }}>
-                      Needs Work
-                    </div>
+                  <div className="text-right">
+                    <div className="font-bold" style={{ fontSize: 18, color: 'rgb(252, 165, 165)' }}>{area.percentage}%</div>
+                    <div className="text-xs" style={{ color: 'rgb(148, 163, 184)' }}>{area.correct}/{area.total} correct</div>
                   </div>
                 </div>
               ))}
@@ -437,16 +449,16 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
           return (
             <div
               key={key}
-              className="rounded-2xl border-2 p-6 transition-all"
-              style={getColorStyles(area.color, area.needsWork)}
+              className="rounded-xl p-5 border transition-colors"
+              style={{ backgroundColor: 'rgba(2, 6, 23, 0.8)', borderColor: 'rgba(71, 85, 105, 0.45)', color: 'rgb(226, 232, 240)' }}
             >
               <div 
                 className="flex items-center justify-between cursor-pointer"
                 onClick={() => toggleSection(key)}
               >
                 <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-xl border" style={getIconStyles(area.color)}>
-                    <IconComponent size={24} />
+                  <div className="p-3 rounded-xl border" style={{ ...getIconStyles(area.color), width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <IconComponent size={20} />
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold">{area.name}</h3>
@@ -454,15 +466,9 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  {area.needsWork ? (
-                    <div className="bg-red-500/20 text-red-300 px-3 py-1 rounded-full text-sm font-medium">
-                      Needs Work
-                    </div>
-                  ) : (
-                    <div className="bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-sm font-medium">
-                      Strong
-                    </div>
-                  )}
+                  <div className="text-xs" style={{ color: area.needsWork ? 'rgb(252, 165, 165)' : 'rgb(134, 239, 172)' }}>
+                    {area.needsWork ? 'Needs Work' : 'Strong'}
+                  </div>
                   <div className="text-right">
                     <div className="text-lg font-bold">{area.percentage}%</div>
                     <div className="text-sm opacity-75">{area.correct}/{area.total}</div>
