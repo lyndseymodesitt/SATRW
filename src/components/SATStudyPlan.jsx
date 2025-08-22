@@ -389,18 +389,18 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
 
                 const IconComponent = area.icon;
                 return (
-                  <div key={key} className="p-5" style={getAllocationCardStyles(area.color, area.needsWork)}>
-                    <div className="flex items-start justify-between">
+                  <div key={key} className="p-5" style={{ ...getAllocationCardStyles(area.color, area.needsWork), textAlign: 'left' }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                       {/* Left: icon on top, then title and current % */}
-                      <div className="flex flex-col items-start">
-                        <IconComponent size={20} style={{ opacity: 0.9, marginBottom: 6 }} />
-                        <div className="font-semibold" style={{ fontSize: 16 }}>{area.name}</div>
-                        <div className="text-sm" style={{ opacity: 0.8 }}>Current: {area.percentage}% ({area.correct}/{area.total})</div>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                        <IconComponent size={20} style={{ opacity: 0.7, marginBottom: 6 }} />
+                        <div style={{ fontSize: 16, fontWeight: 600 }}>{area.name}</div>
+                        <div style={{ fontSize: 14, opacity: 0.8 }}>Current: {area.percentage}% ({area.correct}/{area.total})</div>
                       </div>
                       {/* Right: minutes and priority */}
-                      <div className="text-right" style={{ minWidth: 140 }}>
-                        <div className="font-bold" style={{ fontSize: 18 }}>{timeAllocation} min</div>
-                        <div className="text-xs" style={{ opacity: 0.8 }}>
+                      <div style={{ minWidth: 160, textAlign: 'right' }}>
+                        <div style={{ fontSize: 18, fontWeight: 700 }}>{timeAllocation} min</div>
+                        <div style={{ fontSize: 12, opacity: 0.8 }}>
                           {area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}
                         </div>
                       </div>
