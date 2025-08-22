@@ -192,18 +192,18 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
         <h2 className="text-xl font-semibold text-gray-200 mb-6 text-center">Study Plan Summary</h2>
         
         {/* Overview Stats */}
-        <div className="grid md:grid-cols-3 gap-4 mb-8">
+        <div className="space-y-4">
           <div className="rounded-2xl border-2 p-6 text-center" style={{ backgroundColor: 'rgba(30, 58, 138, 0.3)', borderColor: 'rgba(29, 78, 216, 0.6)', color: 'rgb(147, 197, 253)' }}>
-            <div className="text-3xl font-bold mb-2">{currentTimeframe.dailyTime}</div>
-            <div className="text-sm opacity-75">Minutes per day</div>
+            <div className="text-4xl font-bold mb-2">{currentTimeframe.dailyTime}</div>
+            <div className="text-lg opacity-75">Minutes per day</div>
           </div>
           <div className="rounded-2xl border-2 p-6 text-center" style={{ backgroundColor: 'rgba(88, 28, 135, 0.3)', borderColor: 'rgba(109, 40, 217, 0.6)', color: 'rgb(196, 181, 253)' }}>
-            <div className="text-3xl font-bold mb-2">{priorityAreas.length}</div>
-            <div className="text-sm opacity-75">Priority areas</div>
+            <div className="text-4xl font-bold mb-2">{priorityAreas.length}</div>
+            <div className="text-lg opacity-75">Priority areas</div>
           </div>
           <div className="rounded-2xl border-2 p-6 text-center" style={{ backgroundColor: 'rgba(20, 83, 45, 0.3)', borderColor: 'rgba(21, 128, 61, 0.6)', color: 'rgb(134, 239, 172)' }}>
-            <div className="text-3xl font-bold mb-2">{Object.keys(performance).length - priorityAreas.length}</div>
-            <div className="text-sm opacity-75">Strong areas</div>
+            <div className="text-4xl font-bold mb-2">{Object.keys(performance).length - priorityAreas.length}</div>
+            <div className="text-lg opacity-75">Strong areas</div>
           </div>
         </div>
       </div>
