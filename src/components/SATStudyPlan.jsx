@@ -266,7 +266,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       </div>
 
       {/* Timeframe Selection */}
-      <div className="mb-8">
+      <div className="mb-8" style={{ marginBottom: 48 }}>
         <h2 className="text-xl font-semibold text-gray-200 mb-4" style={{ textAlign: 'center' }}>Choose Your Timeline</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           {/* 2 Weeks - Red */}
@@ -352,7 +352,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
 
         {/* Time Breakdown by Skill */}
         <div>
-          <h3 className="text-lg font-semibold text-gray-200 mb-4">Daily Time Allocation by Skill Area</h3>
+          <h3 className="text-lg font-semibold text-gray-200" style={{ marginTop: 32, marginBottom: 16, textAlign: 'center' }}>Daily Time Allocation by Skill Area</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {Object.entries(performance)
               .sort((a, b) => a[1].percentage - b[1].percentage)
