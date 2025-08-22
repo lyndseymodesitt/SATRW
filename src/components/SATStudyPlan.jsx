@@ -292,15 +292,15 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
         {/* Overview Stats */}
         <div className="grid md:grid-cols-3 gap-6 text-center mb-8">
           <div>
-            <div className="text-2xl font-bold text-blue-400">{currentTimeframe.dailyTime}</div>
+            <div className="text-2xl font-bold text-blue-400 bg-blue-900/20 border border-blue-700/50 rounded-lg p-3">{currentTimeframe.dailyTime}</div>
             <div className="text-sm text-gray-400">Minutes per day</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-purple-400">{priorityAreas.length}</div>
+            <div className="text-2xl font-bold text-purple-400 bg-purple-900/20 border border-purple-700/50 rounded-lg p-3">{priorityAreas.length}</div>
             <div className="text-sm text-gray-400">Priority areas</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-green-400">{Object.keys(performance).length - priorityAreas.length}</div>
+            <div className="text-2xl font-bold text-green-400 bg-green-900/20 border border-green-700/50 rounded-lg p-3">{Object.keys(performance).length - priorityAreas.length}</div>
             <div className="text-sm text-gray-400">Strong areas</div>
           </div>
         </div>
@@ -330,20 +330,20 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                 const IconComponent = area.icon;
                 
                 return (
-                  <div key={key} className="flex items-center justify-between p-4 bg-gray-700/30 rounded-xl">
+                  <div key={key} className={`flex items-center justify-between p-4 rounded-xl border ${getColorClasses(area.color, area.needsWork)}`}>
                     <div className="flex items-center gap-3">
                       <div className={`p-2 rounded-lg ${getIconBackgroundClasses(area.color)}`}>
                         <IconComponent size={16} />
                       </div>
                       <div>
-                        <div className="font-medium text-gray-200">{area.name}</div>
-                        <div className="text-sm text-gray-400">Current: {area.percentage}% ({area.correct}/{area.total})</div>
+                        <div className="font-medium">{area.name}</div>
+                        <div className="text-sm opacity-75">Current: {area.percentage}% ({area.correct}/{area.total})</div>
                       </div>
                     </div>
                     
                     <div className="text-right">
                       <div className="text-lg font-bold text-blue-400">{timeAllocation} min</div>
-                      <div className="text-xs text-gray-400">
+                      <div className="text-xs opacity-75">
                         {area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}
                       </div>
                     </div>
