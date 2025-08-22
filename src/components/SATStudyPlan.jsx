@@ -268,7 +268,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       {/* Timeframe Selection */}
       <div className="mb-8">
         <h2 className="text-2xl font-semibold text-gray-200 mb-6 text-center">Choose Your Timeline</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-6">
           {/* 2 Weeks - Red */}
           <button
             onClick={() => setSelectedTimeframe('2weeks')}
