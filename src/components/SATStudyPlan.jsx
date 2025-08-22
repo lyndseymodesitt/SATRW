@@ -329,24 +329,24 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div
             className="rounded-xl p-5 border text-center"
-            style={{ backgroundColor: 'rgba(2, 6, 23, 0.8)', borderColor: 'rgba(71, 85, 105, 0.45)', color: 'rgb(226, 232, 240)' }}
+            style={{ backgroundColor: 'rgba(30, 58, 138, 0.35)', borderColor: 'rgb(59, 130, 246)', color: 'rgb(191, 219, 254)' }}
           >
-            <div className="font-bold" style={{ fontSize: 28, color: 'rgb(165, 180, 252)' }}>{currentTimeframe.dailyTime}</div>
-            <div className="text-sm" style={{ color: 'rgb(148, 163, 184)' }}>Minutes per day</div>
+            <div className="font-bold" style={{ fontSize: 28 }}>{currentTimeframe.dailyTime}</div>
+            <div className="text-sm" style={{ opacity: 0.8 }}>Minutes per day</div>
           </div>
           <div
             className="rounded-xl p-5 border text-center"
-            style={{ backgroundColor: 'rgba(2, 6, 23, 0.8)', borderColor: 'rgba(71, 85, 105, 0.45)', color: 'rgb(226, 232, 240)' }}
+            style={{ backgroundColor: 'rgba(88, 28, 135, 0.35)', borderColor: 'rgb(168, 85, 247)', color: 'rgb(221, 214, 254)' }}
           >
-            <div className="font-bold" style={{ fontSize: 28, color: 'rgb(216, 180, 254)' }}>{priorityAreas.length}</div>
-            <div className="text-sm" style={{ color: 'rgb(148, 163, 184)' }}>Priority areas</div>
+            <div className="font-bold" style={{ fontSize: 28 }}>{priorityAreas.length}</div>
+            <div className="text-sm" style={{ opacity: 0.8 }}>Priority areas</div>
           </div>
           <div
             className="rounded-xl p-5 border text-center"
-            style={{ backgroundColor: 'rgba(2, 6, 23, 0.8)', borderColor: 'rgba(71, 85, 105, 0.45)', color: 'rgb(226, 232, 240)' }}
+            style={{ backgroundColor: 'rgba(20, 83, 45, 0.35)', borderColor: 'rgb(34, 197, 94)', color: 'rgb(187, 247, 208)' }}
           >
-            <div className="font-bold" style={{ fontSize: 28, color: 'rgb(134, 239, 172)' }}>{Object.keys(performance).length - priorityAreas.length}</div>
-            <div className="text-sm" style={{ color: 'rgb(148, 163, 184)' }}>Strong areas</div>
+            <div className="font-bold" style={{ fontSize: 28 }}>{Object.keys(performance).length - priorityAreas.length}</div>
+            <div className="text-sm" style={{ opacity: 0.8 }}>Strong areas</div>
           </div>
         </div>
 
@@ -430,7 +430,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                 <div
                   key={key}
                   className="rounded-xl p-5 border"
-                  style={{ backgroundColor: 'rgba(17, 24, 39, 0.7)', borderColor: 'rgba(71, 85, 105, 0.35)' }}
+                  style={{ backgroundColor: 'rgba(127, 29, 29, 0.25)', borderColor: 'rgba(185, 28, 28, 0.5)', color: 'rgb(252, 165, 165)' }}
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div className="p-2 rounded-lg border" style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', borderColor: 'rgba(239, 68, 68, 0.35)' }}>
@@ -439,8 +439,8 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                     <span className="font-semibold" style={{ color: 'rgb(226, 232, 240)', fontSize: 16 }}>{area.name}</span>
                   </div>
                   <div className="text-right">
-                    <div className="font-bold" style={{ fontSize: 18, color: 'rgb(252, 165, 165)' }}>{area.percentage}%</div>
-                    <div className="text-xs" style={{ color: 'rgb(148, 163, 184)' }}>{area.correct}/{area.total} correct</div>
+                    <div className="font-bold" style={{ fontSize: 18, color: 'rgb(254, 205, 211)' }}>{area.percentage}%</div>
+                    <div className="text-xs" style={{ color: 'rgb(252, 165, 165)' }}>{area.correct}/{area.total} correct</div>
                   </div>
                 </div>
               ))}
@@ -470,8 +470,8 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                     <IconComponent size={20} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold">{area.name}</h3>
-                    <p className="text-sm opacity-75">{area.description}</p>
+                    <h3 className="font-semibold" style={{ fontSize: 18 }}>{area.name}</h3>
+                    <p className="text-sm" style={{ opacity: 0.75 }}>{area.description}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -479,8 +479,8 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                     {area.needsWork ? 'Needs Work' : 'Strong'}
                   </div>
                   <div className="text-right">
-                    <div className="text-lg font-bold">{area.percentage}%</div>
-                    <div className="text-sm opacity-75">{area.correct}/{area.total}</div>
+                    <div className="font-bold" style={{ fontSize: 18 }}>{area.percentage}%</div>
+                    <div className="text-sm" style={{ opacity: 0.75 }}>{area.correct}/{area.total}</div>
                   </div>
                   {isExpanded ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                 </div>
