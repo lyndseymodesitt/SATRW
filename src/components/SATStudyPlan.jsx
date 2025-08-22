@@ -328,22 +328,22 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
         <h2 className="text-xl font-semibold text-gray-200 mb-4">Study Plan Summary</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div
-            className="rounded-xl p-5 border text-center"
-            style={{ backgroundColor: 'rgba(30, 58, 138, 0.35)', borderColor: 'rgb(59, 130, 246)', color: 'rgb(191, 219, 254)' }}
+            className="p-5 border text-center"
+            style={{ backgroundColor: 'rgba(30, 58, 138, 0.35)', borderColor: 'rgb(59, 130, 246)', color: 'rgb(191, 219, 254)', borderRadius: 12, boxShadow: '0 6px 18px rgba(0,0,0,0.25)' }}
           >
             <div className="font-bold" style={{ fontSize: 28 }}>{currentTimeframe.dailyTime}</div>
             <div className="text-sm" style={{ opacity: 0.8 }}>Minutes per day</div>
           </div>
           <div
-            className="rounded-xl p-5 border text-center"
-            style={{ backgroundColor: 'rgba(88, 28, 135, 0.35)', borderColor: 'rgb(168, 85, 247)', color: 'rgb(221, 214, 254)' }}
+            className="p-5 border text-center"
+            style={{ backgroundColor: 'rgba(88, 28, 135, 0.35)', borderColor: 'rgb(168, 85, 247)', color: 'rgb(221, 214, 254)', borderRadius: 12, boxShadow: '0 6px 18px rgba(0,0,0,0.25)' }}
           >
             <div className="font-bold" style={{ fontSize: 28 }}>{priorityAreas.length}</div>
             <div className="text-sm" style={{ opacity: 0.8 }}>Priority areas</div>
           </div>
           <div
-            className="rounded-xl p-5 border text-center"
-            style={{ backgroundColor: 'rgba(20, 83, 45, 0.35)', borderColor: 'rgb(34, 197, 94)', color: 'rgb(187, 247, 208)' }}
+            className="p-5 border text-center"
+            style={{ backgroundColor: 'rgba(20, 83, 45, 0.35)', borderColor: 'rgb(34, 197, 94)', color: 'rgb(187, 247, 208)', borderRadius: 12, boxShadow: '0 6px 18px rgba(0,0,0,0.25)' }}
           >
             <div className="font-bold" style={{ fontSize: 28 }}>{Object.keys(performance).length - priorityAreas.length}</div>
             <div className="text-sm" style={{ opacity: 0.8 }}>Strong areas</div>
@@ -368,11 +368,13 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                 return (
                   <div
                     key={key}
-                    className="rounded-xl p-5 border transition-colors"
+                    className="p-5 border transition-colors"
                     style={{
-                      backgroundColor: 'rgba(2, 6, 23, 0.8)', // deep slate
+                      backgroundColor: 'rgba(2, 6, 23, 0.85)',
                       borderColor: 'rgba(71, 85, 105, 0.45)',
-                      color: 'rgb(226, 232, 240)'
+                      color: 'rgb(226, 232, 240)',
+                      borderRadius: 12,
+                      boxShadow: '0 6px 18px rgba(0,0,0,0.25)'
                     }}
                   >
                     <div className="flex items-center justify-between">
@@ -418,8 +420,8 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       {priorityAreas.length > 0 && (
         <div className="mb-8">
           <div
-            className="rounded-xl p-5 border"
-            style={{ backgroundColor: 'rgba(2, 6, 23, 0.8)', borderColor: 'rgba(71, 85, 105, 0.45)' }}
+            className="p-5 border"
+            style={{ backgroundColor: 'rgba(2, 6, 23, 0.85)', borderColor: 'rgba(71, 85, 105, 0.45)', borderRadius: 12, boxShadow: '0 6px 18px rgba(0,0,0,0.25)' }}
           >
             <div className="flex items-center gap-3 mb-3">
               <AlertCircle size={20} style={{ color: 'rgb(252, 165, 165)' }} />
@@ -429,8 +431,8 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
               {priorityAreas.slice(0, 3).map(([key, area]) => (
                 <div
                   key={key}
-                  className="rounded-xl p-5 border"
-                  style={{ backgroundColor: 'rgba(127, 29, 29, 0.25)', borderColor: 'rgba(185, 28, 28, 0.5)', color: 'rgb(252, 165, 165)' }}
+                  className="p-5 border"
+                  style={{ backgroundColor: 'rgba(127, 29, 29, 0.25)', borderColor: 'rgba(185, 28, 28, 0.5)', color: 'rgb(252, 165, 165)', borderRadius: 12, boxShadow: '0 6px 18px rgba(0,0,0,0.25)' }}
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div className="p-2 rounded-lg border" style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', borderColor: 'rgba(239, 68, 68, 0.35)' }}>
@@ -458,8 +460,8 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
           return (
             <div
               key={key}
-              className="rounded-xl p-5 border transition-colors"
-              style={{ backgroundColor: 'rgba(2, 6, 23, 0.8)', borderColor: 'rgba(71, 85, 105, 0.45)', color: 'rgb(226, 232, 240)' }}
+              className="p-5 border transition-colors"
+              style={{ backgroundColor: 'rgba(2, 6, 23, 0.85)', borderColor: 'rgba(71, 85, 105, 0.45)', color: 'rgb(226, 232, 240)', borderRadius: 12, boxShadow: '0 6px 18px rgba(0,0,0,0.25)' }}
             >
               <div 
                 className="flex items-center justify-between cursor-pointer"
