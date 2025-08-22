@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { BookOpen, Target, CheckCircle, Clock, TrendingUp, AlertCircle, ChevronDown, ChevronRight } from 'lucide-react';
+import { BookOpen, Target, TrendingUp, AlertCircle } from 'lucide-react';
 
 const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
-  const [expandedSections, setExpandedSections] = useState({});
   const [selectedTimeframe, setSelectedTimeframe] = useState('4weeks');
 
   // Detailed question classification based on your actual SAT Practice Test
@@ -12,19 +11,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       icon: BookOpen,
       color: "blue",
       questions: [1, 2, 3, 4, 5, 34, 35, 36, 37, 38],
-      description: "Choosing precise words that fit the context",
-      studyMaterials: [
-        "Practice with context clues from real SAT passages",
-        "Learn word families and root meanings",
-        "Study connotation differences (rattled vs. demolished)",
-        "Practice precision questions (clarified vs. confirmed)"
-      ],
-      practiceActivities: [
-        "Read 20 minutes daily, noting unfamiliar words in context",
-        "Complete 5 vocabulary-in-context questions daily",
-        "Create flashcards for nuanced word differences",
-        "Practice with Khan Academy vocabulary modules"
-      ]
+      description: "Choosing precise words that fit the context"
     },
 
     grammarAndConventions: {
@@ -32,19 +19,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       icon: Target,
       color: "green",
       questions: [20, 21, 22, 23, 24, 25, 26, 51, 52, 53, 54, 55, 56, 57, 58],
-      description: "Verb tenses, punctuation, pronouns, and sentence structure",
-      studyMaterials: [
-        "Master past perfect vs. simple past (had submitted vs. submitted)",
-        "Learn colon usage after 'as follows' and similar phrases",
-        "Practice pronoun cases (who vs. whom, I vs. me)",
-        "Study subject-verb agreement with complex phrases"
-      ],
-      practiceActivities: [
-        "Complete 10 grammar questions daily",
-        "Review one grammar rule per day with examples",
-        "Practice punctuation rules with real sentences",
-        "Use grammar apps like Grammarly for daily writing"
-      ]
+      description: "Verb tenses, punctuation, pronouns, and sentence structure"
     },
 
     logicalTransitions: {
@@ -52,19 +27,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       icon: TrendingUp,
       color: "purple",
       questions: [27, 28, 29, 30, 59, 60, 61, 62],
-      description: "Connecting ideas with appropriate transition words",
-      studyMaterials: [
-        "Learn cause-effect transitions (accordingly, consequently)",
-        "Master contrast transitions (nevertheless, however)",
-        "Practice time-sequence transitions (next, meanwhile)",
-        "Study addition transitions (furthermore, moreover)"
-      ],
-      practiceActivities: [
-        "Identify transition types in newspaper articles",
-        "Practice choosing between similar transitions",
-        "Write paragraphs focusing on logical flow",
-        "Complete 5 transition questions daily"
-      ]
+      description: "Connecting ideas with appropriate transition words"
     },
 
     readingComprehension: {
@@ -72,19 +35,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       icon: BookOpen,
       color: "indigo",
       questions: [6, 7, 8, 9, 10, 39, 40, 42, 43, 44],
-      description: "Main ideas, text function, and passage analysis",
-      studyMaterials: [
-        "Practice identifying main purposes of passages",
-        "Learn to analyze function of specific sentences",
-        "Study cause-and-effect relationships in texts",
-        "Master inference from context clues"
-      ],
-      practiceActivities: [
-        "Read complex articles daily with purpose questions",
-        "Practice summarizing main ideas in one sentence",
-        "Analyze sentence functions in academic texts",
-        "Complete reading comprehension passages daily"
-      ]
+      description: "Main ideas, text function, and passage analysis"
     },
 
     evidenceAndData: {
@@ -92,19 +43,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       icon: TrendingUp,
       color: "amber",
       questions: [11, 12, 13, 14, 15, 16, 17, 18, 19, 45, 47, 49],
-      description: "Interpreting charts, selecting evidence, analyzing data",
-      studyMaterials: [
-        "Practice reading tables and conversion rate data",
-        "Learn to calculate percentage changes from charts",
-        "Study evidence selection from passage quotes",
-        "Master data interpretation with constraints"
-      ],
-      practiceActivities: [
-        "Analyze news articles with data and charts",
-        "Practice calculating changes from before/after data",
-        "Complete data interpretation questions daily",
-        "Study graphs and tables from various sources"
-      ]
+      description: "Interpreting charts, selecting evidence, analyzing data"
     },
 
     researchSynthesis: {
@@ -112,19 +51,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       icon: Target,
       color: "emerald",
       questions: [31, 32, 33, 46, 50, 63, 64, 65, 66],
-      description: "Goal-oriented writing with multiple constraints",
-      studyMaterials: [
-        "Practice combining data from multiple sources",
-        "Learn to meet specific writing goals with constraints",
-        "Study academic writing with precise requirements",
-        "Master budget/timeline constraint problems"
-      ],
-      practiceActivities: [
-        "Practice synthesis questions with real research notes",
-        "Write goal-oriented sentences with multiple constraints",
-        "Analyze complex scenarios with competing priorities",
-        "Complete advanced research-based questions"
-      ]
+      description: "Goal-oriented writing with multiple constraints"
     },
 
     textComparison: {
@@ -132,19 +59,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       icon: BookOpen,
       color: "rose",
       questions: [41, 48],
-      description: "Analyzing relationships between different texts",
-      studyMaterials: [
-        "Practice comparing authors' different approaches",
-        "Learn to identify contrasting viewpoints",
-        "Study evidence selection across multiple texts",
-        "Master relationship analysis between passages"
-      ],
-      practiceActivities: [
-        "Compare news articles on the same topic",
-        "Practice identifying author agreements/disagreements",
-        "Analyze paired passages weekly",
-        "Complete comparative analysis exercises"
-      ]
+      description: "Analyzing relationships between different texts"
     }
   };
 
@@ -204,13 +119,6 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
 
   const currentTimeframe = timeframes[selectedTimeframe];
 
-  const toggleSection = (section) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [section]: !prev[section]
-    }));
-  };
-
   const getColorClasses = (color, needsWork) => {
     if (needsWork) {
       switch (color) {
@@ -251,7 +159,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-gradient-to-br from-gray-900 to-slate-900 min-h-screen">
+    <div className="max-w-4xl mx-auto p-6 bg-gradient-to-br from-gray-900 to-slate-900 min-h-screen">
       {/* Header */}
       <div className="text-center mb-8">
         <div className="flex items-center justify-center gap-3 mb-4">
@@ -313,18 +221,17 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
               .sort((a, b) => a[1].percentage - b[1].percentage) // Sort by performance, worst first
               .map(([key, area]) => {
                 // Calculate time allocation based on performance
-                // Worse performance = more time allocated
                 const baseTime = currentTimeframe.dailyTime;
                 let timeAllocation;
                 
                 if (area.percentage < 50) {
-                  timeAllocation = Math.round(baseTime * 0.25); // 25% of total time for worst areas
+                  timeAllocation = Math.round(baseTime * 0.25);
                 } else if (area.percentage < 70) {
-                  timeAllocation = Math.round(baseTime * 0.18); // 18% of total time for medium areas
+                  timeAllocation = Math.round(baseTime * 0.18);
                 } else if (area.percentage < 85) {
-                  timeAllocation = Math.round(baseTime * 0.12); // 12% of total time for good areas
+                  timeAllocation = Math.round(baseTime * 0.12);
                 } else {
-                  timeAllocation = Math.round(baseTime * 0.08); // 8% of total time for strong areas
+                  timeAllocation = Math.round(baseTime * 0.08);
                 }
 
                 const IconComponent = area.icon;
@@ -380,21 +287,17 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
         </div>
       )}
 
-      {/* Study Sections */}
-      <div className="space-y-6">
+      {/* Skill Categories - Clean Summary View */}
+      <div className="space-y-4">
         {Object.entries(performance).map(([key, area]) => {
           const IconComponent = area.icon;
-          const isExpanded = expandedSections[key];
           
           return (
             <div
               key={key}
               className={`border rounded-2xl p-6 transition-all ${getColorClasses(area.color, area.needsWork)}`}
             >
-              <div 
-                className="flex items-center justify-between cursor-pointer"
-                onClick={() => toggleSection(key)}
-              >
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className={`p-3 rounded-xl ${getIconBackgroundClasses(area.color)}`}>
                     <IconComponent size={24} />
@@ -415,66 +318,19 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                     </div>
                   )}
                   <div className="text-right">
-                    <div className="text-lg font-bold">{area.percentage}%</div>
+                    <div className="text-lg font-bold text-green-400">{area.percentage}%</div>
                     <div className="text-sm opacity-75">{area.correct}/{area.total}</div>
                   </div>
-                  {isExpanded ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                 </div>
               </div>
-
-              {isExpanded && (
-                <div className="mt-6 pt-6 border-t border-current border-opacity-20">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold mb-3 flex items-center gap-2">
-                        <BookOpen size={16} />
-                        Study Materials
-                      </h4>
-                      <ul className="space-y-2 text-sm">
-                        {area.studyMaterials.map((material, index) => (
-                          <li key={index} className="flex items-start gap-2">
-                            <CheckCircle size={14} className="mt-0.5 flex-shrink-0" />
-                            {material}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    
-                    <div>
-                      <h4 className="font-semibold mb-3 flex items-center gap-2">
-                        <Clock size={16} />
-                        Daily Practice ({Math.round(currentTimeframe.dailyTime * (area.needsWork ? 0.3 : 0.15))} min)
-                      </h4>
-                      <ul className="space-y-2 text-sm">
-                        {area.practiceActivities.map((activity, index) => (
-                          <li key={index} className="flex items-start gap-2">
-                            <Target size={14} className="mt-0.5 flex-shrink-0" />
-                            {activity}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  {area.needsWork && (
-                    <div className="mt-4 p-4 bg-yellow-900/20 border border-yellow-700/30 rounded-xl">
-                      <h5 className="font-semibold text-yellow-300 mb-2">Weekly Goal</h5>
-                      <p className="text-yellow-200 text-sm">
-                        Improve accuracy to 80%+ by practicing {Math.ceil(area.total * 0.5)} similar questions this week.
-                        Focus on your weakest question types first.
-                      </p>
-                    </div>
-                  )}
-                </div>
-              )}
             </div>
           );
         })}
       </div>
-
 
     </div>
   );
 };
 
 export default SATStudyPlan;
+
