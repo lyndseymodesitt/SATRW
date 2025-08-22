@@ -240,7 +240,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       {/* Timeframe Selection */}
       <div className="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-2xl p-6 mb-8">
         <h2 className="text-xl font-semibold text-gray-200 mb-4">Choose Your Timeline</h2>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {Object.entries(timeframes).map(([key, timeframe]) => (
             <button
               key={key}
@@ -282,7 +282,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
         {/* Time Breakdown by Skill */}
         <div>
           <h3 className="text-lg font-semibold text-gray-200 mb-4">Daily Time Allocation by Skill Area</h3>
-          <div className="space-y-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {Object.entries(performance)
               .sort((a, b) => a[1].percentage - b[1].percentage) // Sort by performance, worst first
               .map(([key, area]) => {
@@ -304,21 +304,23 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
                 const IconComponent = area.icon;
                 
                 return (
-                  <div key={key} className="flex items-center justify-between p-4 bg-gray-700/30 rounded-xl">
-                    <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-lg bg-${area.color}-500/20 border border-${area.color}-500/30`}>
-                        <IconComponent size={16} />
+                  <div key={key} className="bg-gray-700/40 rounded-xl p-4 border border-gray-600/50">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2 rounded-lg bg-${area.color}-500/20 border border-${area.color}-500/30`}>
+                          <IconComponent size={16} />
+                        </div>
+                        <div>
+                          <div className="font-medium text-gray-200">{area.name}</div>
+                          <div className="text-sm text-gray-400">Current: {area.percentage}% ({area.correct}/{area.total})</div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="font-medium text-gray-200">{area.name}</div>
-                        <div className="text-sm text-gray-400">Current: {area.percentage}% ({area.correct}/{area.total})</div>
-                      </div>
-                    </div>
-                    
-                    <div className="text-right">
-                      <div className="text-lg font-bold text-blue-400">{timeAllocation} min</div>
-                      <div className="text-xs text-gray-400">
-                        {area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}
+                      
+                      <div className="text-right">
+                        <div className="text-lg font-bold text-blue-400">{timeAllocation} min</div>
+                        <div className="text-xs text-gray-400">
+                          {area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -340,14 +342,22 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
             <h2 className="text-xl font-semibold text-red-300">Priority Focus Areas</h2>
           </div>
           <p className="text-red-200 mb-4">These areas need the most attention based on your practice test:</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {priorityAreas.slice(0, 3).map(([key, area]) => (
-              <div key={key} className="bg-red-800/20 rounded-xl p-4 border border-red-600/30">
-                <div className="flex items-center gap-2 mb-2">
-                  <area.icon size={16} className="text-red-400" />
-                  <span className="font-semibold text-red-300">{area.name}</span>
+              <div key={key} className="bg-red-800/30 rounded-xl p-6 border border-red-600/40">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="bg-red-500/20 p-2 rounded-lg border border-red-500/30">
+                    <area.icon size={20} className="text-red-400" />
+                  </div>
+                  <span className="font-semibold text-red-300 text-lg">{area.name}</span>
                 </div>
-                <div className="text-sm text-red-200">{area.correct}/{area.total} correct ({area.percentage}%)</div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-red-200 mb-1">{area.percentage}%</div>
+                  <div className="text-sm text-red-300">{area.correct}/{area.total} correct</div>
+                  <div className="mt-3 bg-red-700/30 px-3 py-1 rounded-full text-xs text-red-200 font-medium">
+                    Needs Work
+                  </div>
+                </div>
               </div>
             ))}
           </div>
