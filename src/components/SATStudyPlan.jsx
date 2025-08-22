@@ -252,6 +252,29 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
     return map[color] || map.blue;
   };
 
+  // Allocation cards: colored like summary, readable text
+  const getAllocationCardStyles = (color, needsWork) => {
+    const base = getColorStyles(color, needsWork);
+    return {
+      backgroundColor: base.backgroundColor,
+      borderColor: base.borderColor,
+      color: 'rgb(226, 232, 240)',
+      borderRadius: 12,
+      borderWidth: 2,
+      borderStyle: 'solid',
+      boxShadow: '0 6px 18px rgba(0,0,0,0.2)'
+    };
+  };
+
+  const getSubtleIconStyles = (color) => {
+    const base = getIconStyles(color);
+    return {
+      backgroundColor: base.backgroundColor,
+      borderColor: base.borderColor,
+      opacity: 0.6
+    };
+  };
+
   return (
     <div className="max-w-6xl mx-auto p-6 bg-gradient-to-br from-gray-900 to-slate-900 min-h-screen">
       {/* Header */}
@@ -366,41 +389,22 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
 
                 const IconComponent = area.icon;
                 return (
-                  <div
-                    key={key}
-                    className="p-5 border transition-colors"
-                    style={{
-                      backgroundColor: 'rgba(2, 6, 23, 0.85)',
-                      borderColor: 'rgba(71, 85, 105, 0.45)',
-                      color: 'rgb(226, 232, 240)',
-                      borderRadius: 12,
-                      boxShadow: '0 6px 18px rgba(0,0,0,0.25)'
-                    }}
-                  >
+                  <div key={key} className="p-5" style={getAllocationCardStyles(area.color, area.needsWork)}>
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div
-                          className="rounded-lg border flex items-center justify-center"
-                          style={{
-                            ...getIconStyles(area.color),
-                            width: 36,
-                            height: 36
-                          }}
-                        >
-                          <IconComponent size={18} />
+                      {/* Left: icon chip (subtle), title, current % */}
+                      <div className="flex items-center gap-3">
+                        <div className="rounded-lg border flex items-center justify-center" style={{ ...getSubtleIconStyles(area.color), width: 34, height: 34 }}>
+                          <IconComponent size={16} />
                         </div>
                         <div>
                           <div className="font-semibold" style={{ fontSize: 16 }}>{area.name}</div>
-                          <div className="text-sm" style={{ color: 'rgb(148, 163, 184)' }}>
-                            Current: {area.percentage}% ({area.correct}/{area.total})
-                          </div>
+                          <div className="text-sm" style={{ opacity: 0.8 }}>Current: {area.percentage}% ({area.correct}/{area.total})</div>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <div className="font-bold" style={{ fontSize: 18, color: 'rgb(165, 180, 252)' }}>
-                          {timeAllocation} min
-                        </div>
-                        <div className="text-xs" style={{ color: 'rgb(148, 163, 184)' }}>
+                      {/* Right: minutes and priority */}
+                      <div className="text-right" style={{ minWidth: 120 }}>
+                        <div className="font-bold" style={{ fontSize: 18 }}>{timeAllocation} min</div>
+                        <div className="text-xs" style={{ opacity: 0.8 }}>
                           {area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}
                         </div>
                       </div>
