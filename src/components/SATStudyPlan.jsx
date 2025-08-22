@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BookOpen, Target, TrendingUp, AlertCircle } from 'lucide-react';
 
 const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
   const [selectedTimeframe, setSelectedTimeframe] = useState('4weeks');
+  const [forceUpdate, setForceUpdate] = useState(0);
+
+  // Force re-render when timeframe changes to update all calculations
+  useEffect(() => {
+    setForceUpdate(prev => prev + 1);
+  }, [selectedTimeframe]);
 
   // Detailed question classification based on your actual SAT Practice Test
   const questionClassification = {
@@ -199,17 +205,21 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
 
       {/* Timeframe Selection */}
       <div className="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-2xl p-6 mb-8">
-        <h2 className="text-xl font-semibold text-gray-200 mb-4">Choose Your Timeline</h2>
+        <h2 className="text-xl font-semibold text-gray-200 mb-4 text-center">Choose Your Timeline</h2>
         <div className="grid grid-cols-3 gap-4">
           {Object.entries(timeframes).map(([key, timeframe]) => (
             <button
               key={key}
               onClick={() => setSelectedTimeframe(key)}
-              className={`p-4 rounded-xl border-2 transition-all ${
+              className={`p-4 rounded-xl transition-all ${
                 selectedTimeframe === key
-                  ? 'border-blue-500 bg-blue-900/30 text-blue-300'
-                  : 'border-gray-600 bg-gray-700/30 text-gray-300 hover:border-gray-500'
+                  ? 'border-2 border-blue-500'
+                  : 'border border-gray-600 hover:border-gray-500'
               }`}
+              style={{
+                backgroundColor: selectedTimeframe === key ? 'rgba(59, 130, 246, 0.2)' : 'rgba(55, 65, 81, 0.3)',
+                color: selectedTimeframe === key ? 'rgb(147, 197, 253)' : 'rgb(209, 213, 219)'
+              }}
             >
               <div className="text-lg font-semibold">{timeframe.name}</div>
               <div className="text-sm opacity-75">{timeframe.dailyTime} min/day</div>
