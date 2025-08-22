@@ -426,17 +426,17 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
               <AlertCircle size={20} style={{ color: 'rgb(252, 165, 165)' }} />
               <h2 className="text-base font-semibold" style={{ color: 'rgb(226, 232, 240)' }}>Priority Focus Areas</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{ gap: 20 }}>
               {priorityAreas.slice(0, 3).map(([key, area]) => (
                 <div
                   key={key}
-                  className="p-5 border"
-                  style={{ backgroundColor: 'rgba(127, 29, 29, 0.25)', borderColor: 'rgba(185, 28, 28, 0.5)', color: 'rgb(252, 165, 165)', borderRadius: 12, boxShadow: '0 6px 18px rgba(0,0,0,0.25)' }}
+                  className="p-6 border"
+                  style={{ backgroundColor: 'rgba(127, 29, 29, 0.25)', borderColor: 'rgba(185, 28, 28, 0.5)', color: 'rgb(252, 165, 165)', borderRadius: 14, boxShadow: '0 8px 24px rgba(0,0,0,0.22)', minHeight: 84 }}
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="font-semibold" style={{ color: 'rgb(226, 232, 240)', fontSize: 16 }}>{area.name}</span>
-                    <div className="text-right">
-                      <div className="font-bold" style={{ fontSize: 18, color: 'rgb(254, 205, 211)' }}>{area.percentage}%</div>
+                  <div className="flex items-start justify-between">
+                    <span className="font-semibold" style={{ color: 'rgb(226, 232, 240)', fontSize: 16, lineHeight: '22px' }}>{area.name}</span>
+                    <div className="text-right" style={{ lineHeight: '18px' }}>
+                      <div className="font-bold" style={{ fontSize: 18, color: 'rgb(254, 205, 211)', marginBottom: 2 }}>{area.percentage}%</div>
                       <div className="text-xs" style={{ color: 'rgb(252, 165, 165)' }}>{area.correct}/{area.total} correct</div>
                     </div>
                   </div>
