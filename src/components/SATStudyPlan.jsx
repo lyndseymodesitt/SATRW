@@ -211,18 +211,45 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
     }));
   };
 
-  const getIconColorClasses = (color) => {
-    // Use simple background colors that are guaranteed to be in Tailwind
-    return 'bg-gray-600/40 border-gray-500/50';
+  // Inline color styles to avoid Tailwind purging and ensure colorful UI
+  const getColorStyles = (color, needsWork) => {
+    const map = {
+      blue: needsWork
+        ? { backgroundColor: 'rgba(30, 58, 138, 0.25)', borderColor: 'rgba(29, 78, 216, 0.5)', color: 'rgb(191, 219, 254)' }
+        : { backgroundColor: 'rgba(30, 58, 138, 0.4)', borderColor: 'rgb(59, 130, 246)', color: 'rgb(191, 219, 254)' },
+      green: needsWork
+        ? { backgroundColor: 'rgba(20, 83, 45, 0.25)', borderColor: 'rgba(21, 128, 61, 0.5)', color: 'rgb(187, 247, 208)' }
+        : { backgroundColor: 'rgba(20, 83, 45, 0.4)', borderColor: 'rgb(34, 197, 94)', color: 'rgb(187, 247, 208)' },
+      purple: needsWork
+        ? { backgroundColor: 'rgba(88, 28, 135, 0.25)', borderColor: 'rgba(124, 58, 237, 0.5)', color: 'rgb(221, 214, 254)' }
+        : { backgroundColor: 'rgba(88, 28, 135, 0.4)', borderColor: 'rgb(168, 85, 247)', color: 'rgb(221, 214, 254)' },
+      indigo: needsWork
+        ? { backgroundColor: 'rgba(49, 46, 129, 0.25)', borderColor: 'rgba(79, 70, 229, 0.5)', color: 'rgb(199, 210, 254)' }
+        : { backgroundColor: 'rgba(49, 46, 129, 0.4)', borderColor: 'rgb(99, 102, 241)', color: 'rgb(199, 210, 254)' },
+      amber: needsWork
+        ? { backgroundColor: 'rgba(120, 53, 15, 0.25)', borderColor: 'rgba(217, 119, 6, 0.5)', color: 'rgb(253, 230, 138)' }
+        : { backgroundColor: 'rgba(120, 53, 15, 0.4)', borderColor: 'rgb(217, 119, 6)', color: 'rgb(253, 230, 138)' },
+      emerald: needsWork
+        ? { backgroundColor: 'rgba(6, 78, 59, 0.25)', borderColor: 'rgba(16, 185, 129, 0.5)', color: 'rgb(167, 243, 208)' }
+        : { backgroundColor: 'rgba(6, 78, 59, 0.4)', borderColor: 'rgb(16, 185, 129)', color: 'rgb(167, 243, 208)' },
+      rose: needsWork
+        ? { backgroundColor: 'rgba(159, 18, 57, 0.25)', borderColor: 'rgba(225, 29, 72, 0.5)', color: 'rgb(254, 205, 211)' }
+        : { backgroundColor: 'rgba(159, 18, 57, 0.4)', borderColor: 'rgb(225, 29, 72)', color: 'rgb(254, 205, 211)' }
+    };
+    return map[color] || map.blue;
   };
 
-  const getColorClasses = (color, needsWork) => {
-    // Simplify to basic gray styling that will always work
-    if (needsWork) {
-      return 'bg-gray-800/60 border-gray-600/50 text-gray-200 rounded-2xl';
-    } else {
-      return 'bg-gray-700/60 border-gray-500/50 text-gray-100 rounded-2xl';
-    }
+  const getIconStyles = (color) => {
+    const map = {
+      blue:   { backgroundColor: 'rgba(59, 130, 246, 0.2)', borderColor: 'rgba(59, 130, 246, 0.35)' },
+      green:  { backgroundColor: 'rgba(34, 197, 94, 0.2)',  borderColor: 'rgba(34, 197, 94, 0.35)' },
+      purple: { backgroundColor: 'rgba(168, 85, 247, 0.2)', borderColor: 'rgba(168, 85, 247, 0.35)' },
+      indigo: { backgroundColor: 'rgba(99, 102, 241, 0.2)', borderColor: 'rgba(99, 102, 241, 0.35)' },
+      amber:  { backgroundColor: 'rgba(245, 158, 11, 0.2)',  borderColor: 'rgba(245, 158, 11, 0.35)' },
+      emerald:{ backgroundColor: 'rgba(16, 185, 129, 0.2)', borderColor: 'rgba(16, 185, 129, 0.35)' },
+      rose:   { backgroundColor: 'rgba(244, 63, 94, 0.2)',  borderColor: 'rgba(244, 63, 94, 0.35)' }
+    };
+    return map[color] || map.blue;
   };
 
   return (
@@ -239,44 +266,69 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       </div>
 
       {/* Timeframe Selection */}
-      <div className="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-2xl p-6 mb-8">
-        <h2 className="text-xl font-semibold text-gray-200 mb-4">Choose Your Timeline</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {Object.entries(timeframes).map(([key, timeframe]) => (
-            <button
-              key={key}
-              onClick={() => setSelectedTimeframe(key)}
-              className={`p-4 rounded-xl border-2 transition-all ${
-                selectedTimeframe === key
-                  ? 'border-blue-500 bg-blue-900/30 text-blue-300'
-                  : 'border-gray-600 bg-gray-700/30 text-gray-300 hover:border-gray-500'
-              }`}
-            >
-              <div className="text-lg font-semibold">{timeframe.name}</div>
-              <div className="text-sm opacity-75">{timeframe.dailyTime} min/day</div>
-              <div className="text-xs opacity-60">{timeframe.description}</div>
-            </button>
-          ))}
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold text-gray-200 mb-6 text-center">Choose Your Timeline</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* 2 Weeks - Red */}
+          <button
+            onClick={() => setSelectedTimeframe('2weeks')}
+            className="p-6 rounded-2xl transition-all border-2"
+            style={{
+              backgroundColor: selectedTimeframe === '2weeks' ? 'rgba(239, 68, 68, 0.3)' : 'rgba(127, 29, 29, 0.2)',
+              borderColor: selectedTimeframe === '2weeks' ? 'rgb(239, 68, 68)' : 'rgba(185, 28, 28, 0.5)',
+              color: selectedTimeframe === '2weeks' ? 'rgb(248, 113, 113)' : 'rgb(252, 165, 165)'
+            }}
+          >
+            <div className="text-lg font-semibold">2 Weeks</div>
+            <div className="text-sm opacity-75">90 min/day</div>
+            <div className="text-xs opacity-60">Intensive prep</div>
+          </button>
+          {/* 4 Weeks - Blue */}
+          <button
+            onClick={() => setSelectedTimeframe('4weeks')}
+            className="p-6 rounded-2xl transition-all border-2"
+            style={{
+              backgroundColor: selectedTimeframe === '4weeks' ? 'rgba(59, 130, 246, 0.3)' : 'rgba(30, 58, 138, 0.2)',
+              borderColor: selectedTimeframe === '4weeks' ? 'rgb(59, 130, 246)' : 'rgba(29, 78, 216, 0.5)',
+              color: selectedTimeframe === '4weeks' ? 'rgb(147, 197, 253)' : 'rgb(191, 219, 254)'
+            }}
+          >
+            <div className="text-lg font-semibold">4 Weeks</div>
+            <div className="text-sm opacity-75">60 min/day</div>
+            <div className="text-xs opacity-60">Balanced approach</div>
+          </button>
+          {/* 8 Weeks - Green */}
+          <button
+            onClick={() => setSelectedTimeframe('8weeks')}
+            className="p-6 rounded-2xl transition-all border-2"
+            style={{
+              backgroundColor: selectedTimeframe === '8weeks' ? 'rgba(34, 197, 94, 0.3)' : 'rgba(20, 83, 45, 0.2)',
+              borderColor: selectedTimeframe === '8weeks' ? 'rgb(34, 197, 94)' : 'rgba(21, 128, 61, 0.5)',
+              color: selectedTimeframe === '8weeks' ? 'rgb(134, 239, 172)' : 'rgb(187, 247, 208)'
+            }}
+          >
+            <div className="text-lg font-semibold">8 Weeks</div>
+            <div className="text-sm opacity-75">45 min/day</div>
+            <div className="text-xs opacity-60">Gradual improvement</div>
+          </button>
         </div>
       </div>
 
       {/* Study Plan Summary */}
-      <div className="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-2xl p-6 mb-8">
-        <h2 className="text-xl font-semibold text-gray-200 mb-6">Study Plan Summary</h2>
-        
-        {/* Overview Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div className="bg-gray-700/40 rounded-xl p-6 text-center border border-gray-600/50">
-            <div className="text-3xl font-bold text-blue-400 mb-2">{currentTimeframe.dailyTime}</div>
-            <div className="text-sm text-gray-300">Minutes per day</div>
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold text-gray-200 mb-6 text-center">Study Plan Summary</h2>
+        <div className="space-y-4">
+          <div className="rounded-2xl border-2 p-6 text-center" style={{ backgroundColor: 'rgba(30, 58, 138, 0.35)', borderColor: 'rgb(59, 130, 246)', color: 'rgb(191, 219, 254)' }}>
+            <div className="text-4xl font-bold mb-2">{currentTimeframe.dailyTime}</div>
+            <div className="text-lg opacity-75">Minutes per day</div>
           </div>
-          <div className="bg-gray-700/40 rounded-xl p-6 text-center border border-gray-600/50">
-            <div className="text-3xl font-bold text-purple-400 mb-2">{priorityAreas.length}</div>
-            <div className="text-sm text-gray-300">Priority areas</div>
+          <div className="rounded-2xl border-2 p-6 text-center" style={{ backgroundColor: 'rgba(88, 28, 135, 0.35)', borderColor: 'rgb(168, 85, 247)', color: 'rgb(221, 214, 254)' }}>
+            <div className="text-4xl font-bold mb-2">{priorityAreas.length}</div>
+            <div className="text-lg opacity-75">Priority areas</div>
           </div>
-          <div className="bg-gray-700/40 rounded-xl p-6 text-center border border-gray-600/50">
-            <div className="text-3xl font-bold text-green-400 mb-2">{Object.keys(performance).length - priorityAreas.length}</div>
-            <div className="text-sm text-gray-300">Strong areas</div>
+          <div className="rounded-2xl border-2 p-6 text-center" style={{ backgroundColor: 'rgba(20, 83, 45, 0.35)', borderColor: 'rgb(34, 197, 94)', color: 'rgb(187, 247, 208)' }}>
+            <div className="text-4xl font-bold mb-2">{Object.keys(performance).length - priorityAreas.length}</div>
+            <div className="text-lg opacity-75">Strong areas</div>
           </div>
         </div>
 
@@ -285,43 +337,31 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
           <h3 className="text-lg font-semibold text-gray-200 mb-4">Daily Time Allocation by Skill Area</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {Object.entries(performance)
-              .sort((a, b) => a[1].percentage - b[1].percentage) // Sort by performance, worst first
+              .sort((a, b) => a[1].percentage - b[1].percentage)
               .map(([key, area]) => {
-                // Calculate time allocation based on performance
-                // Worse performance = more time allocated
                 const baseTime = currentTimeframe.dailyTime;
                 let timeAllocation;
-                
-                if (area.percentage < 50) {
-                  timeAllocation = Math.round(baseTime * 0.25); // 25% of total time for worst areas
-                } else if (area.percentage < 70) {
-                  timeAllocation = Math.round(baseTime * 0.18); // 18% of total time for medium areas
-                } else if (area.percentage < 85) {
-                  timeAllocation = Math.round(baseTime * 0.12); // 12% of total time for good areas
-                } else {
-                  timeAllocation = Math.round(baseTime * 0.08); // 8% of total time for strong areas
-                }
+                if (area.percentage < 50) timeAllocation = Math.round(baseTime * 0.25);
+                else if (area.percentage < 70) timeAllocation = Math.round(baseTime * 0.18);
+                else if (area.percentage < 85) timeAllocation = Math.round(baseTime * 0.12);
+                else timeAllocation = Math.round(baseTime * 0.08);
 
                 const IconComponent = area.icon;
-                
                 return (
-                  <div key={key} className="bg-gray-700/40 rounded-xl p-4 border border-gray-600/50">
+                  <div key={key} className="rounded-2xl border-2 p-4" style={getColorStyles(area.color, area.needsWork)}>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg ${getIconColorClasses(area.color)}`}>
-                          <IconComponent size={16} />
+                        <div className="p-2 rounded-lg border" style={getIconStyles(area.color)}>
+                          <IconComponent size={20} />
                         </div>
                         <div>
-                          <div className="font-medium text-gray-200">{area.name}</div>
-                          <div className="text-sm text-gray-400">Current: {area.percentage}% ({area.correct}/{area.total})</div>
+                          <div className="font-semibold text-lg">{area.name}</div>
+                          <div className="text-sm opacity-75">Current: {area.percentage}% ({area.correct}/{area.total})</div>
                         </div>
                       </div>
-                      
                       <div className="text-right">
-                        <div className="text-lg font-bold text-blue-400">{timeAllocation} min</div>
-                        <div className="text-xs text-gray-400">
-                          {area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}
-                        </div>
+                        <div className="text-2xl font-bold text-blue-300">{timeAllocation} min</div>
+                        <div className="text-xs opacity-75">{area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}</div>
                       </div>
                     </div>
                   </div>
@@ -337,30 +377,32 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
 
       {/* Priority Areas */}
       {priorityAreas.length > 0 && (
-        <div className="bg-red-900/20 border border-red-700/50 rounded-2xl p-6 mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <AlertCircle className="text-red-400" size={24} />
-            <h2 className="text-xl font-semibold text-red-300">Priority Focus Areas</h2>
-          </div>
-          <p className="text-red-200 mb-4">These areas need the most attention based on your practice test:</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {priorityAreas.slice(0, 3).map(([key, area]) => (
-              <div key={key} className="bg-red-800/30 rounded-xl p-6 border border-red-600/40">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="bg-red-500/20 p-2 rounded-lg border border-red-500/30">
-                    <area.icon size={20} className="text-red-400" />
+        <div className="mb-8">
+          <div className="rounded-2xl border-2 p-6" style={{ backgroundColor: 'rgba(153, 27, 27, 0.3)', borderColor: 'rgba(220, 38, 38, 0.6)' }}>
+            <div className="flex items-center gap-3 mb-4">
+              <AlertCircle className="text-red-300" size={24} />
+              <h2 className="text-xl font-semibold" style={{ color: 'rgb(254, 205, 211)' }}>Priority Focus Areas</h2>
+            </div>
+            <p style={{ color: 'rgb(254, 205, 211)' }} className="mb-4">These areas need the most attention based on your practice test:</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {priorityAreas.slice(0, 3).map(([key, area]) => (
+                <div key={key} className="rounded-xl p-6 border-2" style={{ backgroundColor: 'rgba(127, 29, 29, 0.25)', borderColor: 'rgba(185, 28, 28, 0.5)' }}>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 rounded-lg border" style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', borderColor: 'rgba(239, 68, 68, 0.35)' }}>
+                      <area.icon size={20} style={{ color: 'rgb(252, 165, 165)' }} />
+                    </div>
+                    <span className="font-semibold text-lg" style={{ color: 'rgb(252, 165, 165)' }}>{area.name}</span>
                   </div>
-                  <span className="font-semibold text-red-300 text-lg">{area.name}</span>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-red-200 mb-1">{area.percentage}%</div>
-                  <div className="text-sm text-red-300">{area.correct}/{area.total} correct</div>
-                  <div className="mt-3 bg-red-700/30 px-3 py-1 rounded-full text-xs text-red-200 font-medium">
-                    Needs Work
+                  <div className="text-center">
+                    <div className="text-2xl font-bold mb-1" style={{ color: 'rgb(254, 205, 211)' }}>{area.percentage}%</div>
+                    <div className="text-sm" style={{ color: 'rgb(252, 165, 165)' }}>{area.correct}/{area.total} correct</div>
+                    <div className="mt-3 px-3 py-1 rounded-full text-xs font-medium" style={{ backgroundColor: 'rgba(127, 29, 29, 0.35)', color: 'rgb(252, 165, 165)' }}>
+                      Needs Work
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       )}
@@ -374,14 +416,15 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
           return (
             <div
               key={key}
-              className={`border border-gray-600 rounded-2xl p-6 transition-all bg-gray-800/50 text-gray-200`}
+              className="rounded-2xl border-2 p-6 transition-all"
+              style={getColorStyles(area.color, area.needsWork)}
             >
               <div 
                 className="flex items-center justify-between cursor-pointer"
                 onClick={() => toggleSection(key)}
               >
                 <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-xl ${getIconColorClasses(area.color)}`}>
+                  <div className="p-3 rounded-xl border" style={getIconStyles(area.color)}>
                     <IconComponent size={24} />
                   </div>
                   <div>
