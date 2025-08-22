@@ -267,49 +267,58 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
 
       {/* Timeframe Selection */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-gray-200 mb-4">Choose Your Timeline</h2>
-        <div className="grid grid-cols-3 gap-4">
+        <h2 className="text-xl font-semibold text-gray-200 mb-4" style={{ textAlign: 'center' }}>Choose Your Timeline</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           {/* 2 Weeks - Red */}
           <button
             onClick={() => setSelectedTimeframe('2weeks')}
-            className="p-6 rounded-2xl transition-all border-2"
             style={{
+              padding: 20,
+              borderRadius: 16,
+              borderWidth: 2,
+              borderStyle: 'solid',
               backgroundColor: selectedTimeframe === '2weeks' ? 'rgba(239, 68, 68, 0.3)' : 'rgba(127, 29, 29, 0.2)',
               borderColor: selectedTimeframe === '2weeks' ? 'rgb(239, 68, 68)' : 'rgba(185, 28, 28, 0.5)',
               color: selectedTimeframe === '2weeks' ? 'rgb(248, 113, 113)' : 'rgb(252, 165, 165)'
             }}
           >
-            <div className="text-lg font-semibold">2 Weeks</div>
-            <div className="text-sm opacity-75">90 min/day</div>
-            <div className="text-xs opacity-60">Intensive prep</div>
+            <div style={{ fontSize: 18, fontWeight: 600 }}>2 Weeks</div>
+            <div style={{ fontSize: 12, opacity: 0.85 }}>90 min/day</div>
+            <div style={{ fontSize: 11, opacity: 0.7 }}>Intensive prep</div>
           </button>
           {/* 4 Weeks - Blue */}
           <button
             onClick={() => setSelectedTimeframe('4weeks')}
-            className="p-6 rounded-2xl transition-all border-2"
             style={{
+              padding: 20,
+              borderRadius: 16,
+              borderWidth: 2,
+              borderStyle: 'solid',
               backgroundColor: selectedTimeframe === '4weeks' ? 'rgba(59, 130, 246, 0.3)' : 'rgba(30, 58, 138, 0.2)',
               borderColor: selectedTimeframe === '4weeks' ? 'rgb(59, 130, 246)' : 'rgba(29, 78, 216, 0.5)',
               color: selectedTimeframe === '4weeks' ? 'rgb(147, 197, 253)' : 'rgb(191, 219, 254)'
             }}
           >
-            <div className="text-lg font-semibold">4 Weeks</div>
-            <div className="text-sm opacity-75">60 min/day</div>
-            <div className="text-xs opacity-60">Balanced approach</div>
+            <div style={{ fontSize: 18, fontWeight: 600 }}>4 Weeks</div>
+            <div style={{ fontSize: 12, opacity: 0.85 }}>60 min/day</div>
+            <div style={{ fontSize: 11, opacity: 0.7 }}>Balanced approach</div>
           </button>
           {/* 8 Weeks - Green */}
           <button
             onClick={() => setSelectedTimeframe('8weeks')}
-            className="p-6 rounded-2xl transition-all border-2"
             style={{
+              padding: 20,
+              borderRadius: 16,
+              borderWidth: 2,
+              borderStyle: 'solid',
               backgroundColor: selectedTimeframe === '8weeks' ? 'rgba(34, 197, 94, 0.3)' : 'rgba(20, 83, 45, 0.2)',
               borderColor: selectedTimeframe === '8weeks' ? 'rgb(34, 197, 94)' : 'rgba(21, 128, 61, 0.5)',
               color: selectedTimeframe === '8weeks' ? 'rgb(134, 239, 172)' : 'rgb(187, 247, 208)'
             }}
           >
-            <div className="text-lg font-semibold">8 Weeks</div>
-            <div className="text-sm opacity-75">45 min/day</div>
-            <div className="text-xs opacity-60">Gradual improvement</div>
+            <div style={{ fontSize: 18, fontWeight: 600 }}>8 Weeks</div>
+            <div style={{ fontSize: 12, opacity: 0.85 }}>45 min/day</div>
+            <div style={{ fontSize: 11, opacity: 0.7 }}>Gradual improvement</div>
           </button>
         </div>
       </div>
