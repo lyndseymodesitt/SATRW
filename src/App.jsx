@@ -722,7 +722,6 @@ export default function App() {
         <SATStudyPlan 
           studentAnswers={results.rows}
           totalQuestions={results.total}
-          onBack={() => setPhase(PHASES.SUMMARY)}
         />
       )}
     </div>

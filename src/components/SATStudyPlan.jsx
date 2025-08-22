@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BookOpen, Target, CheckCircle, Clock, TrendingUp, AlertCircle, ChevronDown, ChevronRight } from 'lucide-react';
 
-const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66, onBack }) => {
+const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
   const [expandedSections, setExpandedSections] = useState({});
   const [selectedTimeframe, setSelectedTimeframe] = useState('4weeks');
 
@@ -228,16 +228,6 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66, onBack }) => {
     <div className="max-w-6xl mx-auto p-6 bg-gradient-to-br from-gray-900 to-slate-900 min-h-screen">
       {/* Header */}
       <div className="text-center mb-8">
-        {onBack && (
-          <div className="text-left mb-6">
-            <button 
-              onClick={onBack}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800/50 hover:bg-gray-700/50 border border-gray-600 rounded-xl text-gray-300 hover:text-white transition-all"
-            >
-              ← Back to Results
-            </button>
-          </div>
-        )}
         <div className="flex items-center justify-center gap-3 mb-4">
           <Target className="text-blue-400" size={32} />
           <h1 className="text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
@@ -266,6 +256,79 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66, onBack }) => {
               <div className="text-xs opacity-60">{timeframe.description}</div>
             </button>
           ))}
+        </div>
+      </div>
+
+      {/* Study Plan Summary */}
+      <div className="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-2xl p-6 mb-8">
+        <h2 className="text-xl font-semibold text-gray-200 mb-6">Study Plan Summary</h2>
+        
+        {/* Overview Stats */}
+        <div className="grid md:grid-cols-3 gap-6 text-center mb-8">
+          <div>
+            <div className="text-2xl font-bold text-blue-400">{currentTimeframe.dailyTime}</div>
+            <div className="text-sm text-gray-400">Minutes per day</div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-purple-400">{priorityAreas.length}</div>
+            <div className="text-sm text-gray-400">Priority areas</div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-green-400">{Object.keys(performance).length - priorityAreas.length}</div>
+            <div className="text-sm text-gray-400">Strong areas</div>
+          </div>
+        </div>
+
+        {/* Time Breakdown by Skill */}
+        <div>
+          <h3 className="text-lg font-semibold text-gray-200 mb-4">Daily Time Allocation by Skill Area</h3>
+          <div className="space-y-3">
+            {Object.entries(performance)
+              .sort((a, b) => a[1].percentage - b[1].percentage) // Sort by performance, worst first
+              .map(([key, area]) => {
+                // Calculate time allocation based on performance
+                // Worse performance = more time allocated
+                const baseTime = currentTimeframe.dailyTime;
+                let timeAllocation;
+                
+                if (area.percentage < 50) {
+                  timeAllocation = Math.round(baseTime * 0.25); // 25% of total time for worst areas
+                } else if (area.percentage < 70) {
+                  timeAllocation = Math.round(baseTime * 0.18); // 18% of total time for medium areas
+                } else if (area.percentage < 85) {
+                  timeAllocation = Math.round(baseTime * 0.12); // 12% of total time for good areas
+                } else {
+                  timeAllocation = Math.round(baseTime * 0.08); // 8% of total time for strong areas
+                }
+
+                const IconComponent = area.icon;
+                
+                return (
+                  <div key={key} className="flex items-center justify-between p-4 bg-gray-700/30 rounded-xl">
+                    <div className="flex items-center gap-3">
+                      <div className={`p-2 rounded-lg bg-${area.color}-500/20 border border-${area.color}-500/30`}>
+                        <IconComponent size={16} />
+                      </div>
+                      <div>
+                        <div className="font-medium text-gray-200">{area.name}</div>
+                        <div className="text-sm text-gray-400">Current: {area.percentage}% ({area.correct}/{area.total})</div>
+                      </div>
+                    </div>
+                    
+                    <div className="text-right">
+                      <div className="text-lg font-bold text-blue-400">{timeAllocation} min</div>
+                      <div className="text-xs text-gray-400">
+                        {area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+        
+        <div className="mt-6 text-center text-gray-400">
+          <p>Time allocation adjusts based on your current performance. Focus more time on weaker areas!</p>
         </div>
       </div>
 
@@ -383,27 +446,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66, onBack }) => {
         })}
       </div>
 
-      {/* Summary */}
-      <div className="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-2xl p-6 mt-8">
-        <h2 className="text-xl font-semibold text-gray-200 mb-4">Study Plan Summary</h2>
-        <div className="grid md:grid-cols-3 gap-6 text-center">
-          <div>
-            <div className="text-2xl font-bold text-blue-400">{currentTimeframe.dailyTime}</div>
-            <div className="text-sm text-gray-400">Minutes per day</div>
-          </div>
-          <div>
-            <div className="text-2xl font-bold text-purple-400">{priorityAreas.length}</div>
-            <div className="text-sm text-gray-400">Priority areas</div>
-          </div>
-          <div>
-            <div className="text-2xl font-bold text-green-400">{Object.keys(performance).length - priorityAreas.length}</div>
-            <div className="text-sm text-gray-400">Strong areas</div>
-          </div>
-        </div>
-        <div className="mt-6 text-center text-gray-400">
-          <p>Stick to your plan and you'll see improvement in 2-3 practice tests!</p>
-        </div>
-      </div>
+
     </div>
   );
 };
