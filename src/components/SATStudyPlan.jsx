@@ -239,7 +239,7 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       {/* Daily Time Allocation by Skill Area */}
       <div className="mb-8">
         <h2 className="text-xl font-semibold text-gray-200 mb-6 text-center">Daily Time Allocation by Skill Area</h2>
-        <div className="space-y-4">
+        <div className="space-y-3">
           {Object.entries(performance)
             .sort((a, b) => a[1].percentage - b[1].percentage)
             .map(([key, area]) => {
@@ -259,21 +259,23 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
               const IconComponent = area.icon;
               
               return (
-                <div key={key} className="flex items-center justify-between p-4 rounded-xl border" style={getColorStyles(area.color, area.needsWork)}>
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg border" style={getIconStyles(area.color)}>
-                      <IconComponent size={16} />
+                <div key={key} className="rounded-2xl border-2 p-4" style={getColorStyles(area.color, area.needsWork)}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg border" style={getIconStyles(area.color)}>
+                        <IconComponent size={20} />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-lg">{area.name}</div>
+                        <div className="text-sm opacity-75">Current: {area.percentage}% ({area.correct}/{area.total})</div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="font-medium">{area.name}</div>
-                      <div className="text-sm opacity-75">Current: {area.percentage}% ({area.correct}/{area.total})</div>
-                    </div>
-                  </div>
-                  
-                  <div className="text-right">
-                    <div className="text-lg font-bold text-blue-400">{timeAllocation} min</div>
-                    <div className="text-xs opacity-75">
-                      {area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}
+                    
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-blue-400">{timeAllocation} min</div>
+                      <div className="text-sm opacity-75">
+                        {area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}
+                      </div>
                     </div>
                   </div>
                 </div>
