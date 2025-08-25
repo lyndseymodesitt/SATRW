@@ -1,216 +1,243 @@
-import React, { useState } from 'react';
-import { BookOpen, Target, CheckCircle, Clock, TrendingUp, AlertCircle, ChevronDown, ChevronRight } from 'lucide-react';
+// src/components/SATStudyPlan.jsx
+import React, { useEffect, useMemo, useState } from "react";
+import {
+  BookOpen,
+  Target,
+  CheckCircle,
+  Clock,
+  TrendingUp,
+  AlertCircle,
+  ChevronDown,
+  ChevronRight,
+} from "lucide-react";
 
-const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
+/**
+ * SATStudyPlan
+ * Props:
+ *  - studentAnswers: [{ isCorrect: boolean }, ...]
+ *  - totalQuestions: number (default 66)
+ */
+export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 }) {
   const [expandedSections, setExpandedSections] = useState({});
-  const [selectedTimeframe, setSelectedTimeframe] = useState('4weeks');
+  const [selectedTimeframe, setSelectedTimeframe] = useState("4weeks");
 
-  // Detailed question classification based on your actual SAT Practice Test
-  const questionClassification = {
-    vocabularyInContext: {
-      name: 'Vocabulary in Context',
-      icon: BookOpen,
-      color: 'blue',
-      questions: [1, 2, 3, 4, 5, 34, 35, 36, 37, 38],
-      description: 'Choosing precise words that fit the context',
-      studyMaterials: [
-        'Practice with context clues from real SAT passages',
-        'Learn word families and root meanings',
-        'Study connotation differences (rattled vs. demolished)',
-        'Practice precision questions (clarified vs. confirmed)'
-      ],
-      practiceActivities: [
-        'Read 20 minutes daily, noting unfamiliar words in context',
-        'Complete 5 vocabulary-in-context questions daily',
-        'Create flashcards for nuanced word differences',
-        'Practice with Khan Academy vocabulary modules'
-      ]
-    },
+  // --- Classification (adjust to match your test) ---
+  const questionClassification = useMemo(
+    () => ({
+      vocabularyInContext: {
+        name: "Vocabulary in Context",
+        icon: BookOpen,
+        color: "blue",
+        questions: [1, 2, 3, 4, 5, 34, 35, 36, 37, 38],
+        description: "Choosing precise words that fit the context",
+        studyMaterials: [
+          "Practice with context clues from real SAT passages",
+          "Learn word families and root meanings",
+          "Study connotation differences (rattled vs. demolished)",
+          "Practice precision questions (clarified vs. confirmed)",
+        ],
+        practiceActivities: [
+          "Read 20 minutes daily, noting unfamiliar words in context",
+          "Complete 5 vocabulary-in-context questions daily",
+          "Create flashcards for nuanced word differences",
+          "Practice with Khan Academy vocabulary modules",
+        ],
+      },
 
-    grammarAndConventions: {
-      name: 'Grammar & Conventions',
-      icon: Target,
-      color: 'green',
-      questions: [20, 21, 22, 23, 24, 25, 26, 51, 52, 53, 54, 55, 56, 57, 58],
-      description: 'Verb tenses, punctuation, pronouns, and sentence structure',
-      studyMaterials: [
-        'Master past perfect vs. simple past (had submitted vs. submitted)',
-        "Learn colon usage after 'as follows' and similar phrases",
-        'Practice pronoun cases (who vs. whom, I vs. me)',
-        'Study subject-verb agreement with complex phrases'
-      ],
-      practiceActivities: [
-        'Complete 10 grammar questions daily',
-        'Review one grammar rule per day with examples',
-        'Practice punctuation rules with real sentences',
-        'Use grammar apps like Grammarly for daily writing'
-      ]
-    },
+      grammarAndConventions: {
+        name: "Grammar & Conventions",
+        icon: Target,
+        color: "green",
+        questions: [20, 21, 22, 23, 24, 25, 26, 51, 52, 53, 54, 55, 56, 57, 58],
+        description: "Verb tenses, punctuation, pronouns, and sentence structure",
+        studyMaterials: [
+          "Master past perfect vs. simple past (had submitted vs. submitted)",
+          "Learn colon usage after 'as follows' and similar phrases",
+          "Practice pronoun cases (who vs. whom, I vs. me)",
+          "Study subject-verb agreement with complex phrases",
+        ],
+        practiceActivities: [
+          "Complete 10 grammar questions daily",
+          "Review one grammar rule per day with examples",
+          "Practice punctuation rules with real sentences",
+          "Use grammar apps like Grammarly for daily writing",
+        ],
+      },
 
-    logicalTransitions: {
-      name: 'Logical Transitions',
-      icon: TrendingUp,
-      color: 'purple',
-      questions: [27, 28, 29, 30, 59, 60, 61, 62],
-      description: 'Connecting ideas with appropriate transition words',
-      studyMaterials: [
-        'Learn cause-effect transitions (accordingly, consequently)',
-        'Master contrast transitions (nevertheless, however)',
-        'Practice time-sequence transitions (next, meanwhile)',
-        'Study addition transitions (furthermore, moreover)'
-      ],
-      practiceActivities: [
-        'Identify transition types in newspaper articles',
-        'Practice choosing between similar transitions',
-        'Write paragraphs focusing on logical flow',
-        'Complete 5 transition questions daily'
-      ]
-    },
+      logicalTransitions: {
+        name: "Logical Transitions",
+        icon: TrendingUp,
+        color: "purple",
+        questions: [27, 28, 29, 30, 59, 60, 61, 62],
+        description: "Connecting ideas with appropriate transition words",
+        studyMaterials: [
+          "Learn cause-effect transitions (accordingly, consequently)",
+          "Master contrast transitions (nevertheless, however)",
+          "Practice time-sequence transitions (next, meanwhile)",
+          "Study addition transitions (furthermore, moreover)",
+        ],
+        practiceActivities: [
+          "Identify transition types in newspaper articles",
+          "Practice choosing between similar transitions",
+          "Write paragraphs focusing on logical flow",
+          "Complete 5 transition questions daily",
+        ],
+      },
 
-    readingComprehension: {
-      name: 'Reading Comprehension',
-      icon: BookOpen,
-      color: 'indigo',
-      questions: [6, 7, 8, 9, 10, 39, 40, 42, 43, 44],
-      description: 'Main ideas, text function, and passage analysis',
-      studyMaterials: [
-        'Practice identifying main purposes of passages',
-        'Learn to analyze function of specific sentences',
-        'Study cause-and-effect relationships in texts',
-        'Master inference from context clues'
-      ],
-      practiceActivities: [
-        'Read complex articles daily with purpose questions',
-        'Practice summarizing main ideas in one sentence',
-        'Analyze sentence functions in academic texts',
-        'Complete reading comprehension passages daily'
-      ]
-    },
+      readingComprehension: {
+        name: "Reading Comprehension",
+        icon: BookOpen,
+        color: "indigo",
+        questions: [6, 7, 8, 9, 10, 39, 40, 42, 43, 44],
+        description: "Main ideas, text function, and passage analysis",
+        studyMaterials: [
+          "Practice identifying main purposes of passages",
+          "Learn to analyze function of specific sentences",
+          "Study cause-and-effect relationships in texts",
+          "Master inference from context clues",
+        ],
+        practiceActivities: [
+          "Read complex articles daily with purpose questions",
+          "Practice summarizing main ideas in one sentence",
+          "Analyze sentence functions in academic texts",
+          "Complete reading comprehension passages daily",
+        ],
+      },
 
-    evidenceAndData: {
-      name: 'Evidence & Data Analysis',
-      icon: TrendingUp,
-      color: 'amber',
-      questions: [11, 12, 13, 14, 15, 16, 17, 18, 19, 45, 47, 49],
-      description: 'Interpreting charts, selecting evidence, analyzing data',
-      studyMaterials: [
-        'Practice reading tables and conversion rate data',
-        'Learn to calculate percentage changes from charts',
-        'Study evidence selection from passage quotes',
-        'Master data interpretation with constraints'
-      ],
-      practiceActivities: [
-        'Analyze news articles with data and charts',
-        'Practice calculating changes from before/after data',
-        'Complete data interpretation questions daily',
-        'Study graphs and tables from various sources'
-      ]
-    },
+      evidenceAndData: {
+        name: "Evidence & Data Analysis",
+        icon: TrendingUp,
+        color: "amber",
+        questions: [11, 12, 13, 14, 15, 16, 17, 18, 19, 45, 47, 49],
+        description: "Interpreting charts, selecting evidence, analyzing data",
+        studyMaterials: [
+          "Practice reading tables and conversion rate data",
+          "Learn to calculate percentage changes from charts",
+          "Study evidence selection from passage quotes",
+          "Master data interpretation with constraints",
+        ],
+        practiceActivities: [
+          "Analyze news articles with data and charts",
+          "Practice calculating changes from before/after data",
+          "Complete data interpretation questions daily",
+          "Study graphs and tables from various sources",
+        ],
+      },
 
-    researchSynthesis: {
-      name: 'Research Synthesis',
-      icon: Target,
-      color: 'emerald',
-      questions: [31, 32, 33, 46, 50, 63, 64, 65, 66],
-      description: 'Goal-oriented writing with multiple constraints',
-      studyMaterials: [
-        'Practice combining data from multiple sources',
-        'Learn to meet specific writing goals with constraints',
-        'Study academic writing with precise requirements',
-        'Master budget/timeline constraint problems'
-      ],
-      practiceActivities: [
-        'Practice synthesis questions with real research notes',
-        'Write goal-oriented sentences with multiple constraints',
-        'Analyze complex scenarios with competing priorities',
-        'Complete advanced research-based questions'
-      ]
-    },
+      researchSynthesis: {
+        name: "Research Synthesis",
+        icon: Target,
+        color: "emerald",
+        questions: [31, 32, 33, 46, 50, 63, 64, 65, 66],
+        description: "Goal-oriented writing with multiple constraints",
+        studyMaterials: [
+          "Practice combining data from multiple sources",
+          "Learn to meet specific writing goals with constraints",
+          "Study academic writing with precise requirements",
+          "Master budget/timeline constraint problems",
+        ],
+        practiceActivities: [
+          "Practice synthesis questions with real research notes",
+          "Write goal-oriented sentences with multiple constraints",
+          "Analyze complex scenarios with competing priorities",
+          "Complete advanced research-based questions",
+        ],
+      },
 
-    textComparison: {
-      name: 'Text Comparison',
-      icon: BookOpen,
-      color: 'rose',
-      questions: [41, 48],
-      description: 'Analyzing relationships between different texts',
-      studyMaterials: [
-        "Practice comparing authors' different approaches",
-        'Learn to identify contrasting viewpoints',
-        'Study evidence selection across multiple texts',
-        'Master relationship analysis between passages'
-      ],
-      practiceActivities: [
-        'Compare news articles on the same topic',
-        'Practice identifying author agreements/disagreements',
-        'Analyze paired passages weekly',
-        'Complete comparative analysis exercises'
-      ]
-    }
-  };
+      textComparison: {
+        name: "Text Comparison",
+        icon: BookOpen,
+        color: "rose",
+        questions: [41, 48],
+        description: "Analyzing relationships between different texts",
+        studyMaterials: [
+          "Practice comparing authors' different approaches",
+          "Learn to identify contrasting viewpoints",
+          "Study evidence selection across multiple texts",
+          "Master relationship analysis between passages",
+        ],
+        practiceActivities: [
+          "Compare news articles on the same topic",
+          "Practice identifying author agreements/disagreements",
+          "Analyze paired passages weekly",
+          "Complete comparative analysis exercises",
+        ],
+      },
+    }),
+    []
+  );
 
-  // Analyze student performance
-  const analyzePerformance = () => {
+  // --- Analyze performance (memoized) ---
+  const performance = useMemo(() => {
+    // Default: show categories with 0% if no answers yet
     if (!studentAnswers || studentAnswers.length === 0) {
-      return Object.keys(questionClassification).reduce((acc, key) => {
-        acc[key] = {
-          ...questionClassification[key],
-          correct: 0,
-          total: questionClassification[key].questions.length,
-          percentage: 0,
-          needsWork: true
-        };
-        return acc;
-      }, {});
+      return Object.fromEntries(
+        Object.entries(questionClassification).map(([key, cat]) => [
+          key,
+          {
+            ...cat,
+            correct: 0,
+            total: cat.questions.length,
+            percentage: 0,
+            needsWork: true,
+          },
+        ])
+      );
     }
 
-    const analysis = {};
-    Object.keys(questionClassification).forEach(categoryKey => {
-      const category = questionClassification[categoryKey];
+    const result = {};
+    Object.entries(questionClassification).forEach(([key, cat]) => {
       let correct = 0;
-      category.questions.forEach(questionNum => {
-        const answerIndex = questionNum - 1;
-        if (studentAnswers[answerIndex] && studentAnswers[answerIndex].isCorrect) {
-          correct++;
-        }
+      cat.questions.forEach((qNum) => {
+        const idx = qNum - 1;
+        if (studentAnswers[idx]?.isCorrect) correct++;
       });
-      const total = category.questions.length;
-      const percentage = total > 0 ? (correct / total) * 100 : 0;
-      analysis[categoryKey] = {
-        ...category,
-        correct,
-        total,
-        percentage: Math.round(percentage),
-        needsWork: percentage < 75
-      };
+      const total = cat.questions.length;
+      const pct = total ? Math.round((correct / total) * 100) : 0;
+      result[key] = { ...cat, correct, total, percentage: pct, needsWork: pct < 75 };
     });
-    return analysis;
-  };
+    return result;
+  }, [studentAnswers, questionClassification]);
 
-  const performance = analyzePerformance();
-  const priorityAreas = Object.entries(performance)
-    .filter(([_, data]) => data.needsWork)
-    .sort((a, b) => a[1].percentage - b[1].percentage);
+  const priorityAreas = useMemo(
+    () =>
+      Object.entries(performance)
+        .filter(([, d]) => d.needsWork)
+        .sort((a, b) => a[1].percentage - b[1].percentage),
+    [performance]
+  );
 
+  // --- Timeframes & fallback ---
   const timeframes = {
-    '2weeks': { name: '2 Weeks', dailyTime: 90, description: 'Intensive prep' },
-    '4weeks': { name: '4 Weeks', dailyTime: 60, description: 'Balanced approach' },
-    '8weeks': { name: '8 Weeks', dailyTime: 45, description: 'Gradual improvement' }
+    "2weeks": { name: "2 Weeks", dailyTime: 90, description: "Intensive prep" },
+    "4weeks": { name: "4 Weeks", dailyTime: 60, description: "Balanced approach" },
+    "8weeks": { name: "8 Weeks", dailyTime: 45, description: "Gradual improvement" },
   };
+  const DEFAULT_TIMEFRAME = "4weeks";
+  const currentTimeframe = timeframes[selectedTimeframe] ?? timeframes[DEFAULT_TIMEFRAME];
 
-  const currentTimeframe = timeframes[selectedTimeframe];
+  // --- Overall stats (actually uses totalQuestions) ---
+  const answered = Math.min(totalQuestions, studentAnswers?.length ?? 0);
+  const totalCorrect = (studentAnswers || []).filter((a) => a?.isCorrect).length;
+  const overallPct = answered ? Math.round((totalCorrect / answered) * 100) : 0;
 
-  const toggleSection = (section) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [section]: !prev[section]
-    }));
-  };
+  const toggleSection = (section) =>
+    setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
 
-  const getIconColorClasses = () => 'bg-gray-600/40 border-gray-500/50';
-  const getColorClasses = (color, needsWork) =>
-    needsWork
-      ? 'bg-gray-800/60 border-gray-600/50 text-gray-200 rounded-2xl'
-      : 'bg-gray-700/60 border-gray-500/50 text-gray-100 rounded-2xl';
+  const getIconColorClasses = () => "bg-gray-600/40 border-gray-500/50";
+
+  // --- Dev guardrails: find overlaps / gaps once ---
+  useEffect(() => {
+    const map = new Map();
+    Object.values(questionClassification).forEach((cat) =>
+      cat.questions.forEach((q) => map.set(q, (map.get(q) || 0) + 1))
+    );
+    const dups = [...map.entries()].filter(([, count]) => count > 1);
+    const missing = Array.from({ length: totalQuestions }, (_, i) => i + 1).filter((n) => !map.has(n));
+    if (dups.length) console.warn("Questions in multiple categories:", dups);
+    if (missing.length) console.warn("Unclassified questions:", missing);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-gradient-to-br from-gray-900 to-slate-900 min-h-screen">
@@ -222,7 +249,9 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
             Your SAT Study Plan
           </h1>
         </div>
-        <p className="text-gray-400 text-lg">Personalized recommendations based on your practice test performance</p>
+        <p className="text-gray-400 text-lg">
+          Personalized recommendations based on your practice test performance
+        </p>
       </div>
 
       {/* Timeframe Selection */}
@@ -235,8 +264,8 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
               onClick={() => setSelectedTimeframe(key)}
               className={`p-4 rounded-xl border-2 transition-all ${
                 selectedTimeframe === key
-                  ? 'border-blue-500 bg-blue-900/30 text-blue-300'
-                  : 'border-gray-600 bg-gray-700/30 text-gray-300 hover:border-gray-500'
+                  ? "border-blue-500 bg-blue-900/30 text-blue-300"
+                  : "border-gray-600 bg-gray-700/30 text-gray-300 hover:border-gray-500"
               }`}
             >
               <div className="text-lg font-semibold">{timeframe.name}</div>
@@ -250,15 +279,29 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       {/* Study Plan Summary */}
       <div className="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-2xl p-6 mb-8">
         <h2 className="text-xl font-semibold text-gray-200 mb-6">Study Plan Summary</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+
+        {/* Overview Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-gray-700/40 rounded-xl p-6 text-center border border-gray-600/50">
-            <div className="text-3xl font-bold text-blue-400 mb-2">{currentTimeframe.dailyTime}</div>
+            <div className="text-3xl font-bold text-blue-400 mb-2">
+              {currentTimeframe.dailyTime}
+            </div>
             <div className="text-sm text-gray-300">Minutes per day</div>
           </div>
+
+          <div className="bg-gray-700/40 rounded-xl p-6 text-center border border-gray-600/50">
+            <div className="text-3xl font-bold text-teal-400 mb-2">{overallPct}%</div>
+            <div className="text-sm text-gray-300">Overall accuracy</div>
+            <div className="text-xs text-gray-400 mt-1">
+              {totalCorrect}/{answered} correct
+            </div>
+          </div>
+
           <div className="bg-gray-700/40 rounded-xl p-6 text-center border border-gray-600/50">
             <div className="text-3xl font-bold text-purple-400 mb-2">{priorityAreas.length}</div>
             <div className="text-sm text-gray-300">Priority areas</div>
           </div>
+
           <div className="bg-gray-700/40 rounded-xl p-6 text-center border border-gray-600/50">
             <div className="text-3xl font-bold text-green-400 mb-2">{Object.keys(performance).length - priorityAreas.length}</div>
             <div className="text-sm text-gray-300">Strong areas</div>
@@ -412,6 +455,4 @@ const SATStudyPlan = ({ studentAnswers = [], totalQuestions = 66 }) => {
       </div>
     </div>
   );
-};
-
-export default SATStudyPlan;
+}
