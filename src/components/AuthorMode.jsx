@@ -480,6 +480,10 @@ const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume }) => {
           <p className="text-gray-400 text-lg mt-2">
             Edit and manage SAT questions with grammar checking and preview
           </p>
+          <div className="mt-3 px-4 py-2 bg-amber-600/20 border border-amber-500/30 rounded-lg inline-flex items-center gap-2">
+            <span className="text-amber-400 text-sm font-medium">⏸️ Test Paused</span>
+            <span className="text-amber-500/70 text-xs">No time pressure while editing</span>
+          </div>
         </div>
         <div className="flex gap-3">
           {savedPlace && (

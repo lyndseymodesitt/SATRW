@@ -519,7 +519,15 @@ export default function App() {
               >
                 💾 Save Place
               </button>
-              <div className="timer" aria-live="polite">⏱ {fmt(moduleTimeLeft)}</div>
+              <div className="timer" aria-live="polite">
+                {isPaused ? (
+                  <span className="paused-timer" title="Test is paused - take your time editing!">
+                    ⏸️ PAUSED
+                  </span>
+                ) : (
+                  `⏱ ${fmt(moduleTimeLeft)}`
+                )}
+              </div>
             </div>
           </div>
 
@@ -613,8 +621,20 @@ export default function App() {
       {phase === PHASES.BREAK && (
         <div className="card">
           <h2>Break time</h2>
-          <p>Module 2 will start automatically in <strong>{fmt(breakLeft)}</strong>.</p>
-          <p className="small">Stand up, shake out your wrists, summon your inner grammar goblin.</p>
+          <p>
+            {isPaused ? (
+              "Break is paused while you edit. Take your time fixing issues!"
+            ) : (
+              <>Module 2 will start automatically in <strong>{fmt(breakLeft)}</strong>.</>
+            )}
+          </p>
+          <p className="small">
+            {isPaused ? (
+              "⏸️ Paused - no time pressure while editing"
+            ) : (
+              "Stand up, shake out your wrists, summon your inner grammar goblin."
+            )}
+          </p>
           <div style={{ display: "flex", gap: 12, marginTop: 8, justifyContent: "center" }}>
             <button className="btn" onClick={startSecondModule}>Start Now</button>
           </div>

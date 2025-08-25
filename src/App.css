@@ -372,6 +372,22 @@
   box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.3);
 }
 
+/* Paused Timer Styling */
+.paused-timer {
+  color: #f59e0b;
+  font-weight: bold;
+  background: rgba(245, 158, 11, 0.1);
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
 /* Save Place Modal */
 .modal-overlay {
   position: fixed;
