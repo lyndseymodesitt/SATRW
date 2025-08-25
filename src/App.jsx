@@ -193,10 +193,7 @@ export default function App() {
     }
   };
 
-  const goToAuthorModeFromModal = () => {
-    setShowAuthorMode(true);
-    setShowSavePlaceModal(false);
-  };
+
 
   const clearSavedPlace = () => {
     setSavedPlace(null);
