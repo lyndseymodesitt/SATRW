@@ -123,6 +123,10 @@ export default function App() {
   // Author mode state
   const [showAuthorMode, setShowAuthorMode] = useState(false);
   const [questions, setQuestions] = useState([]);
+  
+  // Save place functionality
+  const [savedPlace, setSavedPlace] = useState(null);
+  const [showSavePlaceModal, setShowSavePlaceModal] = useState(false);
 
   // REVIEW mode UI state
   const [reviewFilter, setReviewFilter] = useState("all"); // all | incorrect | flagged
@@ -151,6 +155,42 @@ export default function App() {
 
   const toggleAuthorMode = () => {
     setShowAuthorMode(!showAuthorMode);
+  };
+
+  // Save place functionality
+  const saveCurrentPlace = () => {
+    const place = {
+      phase,
+      moduleIdx,
+      qIndex,
+      moduleTimeLeft,
+      breakLeft,
+      answers: { ...answers },
+      flagged: { ...flagged },
+      timestamp: Date.now()
+    };
+    setSavedPlace(place);
+    setShowSavePlaceModal(true);
+  };
+
+  const resumeFromSavedPlace = () => {
+    if (savedPlace) {
+      setPhase(savedPlace.phase);
+      setModuleIdx(savedPlace.moduleIdx);
+      setQIndex(savedPlace.qIndex);
+      setModuleTimeLeft(savedPlace.moduleTimeLeft);
+      setBreakLeft(savedPlace.breakLeft);
+      setAnswers(savedPlace.answers);
+      setFlagged(savedPlace.flagged);
+      setSavedPlace(null);
+      setShowSavePlaceModal(false);
+      setShowAuthorMode(false);
+    }
+  };
+
+  const clearSavedPlace = () => {
+    setSavedPlace(null);
+    setShowSavePlaceModal(false);
   };
 
   const totalQuestions = modules[0].length + modules[1].length;
@@ -442,6 +482,14 @@ export default function App() {
                   {flagged[currentQuestion.id] ? "Flagged" : "Flag for review"}
                 </button>
               )}
+              <button
+                className="btn-secondary"
+                onClick={saveCurrentPlace}
+                style={{ fontSize: '12px', padding: '6px 10px' }}
+                title="Save your current position to fix issues in Author Mode"
+              >
+                💾 Save Place
+              </button>
               <div className="timer" aria-live="polite">⏱ {fmt(moduleTimeLeft)}</div>
             </div>
           </div>
@@ -761,7 +809,36 @@ export default function App() {
           questions={questions}
           onSave={handleQuestionSave}
           onClose={toggleAuthorMode}
+          savedPlace={savedPlace}
+          onResume={resumeFromSavedPlace}
         />
+      )}
+
+      {/* Save Place Modal */}
+      {showSavePlaceModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>💾 Position Saved!</h3>
+            <div className="saved-place-info">
+              <p><strong>Module:</strong> {savedPlace?.moduleIdx + 1}</p>
+              <p><strong>Question:</strong> {savedPlace?.qIndex + 1}</p>
+              <p><strong>Time Remaining:</strong> {fmt(savedPlace?.moduleTimeLeft || 0)}</p>
+              <p><strong>Answers:</strong> {Object.keys(savedPlace?.answers || {}).length}</p>
+              <p><strong>Flagged:</strong> {Object.keys(savedPlace?.flagged || {}).length}</p>
+            </div>
+            <div className="modal-actions">
+              <button className="btn" onClick={() => setShowAuthorMode(true)}>
+                🛠️ Go to Author Mode
+              </button>
+              <button className="btn-secondary" onClick={clearSavedPlace}>
+                ❌ Clear Saved Place
+              </button>
+            </div>
+            <p className="small" style={{ marginTop: '16px', opacity: 0.7 }}>
+              Your position is saved. You can now fix issues in Author Mode and return exactly where you left off.
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );
