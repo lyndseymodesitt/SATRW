@@ -135,10 +135,10 @@ export default function App() {
 
   // Group questions by module; keep order from your file.
   const modules = useMemo(() => {
-    const m1 = questionsData.filter((q) => Number(q.module) === 1);
-    const m2 = questionsData.filter((q) => Number(q.module) === 2);
+    const m1 = questions.filter((q) => Number(q.module) === 1);
+    const m2 = questions.filter((q) => Number(q.module) === 2);
     return [m1, m2];
-  }, [questionsData]);
+  }, [questions]);
 
   // Update local questions when questionsData changes
   useEffect(() => {
@@ -147,9 +147,12 @@ export default function App() {
 
   // Author mode handlers
   const handleQuestionSave = (updatedQuestion) => {
-    setQuestions(prev => 
-      prev.map(q => q.id === updatedQuestion.id ? updatedQuestion : q)
-    );
+    console.log('Saving question:', updatedQuestion.id);
+    setQuestions(prev => {
+      const updated = prev.map(q => q.id === updatedQuestion.id ? updatedQuestion : q);
+      console.log('Questions updated, new count:', updated.length);
+      return updated;
+    });
     // In a real app, you'd save to backend here
     console.log('Question updated:', updatedQuestion);
   };
@@ -207,7 +210,7 @@ export default function App() {
     setShowAuthorMode(true);
   };
 
-  const totalQuestions = modules[0].length + modules[1].length;
+  const totalQuestions = useMemo(() => modules[0].length + modules[1].length, [modules]);
 
   // Guard: skip empty module
   useEffect(() => {
