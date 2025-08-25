@@ -85,6 +85,11 @@ p { color: var(--text); opacity: 0.95; }
   border: 1px solid var(--border);
 }
 
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #6b7280;
+}
+
 .timer {
   font-variant-numeric: tabular-nums;
   font-weight: 800;

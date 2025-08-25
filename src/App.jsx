@@ -4,6 +4,7 @@ import ChartRenderer from "./components/ChartRenderer.jsx";
 import QuestionText from "./components/QuestionText.jsx";
 import SATReadingWritingScorer from "./components/SATScorer.jsx";
 import SATStudyPlan from "./components/SATStudyPlan.jsx";
+import AuthorMode from "./components/AuthorMode.jsx";
 
 
 // Process blanks in text for rendering (converts \_, \\_, ____ to styled spans)
@@ -118,6 +119,10 @@ export default function App() {
   const [qIndex, setQIndex] = useState(0);
   const [answers, setAnswers] = useState({}); // { [questionId]: choiceIndex }
   const [flagged, setFlagged] = useState({}); // { [questionId]: true }
+  
+  // Author mode state
+  const [showAuthorMode, setShowAuthorMode] = useState(false);
+  const [questions, setQuestions] = useState([]);
 
   // REVIEW mode UI state
   const [reviewFilter, setReviewFilter] = useState("all"); // all | incorrect | flagged
@@ -129,6 +134,24 @@ export default function App() {
     const m2 = questionsData.filter((q) => Number(q.module) === 2);
     return [m1, m2];
   }, [questionsData]);
+
+  // Update local questions when questionsData changes
+  useEffect(() => {
+    setQuestions(questionsData);
+  }, [questionsData]);
+
+  // Author mode handlers
+  const handleQuestionSave = (updatedQuestion) => {
+    setQuestions(prev => 
+      prev.map(q => q.id === updatedQuestion.id ? updatedQuestion : q)
+    );
+    // In a real app, you'd save to backend here
+    console.log('Question updated:', updatedQuestion);
+  };
+
+  const toggleAuthorMode = () => {
+    setShowAuthorMode(!showAuthorMode);
+  };
 
   const totalQuestions = modules[0].length + modules[1].length;
 
@@ -378,6 +401,13 @@ export default function App() {
           </p>
           <div style={{ display: "flex", gap: 12, marginTop: 16, alignItems: "center", justifyContent: "center" }}>
             <button className="btn" onClick={startTest}>Start Test</button>
+            <button 
+              className="btn secondary" 
+              onClick={toggleAuthorMode}
+              style={{ backgroundColor: '#374151', borderColor: '#6b7280' }}
+            >
+              Author Mode
+            </button>
             <span className="small">
               Questions loaded: Module 1 = {modules[0].length}, Module 2 = {modules[1].length}
             </span>
@@ -722,6 +752,15 @@ export default function App() {
         <SATStudyPlan 
           studentAnswers={results.rows}
           totalQuestions={results.total}
+        />
+      )}
+
+      {/* Author Mode */}
+      {showAuthorMode && (
+        <AuthorMode
+          questions={questions}
+          onSave={handleQuestionSave}
+          onClose={toggleAuthorMode}
         />
       )}
     </div>
