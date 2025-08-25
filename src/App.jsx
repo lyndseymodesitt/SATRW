@@ -193,6 +193,11 @@ export default function App() {
     }
   };
 
+  const goToAuthorModeFromModal = () => {
+    setShowAuthorMode(true);
+    setShowSavePlaceModal(false);
+  };
+
   const clearSavedPlace = () => {
     setSavedPlace(null);
     setShowSavePlaceModal(false);
@@ -839,7 +844,7 @@ export default function App() {
               <p><strong>Flagged:</strong> {Object.keys(savedPlace?.flagged || {}).length}</p>
             </div>
             <div className="modal-actions">
-              <button className="btn" onClick={() => setShowAuthorMode(true)}>
+              <button className="btn" onClick={goToAuthorModeFromModal}>
                 🛠️ Go to Author Mode
               </button>
               <button className="btn-secondary" onClick={clearSavedPlace}>
