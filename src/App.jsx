@@ -127,6 +127,7 @@ export default function App() {
   // Save place functionality
   const [savedPlace, setSavedPlace] = useState(null);
   const [showSavePlaceModal, setShowSavePlaceModal] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   // REVIEW mode UI state
   const [reviewFilter, setReviewFilter] = useState("all"); // all | incorrect | flagged
@@ -154,6 +155,9 @@ export default function App() {
   };
 
   const toggleAuthorMode = () => {
+    if (phase === PHASES.MODULE || phase === PHASES.BREAK) {
+      setIsPaused(!showAuthorMode);
+    }
     setShowAuthorMode(!showAuthorMode);
   };
 
@@ -185,12 +189,20 @@ export default function App() {
       setSavedPlace(null);
       setShowSavePlaceModal(false);
       setShowAuthorMode(false);
+      setIsPaused(false);
     }
   };
 
   const clearSavedPlace = () => {
     setSavedPlace(null);
     setShowSavePlaceModal(false);
+  };
+
+  const goToAuthorModeFromModal = () => {
+    console.log('Going to Author Mode from modal...');
+    setIsPaused(true);
+    setShowSavePlaceModal(false);
+    setShowAuthorMode(true);
   };
 
   const totalQuestions = modules[0].length + modules[1].length;
@@ -204,10 +216,10 @@ export default function App() {
 
   // Countdown for module
   useEffect(() => {
-    if (phase !== PHASES.MODULE) return;
+    if (phase !== PHASES.MODULE || isPaused) return;
     const t = setInterval(() => setModuleTimeLeft((prev) => prev - 1), 1000);
     return () => clearInterval(t);
-  }, [phase]);
+  }, [phase, isPaused]);
 
   useEffect(() => {
     if (phase === PHASES.MODULE && moduleTimeLeft <= 0) {
@@ -217,10 +229,10 @@ export default function App() {
 
   // Countdown for break
   useEffect(() => {
-    if (phase !== PHASES.BREAK) return;
+    if (phase !== PHASES.BREAK || isPaused) return;
     const t = setInterval(() => setBreakLeft((s) => s - 1), 1000);
     return () => clearInterval(t);
-  }, [phase]);
+  }, [phase, isPaused]);
 
   useEffect(() => {
     if (phase === PHASES.BREAK && breakLeft <= 0) {
