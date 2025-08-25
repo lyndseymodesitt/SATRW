@@ -446,7 +446,19 @@ export default function App() {
 
   return (
     <div className="app">
-      {phase === PHASES.INTRO && (
+      {/* Author Mode - Render above everything else when active */}
+      {showAuthorMode ? (
+        <AuthorMode
+          questions={questions}
+          onSave={handleQuestionSave}
+          onClose={toggleAuthorMode}
+          savedPlace={savedPlace}
+          onResume={resumeFromSavedPlace}
+        />
+      ) : (
+        <>
+          {/* Only render test content when NOT in Author Mode */}
+          {phase === PHASES.INTRO && (
         <div className="card">
           <h1>SAT Reading & Writing Practice Test</h1>
           <p>Two modules • 32 minutes each • 30-second break</p>
@@ -810,49 +822,40 @@ export default function App() {
         </div>
       )}
 
-      {phase === PHASES.STUDY_PLAN && (
-        <SATStudyPlan 
-          studentAnswers={results.rows}
-          totalQuestions={results.total}
-        />
-      )}
+          {phase === PHASES.STUDY_PLAN && (
+            <SATStudyPlan 
+              studentAnswers={results.rows}
+              totalQuestions={results.total}
+            />
+          )}
 
-      {/* Author Mode */}
-      {showAuthorMode && (
-        <AuthorMode
-          questions={questions}
-          onSave={handleQuestionSave}
-          onClose={toggleAuthorMode}
-          savedPlace={savedPlace}
-          onResume={resumeFromSavedPlace}
-        />
-      )}
-
-      {/* Save Place Modal */}
-      {showSavePlaceModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>💾 Position Saved!</h3>
-            <div className="saved-place-info">
-              <p><strong>Module:</strong> {savedPlace?.moduleIdx + 1}</p>
-              <p><strong>Question:</strong> {savedPlace?.qIndex + 1}</p>
-              <p><strong>Time Remaining:</strong> {fmt(savedPlace?.moduleTimeLeft || 0)}</p>
-              <p><strong>Answers:</strong> {Object.keys(savedPlace?.answers || {}).length}</p>
-              <p><strong>Flagged:</strong> {Object.keys(savedPlace?.flagged || {}).length}</p>
+          {/* Save Place Modal */}
+          {showSavePlaceModal && (
+            <div className="modal-overlay">
+              <div className="modal">
+                <h3>💾 Position Saved!</h3>
+                <div className="saved-place-info">
+                  <p><strong>Module:</strong> {savedPlace?.moduleIdx + 1}</p>
+                  <p><strong>Question:</strong> {savedPlace?.qIndex + 1}</p>
+                  <p><strong>Time Remaining:</strong> {fmt(savedPlace?.moduleTimeLeft || 0)}</p>
+                  <p><strong>Answers:</strong> {Object.keys(savedPlace?.answers || {}).length}</p>
+                  <p><strong>Flagged:</strong> {Object.keys(savedPlace?.flagged || {}).length}</p>
+                </div>
+                <div className="modal-actions">
+                  <button className="btn" onClick={goToAuthorModeFromModal}>
+                    🛠️ Go to Author Mode
+                  </button>
+                  <button className="btn-secondary" onClick={clearSavedPlace}>
+                    ❌ Clear Saved Place
+                  </button>
+                </div>
+                <p className="small" style={{ marginTop: '16px', opacity: 0.7 }}>
+                  Your position is saved. You can now fix issues in Author Mode and return exactly where you left off.
+                </p>
+              </div>
             </div>
-            <div className="modal-actions">
-              <button className="btn" onClick={goToAuthorModeFromModal}>
-                🛠️ Go to Author Mode
-              </button>
-              <button className="btn-secondary" onClick={clearSavedPlace}>
-                ❌ Clear Saved Place
-              </button>
-            </div>
-            <p className="small" style={{ marginTop: '16px', opacity: 0.7 }}>
-              Your position is saved. You can now fix issues in Author Mode and return exactly where you left off.
-            </p>
-          </div>
-        </div>
+          )}
+        </>
       )}
     </div>
   );
