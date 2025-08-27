@@ -1,5 +1,3 @@
-{
-  "questions": 
 [
   {
     "id": "1",
@@ -1045,4 +1043,4 @@
     "explanation": "\"P-waves and S-waves—both body waves that travel through Earth's interior from an earthquake's focus—arrive at different times at global stations; used together, those timings let geophysicists map internal boundaries, including the liquid outer core where S-waves stop and P-waves bend\" is correct because it accomplishes all goal requirements with scientific precision: emphasizes the shared characteristics of both wave types as interior-traveling body waves, explains their joint use in mapping Earth's internal structure, and correctly describes their different behaviors at liquid boundaries without falsely claiming that S-waves travel through liquids.",
     "difficulty": "Hard"
   }
-]}
+]
