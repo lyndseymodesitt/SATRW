@@ -311,8 +311,8 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
       marginBottom: '3rem'
     },
     gridCols4: {
-      gridTemplateColumns: 'repeat(4, 1fr)',
-      maxWidth: '1000px',
+      gridTemplateColumns: 'repeat(2, 1fr)',
+      maxWidth: '800px',
       margin: '0 auto'
     },
     gridCols3: {
