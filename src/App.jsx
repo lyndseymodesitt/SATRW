@@ -383,6 +383,107 @@ export default function App() {
     }
   };
 
+  // Direct file replacement: Automatically replace questions.json with updated version
+  const directFileReplacement = async () => {
+    try {
+      // Check if we have any edits to apply
+      const savedEdits = localStorage.getItem('sat-questions-edits');
+      if (!savedEdits) {
+        alert('No edits detected. Make some changes in Author Mode first.');
+        return;
+      }
+
+      const parsedEdits = JSON.parse(savedEdits);
+      
+      // Compare with original data to detect changes
+      const changes = [];
+      parsedEdits.forEach((editedQ, index) => {
+        const originalQ = questionsData[index];
+        if (originalQ && JSON.stringify(editedQ) !== JSON.stringify(originalQ)) {
+          changes.push({
+            questionId: editedQ.id,
+            original: originalQ,
+            edited: editedQ,
+            changes: getChanges(originalQ, editedQ)
+          });
+        }
+      });
+
+      if (changes.length === 0) {
+        alert('No changes detected. All questions are already up to date.');
+        return;
+      }
+
+      // Create the updated questions.json content (without metadata for direct replacement)
+      const updatedQuestionsJson = parsedEdits;
+
+      // Create the file content for direct replacement
+      const dataStr = JSON.stringify(updatedQuestionsJson, null, 2);
+      
+      // Try to use the File System Access API for direct file writing
+      if ('showSaveFilePicker' in window) {
+        try {
+          const handle = await window.showSaveFilePicker({
+            suggestedName: 'questions.json',
+            types: [{
+              description: 'SAT Questions File',
+              accept: { 'application/json': ['.json'] }
+            }]
+          });
+          
+          const writable = await handle.createWritable();
+          await writable.write(dataStr);
+          await writable.close();
+          
+          // Show success message with next steps
+          const changesSummary = changes.map(c => 
+            `Question ${c.questionId}: ${c.changes.join(', ')}`
+          ).join('\n');
+
+          alert(`✅ Questions file directly updated!\n\n📝 Changes applied:\n${changesSummary}\n\n📁 File 'questions.json' has been updated.\n\n🚀 To deploy:\n1. Copy this file to your public/data/ folder\n2. Run: git add -A && git commit -m "feat: direct update questions with Author Mode edits"\n3. Run: git push origin main\n4. Run: npm run deploy\n\nYour changes will be live worldwide!`);
+          
+        } catch (error) {
+          console.log('File picker failed, falling back to download');
+          // Fallback to download
+          const dataBlob = new Blob([dataStr], { type: 'application/json' });
+          const url = URL.createObjectURL(dataBlob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'questions.json';
+          link.click();
+          URL.revokeObjectURL(url);
+          
+          const changesSummary = changes.map(c => 
+            `Question ${c.questionId}: ${c.changes.join(', ')}`
+          ).join('\n');
+
+          alert(`✅ Questions file ready for replacement!\n\n📝 Changes detected:\n${changesSummary}\n\n📁 File 'questions.json' downloaded.\n\n🚀 To deploy:\n1. Replace your public/data/questions.json with this file\n2. Run: git add -A && git commit -m "feat: direct update questions with Author Mode edits"\n3. Run: git push origin main\n4. Run: npm run deploy\n\nYour changes will be live worldwide!`);
+        }
+      } else {
+        // Fallback for older browsers
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'questions.json';
+        link.click();
+        URL.revokeObjectURL(url);
+        
+        const changesSummary = changes.map(c => 
+          `Question ${c.questionId}: ${c.changes.join(', ')}`
+        ).join('\n');
+
+        alert(`✅ Questions file ready for replacement!\n\n📝 Changes detected:\n${changesSummary}\n\n📁 File 'questions.json' downloaded.\n\n🚀 To deploy:\n1. Replace your public/data/questions.json with this file\n2. Run: git add -A && git commit -m "feat: direct update questions with Author Mode edits"\n3. Run: git push origin main\n4. Run: npm run deploy\n\nYour changes will be live worldwide!`);
+      }
+
+      console.log('Questions file ready for direct replacement with', changes.length, 'changes');
+      
+    } catch (error) {
+      console.error('Direct file replacement failed:', error);
+      alert('Direct file replacement failed. Please use manual update instead.');
+    }
+  };
+
   const toggleAuthorMode = () => {
     // Show password prompt instead of directly toggling
     setShowAuthorModePassword(true);
@@ -830,6 +931,7 @@ export default function App() {
           onCheckUpdates={checkForCloudUpdates}
           onDeploy={autoUpdateQuestionsFile}
           onAutoCommitDeploy={autoCommitAndDeploy}
+          onDirectReplace={directFileReplacement}
         />
       ) : (
         <>

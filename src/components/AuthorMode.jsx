@@ -16,7 +16,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 
-const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport, onClearEdits, onImport, onAutoSync, onCheckUpdates, onDeploy, onAutoCommitDeploy }) => {
+const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport, onClearEdits, onImport, onAutoSync, onCheckUpdates, onDeploy, onAutoCommitDeploy, onDirectReplace }) => {
   const [currentView, setCurrentView] = useState('list'); // 'list', 'edit', 'preview'
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [editedQuestion, setEditedQuestion] = useState(null);
@@ -549,6 +549,13 @@ const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport
             title="Auto-update questions.json file with all your edits and prepare for deployment"
           >
             📝 Update Questions File
+          </button>
+          <button
+            onClick={onDirectReplace}
+            className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center gap-2"
+            title="Directly replace questions.json with your edited version (clean format)"
+          >
+            🔄 Direct Replace
           </button>
           <button
             onClick={onAutoCommitDeploy}
