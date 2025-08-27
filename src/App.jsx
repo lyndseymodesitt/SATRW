@@ -334,7 +334,9 @@ export default function App() {
         : 0;
     
     // Calculate scaled score (200-800) based on correct answers
-    const scaledScore = allQuestions.length > 0 ? Math.round(200 + (correct / allQuestions.length) * 600) : 200;
+    // Round to nearest 10th ending with a 0 (e.g., 530, 540, 550, etc.)
+    let rawScaledScore = allQuestions.length > 0 ? 200 + (correct / allQuestions.length) * 600 : 200;
+    const scaledScore = Math.round(rawScaledScore / 10) * 10;
     
     return { rows, correct, total: allQuestions.length, pct, scaledScore };
   }, [allQuestions, answers, flagged]);
