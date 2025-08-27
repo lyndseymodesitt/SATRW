@@ -376,7 +376,7 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
         </div>
 
         {/* Quick Stats Hero Cards */}
-        <div style={{ ...styles.grid, ...styles.gridCols4 }}>
+        <div style={{ ...styles.grid, ...styles.gridCols4, marginBottom: '4rem' }}>
           <div style={{ ...styles.card, padding: '1rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
               <div style={{ ...styles.iconContainer, width: '40px', height: '40px', background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)', color: 'white' }}>
@@ -460,7 +460,7 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
         </div>
 
         {/* Timeline Selection */}
-        <div style={{ marginBottom: '3rem' }}>
+        <div style={{ marginTop: '2rem', marginBottom: '3rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             <h2 style={styles.sectionTitle}>Choose Your Study Timeline</h2>
             <p style={styles.sectionSubtitle}>Select the timeframe that works best for your schedule</p>
