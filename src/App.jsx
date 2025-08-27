@@ -122,6 +122,8 @@ export default function App() {
   
   // Author mode state
   const [showAuthorMode, setShowAuthorMode] = useState(false);
+  const [showAuthorModePassword, setShowAuthorModePassword] = useState(false);
+  const [authorModePassword, setAuthorModePassword] = useState('');
   const [questions, setQuestions] = useState([]);
   
   // Save place functionality
@@ -192,10 +194,38 @@ export default function App() {
   };
 
   const toggleAuthorMode = () => {
-    if (phase === PHASES.MODULE || phase === PHASES.BREAK) {
-      setIsPaused(!showAuthorMode);
+    // Show password prompt instead of directly toggling
+    setShowAuthorModePassword(true);
+  };
+
+  const verifyAuthorModePassword = () => {
+    // You can change this password to whatever you want
+    const correctPassword = 'sat2024';
+    
+    if (authorModePassword === correctPassword) {
+      setShowAuthorModePassword(false);
+      setAuthorModePassword('');
+      setShowAuthorMode(true);
+      
+      if (phase === PHASES.MODULE || phase === PHASES.BREAK) {
+        setIsPaused(true);
+      }
+    } else {
+      alert('Incorrect password. Please try again.');
+      setAuthorModePassword('');
     }
-    setShowAuthorMode(!showAuthorMode);
+  };
+
+  const closeAuthorModePassword = () => {
+    setShowAuthorModePassword(false);
+    setAuthorModePassword('');
+  };
+
+  const closeAuthorMode = () => {
+    setShowAuthorMode(false);
+    if (phase === PHASES.MODULE || phase === PHASES.BREAK) {
+      setIsPaused(false);
+    }
   };
 
   // Save place functionality
@@ -585,7 +615,7 @@ export default function App() {
         <AuthorMode
           questions={questions}
           onSave={handleQuestionSave}
-          onClose={toggleAuthorMode}
+          onClose={closeAuthorMode}
           savedPlace={savedPlace}
           onResume={resumeFromSavedPlace}
           onExport={exportEditedQuestions}
@@ -1008,6 +1038,47 @@ export default function App() {
                 </div>
                 <p className="small" style={{ marginTop: '16px', opacity: 0.7 }}>
                   Your position is saved. You can now fix issues in Author Mode and return exactly where you left off.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Author Mode Password Modal */}
+          {showAuthorModePassword && (
+            <div className="modal-overlay">
+              <div className="modal">
+                <h3>🔐 Author Mode Access</h3>
+                <p style={{ marginBottom: '20px', color: 'var(--muted)' }}>
+                  Enter the password to access Author Mode for editing questions.
+                </p>
+                <div style={{ marginBottom: '20px' }}>
+                  <input
+                    type="password"
+                    value={authorModePassword}
+                    onChange={(e) => setAuthorModePassword(e.target.value)}
+                    placeholder="Enter password"
+                    style={{
+                      width: '100%',
+                      padding: '12px',
+                      fontSize: '16px',
+                      border: '2px solid var(--border)',
+                      borderRadius: '8px',
+                      backgroundColor: 'var(--bg)',
+                      color: 'var(--text)'
+                    }}
+                    onKeyPress={(e) => e.key === 'Enter' && verifyAuthorModePassword()}
+                  />
+                </div>
+                <div className="modal-actions">
+                  <button className="btn" onClick={verifyAuthorModePassword}>
+                    🔓 Unlock Author Mode
+                  </button>
+                  <button className="btn-secondary" onClick={closeAuthorModePassword}>
+                    ❌ Cancel
+                  </button>
+                </div>
+                <p className="small" style={{ marginTop: '16px', opacity: 0.7 }}>
+                  Author Mode allows you to edit questions, fix grammar issues, and customize the test content.
                 </p>
               </div>
             </div>
