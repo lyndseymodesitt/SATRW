@@ -7,7 +7,6 @@
     "dev": "vite",
     "start": "vite",
     "convert:questions": "node scripts/convert-csv-to-json.cjs",
-    // "prebuild": "node scripts/convert-csv-to-json.cjs",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "npm run build && gh-pages -d dist"
