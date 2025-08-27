@@ -311,7 +311,9 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
       marginBottom: '3rem'
     },
     gridCols4: {
-      gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))'
+      gridTemplateColumns: 'repeat(4, 1fr)',
+      maxWidth: '1000px',
+      margin: '0 auto'
     },
     gridCols3: {
       gridTemplateColumns: 'repeat(3, 1fr)',
@@ -375,44 +377,44 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
 
         {/* Quick Stats Hero Cards */}
         <div style={{ ...styles.grid, ...styles.gridCols4 }}>
-          <div style={styles.card}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <div style={{ ...styles.iconContainer, background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)', color: 'white' }}>
-                <BarChart3 size={24} />
+          <div style={{ ...styles.card, padding: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+              <div style={{ ...styles.iconContainer, width: '40px', height: '40px', background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)', color: 'white' }}>
+                <BarChart3 size={20} />
               </div>
-              <span style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1f2937' }}>{overallPct}%</span>
+              <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1f2937' }}>{overallPct}%</span>
             </div>
-            <h3 style={{ fontWeight: '600', color: '#374151', marginBottom: '0.25rem' }}>Overall Score</h3>
-            <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>{totalCorrect}/{answered} questions correct</p>
-            <div style={styles.progressBar}>
+            <h3 style={{ fontWeight: '600', color: '#374151', marginBottom: '0.25rem', fontSize: '0.875rem' }}>Overall Score</h3>
+            <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>{totalCorrect}/{answered} questions correct</p>
+            <div style={{ ...styles.progressBar, height: '6px', marginTop: '0.5rem' }}>
               <div style={{ ...styles.progressFill, width: `${overallPct}%` }}></div>
             </div>
           </div>
 
-          <div style={styles.card}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <div style={{ ...styles.iconContainer, background: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)', color: 'white' }}>
-                <AlertCircle size={24} />
+          <div style={{ ...styles.card, padding: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+              <div style={{ ...styles.iconContainer, width: '40px', height: '40px', background: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)', color: 'white' }}>
+                <AlertCircle size={20} />
               </div>
-              <span style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1f2937' }}>{priorityAreas.length}</span>
+              <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1f2937' }}>{priorityAreas.length}</span>
             </div>
-            <h3 style={{ fontWeight: '600', color: '#374151', marginBottom: '0.25rem' }}>Focus Areas</h3>
-            <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>Areas needing improvement</p>
-            <div style={{ display: 'flex', alignItems: 'center', marginTop: '0.75rem' }}>
+            <h3 style={{ fontWeight: '600', color: '#374151', marginBottom: '0.25rem', fontSize: '0.875rem' }}>Focus Areas</h3>
+            <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>Areas needing improvement</p>
+            <div style={{ display: 'flex', alignItems: 'center', marginTop: '0.5rem' }}>
               <div style={{ display: 'flex', gap: '-4px' }}>
                 {priorityAreas.slice(0, 3).map(([key, area], index) => (
                   <div key={key} style={{
-                    width: '32px',
-                    height: '32px',
+                    width: '24px',
+                    height: '24px',
                     borderRadius: '50%',
                     border: '2px solid white',
                     backgroundColor: area.color,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginLeft: index > 0 ? '-8px' : '0'
+                    marginLeft: index > 0 ? '-6px' : '0'
                   }}>
-                    <area.icon size={16} color="white" />
+                    <area.icon size={12} color="white" />
                   </div>
                 ))}
               </div>
@@ -424,35 +426,35 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
             </div>
           </div>
 
-          <div style={styles.card}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <div style={{ ...styles.iconContainer, background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)', color: 'white' }}>
-                <CheckCircle size={24} />
+          <div style={{ ...styles.card, padding: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+              <div style={{ ...styles.iconContainer, width: '40px', height: '40px', background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)', color: 'white' }}>
+                <CheckCircle size={20} />
               </div>
-              <span style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1f2937' }}>
+              <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1f2937' }}>
                 {Object.keys(performance).length - priorityAreas.length}
               </span>
             </div>
-            <h3 style={{ fontWeight: '600', color: '#374151', marginBottom: '0.25rem' }}>Strong Areas</h3>
-            <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>Skills you've mastered</p>
-            <div style={{ display: 'flex', alignItems: 'center', marginTop: '0.75rem' }}>
-              <Star color="#F59E0B" size={16} />
-              <span style={{ marginLeft: '0.25rem', fontSize: '0.875rem', color: '#4b5563' }}>Keep practicing!</span>
+            <h3 style={{ fontWeight: '600', color: '#374151', marginBottom: '0.25rem', fontSize: '0.875rem' }}>Strong Areas</h3>
+            <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>Skills you've mastered</p>
+            <div style={{ display: 'flex', alignItems: 'center', marginTop: '0.5rem' }}>
+              <Star color="#F59E0B" size={14} />
+              <span style={{ marginLeft: '0.25rem', fontSize: '0.75rem', color: '#4b5563' }}>Keep practicing!</span>
             </div>
           </div>
 
-          <div style={styles.card}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <div style={{ ...styles.iconContainer, background: 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)', color: 'white' }}>
-                <Clock size={24} />
+          <div style={{ ...styles.card, padding: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+              <div style={{ ...styles.iconContainer, width: '40px', height: '40px', background: 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)', color: 'white' }}>
+                <Clock size={20} />
               </div>
-              <span style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1f2937' }}>{currentTimeframe.dailyTime}</span>
+              <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1f2937' }}>{currentTimeframe.dailyTime}</span>
             </div>
-            <h3 style={{ fontWeight: '600', color: '#374151', marginBottom: '0.25rem' }}>Daily Minutes</h3>
-            <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>{currentTimeframe.description}</p>
-            <div style={{ display: 'flex', alignItems: 'center', marginTop: '0.75rem' }}>
-              <Calendar color="#8B5CF6" size={16} />
-              <span style={{ marginLeft: '0.25rem', fontSize: '0.875rem', color: '#4b5563' }}>{currentTimeframe.name} plan</span>
+            <h3 style={{ fontWeight: '600', color: '#374151', marginBottom: '0.25rem', fontSize: '0.875rem' }}>Daily Minutes</h3>
+            <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>{currentTimeframe.description}</p>
+            <div style={{ display: 'flex', alignItems: 'center', marginTop: '0.5rem' }}>
+              <Calendar color="#8B5CF6" size={14} />
+              <span style={{ marginLeft: '0.25rem', fontSize: '0.75rem', color: '#4b5563' }}>{currentTimeframe.name} plan</span>
             </div>
           </div>
         </div>
