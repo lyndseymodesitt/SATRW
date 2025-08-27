@@ -20,7 +20,7 @@ import {
   PlayCircle
 } from "lucide-react";
 
-export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 }) {
+export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66, onBack }) {
   const [expandedSections, setExpandedSections] = useState({});
   const [selectedTimeframe, setSelectedTimeframe] = useState("4weeks");
 
@@ -362,6 +362,41 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
   return (
     <div style={styles.container}>
       <div style={styles.wrapper}>
+        {/* Back Button */}
+        {onBack && (
+          <div style={{ marginBottom: '2rem', textAlign: 'left' }}>
+            <button
+              onClick={onBack}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.75rem 1.5rem',
+                backgroundColor: '#f3f4f6',
+                border: '1px solid #d1d5db',
+                borderRadius: '8px',
+                color: '#374151',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+              }}
+              onMouseOver={(e) => {
+                e.target.style.backgroundColor = '#e5e7eb';
+                e.target.style.borderColor = '#9ca3af';
+              }}
+              onMouseOut={(e) => {
+                e.target.style.backgroundColor = '#f3f4f6';
+                e.target.style.borderColor = '#d1d5db';
+              }}
+            >
+              <ChevronRight style={{ transform: 'rotate(180deg)' }} size={16} />
+              Back to Results
+            </button>
+          </div>
+        )}
+
         {/* Hero Header */}
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <div style={styles.heroIcon}>
