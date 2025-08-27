@@ -64,7 +64,16 @@ function useQuestions() {
         if (!r.ok) throw new Error(`Failed to load questions.json (${r.status})`);
         return r.json();
       })
-      .then(setData)
+      .then((jsonData) => {
+        // Handle both wrapped format {"questions": [...]} and direct array format [...]
+        if (jsonData.questions && Array.isArray(jsonData.questions)) {
+          setData(jsonData.questions);
+        } else if (Array.isArray(jsonData)) {
+          setData(jsonData);
+        } else {
+          throw new Error('Invalid questions.json format - expected array or {questions: [...]}');
+        }
+      })
       .catch(setErr)
       .finally(() => setLoading(false));
   }, []);
