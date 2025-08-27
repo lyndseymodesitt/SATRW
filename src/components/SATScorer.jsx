@@ -179,22 +179,30 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
   // Handle mouse/touch events for dragging
   const handleMouseDown = (e) => {
     setIsDragging(true);
-    setDragStartX(e.clientX || e.touches?.[0]?.clientX || 0);
+    const rect = e.currentTarget.getBoundingClientRect();
+    const relativeX = e.clientX || e.touches?.[0]?.clientX || 0;
+    setDragStartX(relativeX - rect.left);
     setDragStartScore(interactiveScore);
   };
 
   const handleMouseMove = (e) => {
     if (!isDragging) return;
     
+    // Get the scale container element
+    const scaleContainer = document.querySelector('.scale-container');
+    if (!scaleContainer) return;
+    
+    const rect = scaleContainer.getBoundingClientRect();
     const currentX = e.clientX || e.touches?.[0]?.clientX || 0;
-    const deltaX = currentX - dragStartX;
+    const relativeX = currentX - rect.left;
     
-    // Calculate score change based on mouse movement
-    // 1 pixel = 1.5 score points (600 score range / 400 pixel range)
-    const scoreDelta = (deltaX * 1.5);
-    const newScore = Math.max(200, Math.min(800, dragStartScore + scoreDelta));
+    // Calculate score based on position within the scale
+    // Scale width is approximately 400px, score range is 600 (200-800)
+    const scaleWidth = rect.width - 48; // Account for padding
+    const scorePosition = Math.max(0, Math.min(scaleWidth, relativeX));
+    const newScore = Math.round(200 + (scorePosition / scaleWidth) * 600);
     
-    setInteractiveScore(Math.round(newScore));
+    setInteractiveScore(Math.max(200, Math.min(800, newScore)));
   };
 
   const handleMouseUp = () => {
