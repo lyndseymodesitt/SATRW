@@ -98,9 +98,9 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
         ],
         practiceActivities: [
           "Read complex articles daily with purpose questions",
-          "Practice summarizing main ideas in one sentence",
-          "Analyze sentence functions in academic texts",
-          "Complete reading comprehension passages daily",
+          "Practice identifying text function (introduce, support, conclude)",
+          "Analyze author's tone and purpose in editorials",
+          "Complete 3 reading comprehension passages weekly",
         ],
       },
 
@@ -108,19 +108,19 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
         name: "Evidence & Data Analysis",
         icon: TrendingUp,
         color: "amber",
-        questions: [11, 12, 13, 14, 15, 16, 17, 18, 19, 45, 47, 49],
-        description: "Interpreting charts, selecting evidence, analyzing data",
+        questions: [11, 12, 13, 14, 15, 16, 17, 18, 19, 45, 46, 47, 48, 49, 50],
+        description: "Interpreting charts, graphs, and supporting evidence",
         studyMaterials: [
-          "Practice reading tables and conversion rate data",
-          "Learn to calculate percentage changes from charts",
-          "Study evidence selection from passage quotes",
-          "Master data interpretation with constraints",
+          "Practice reading bar charts, line graphs, and tables",
+          "Learn to identify trends and patterns in data",
+          "Study how to connect data to text claims",
+          "Master evidence-based reasoning questions",
         ],
         practiceActivities: [
-          "Analyze news articles with data and charts",
-          "Practice calculating changes from before/after data",
-          "Complete data interpretation questions daily",
-          "Study graphs and tables from various sources",
+          "Analyze charts from news articles daily",
+          "Practice connecting data points to conclusions",
+          "Complete 5 evidence questions daily",
+          "Create your own charts from data sets",
         ],
       },
 
@@ -128,19 +128,19 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
         name: "Research Synthesis",
         icon: Target,
         color: "emerald",
-        questions: [31, 32, 33, 46, 50, 63, 64, 65, 66],
-        description: "Goal-oriented writing with multiple constraints",
+        questions: [31, 32, 33, 63, 64, 65, 66],
+        description: "Comparing multiple sources and synthesizing information",
         studyMaterials: [
-          "Practice combining data from multiple sources",
-          "Learn to meet specific writing goals with constraints",
-          "Study academic writing with precise requirements",
-          "Master budget/timeline constraint problems",
+          "Practice identifying agreements and disagreements between sources",
+          "Learn to evaluate source credibility and bias",
+          "Study how to synthesize information from multiple texts",
+          "Master questions about source relationships",
         ],
         practiceActivities: [
-          "Practice synthesis questions with real research notes",
-          "Write goal-oriented sentences with multiple constraints",
-          "Analyze complex scenarios with competing priorities",
-          "Complete advanced research-based questions",
+          "Compare editorials on the same topic",
+          "Practice identifying source agreements/disagreements",
+          "Complete 3 synthesis questions daily",
+          "Read multiple perspectives on current events",
         ],
       },
 
@@ -148,55 +148,47 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
         name: "Text Comparison",
         icon: BookOpen,
         color: "rose",
-        questions: [41, 48],
-        description: "Analyzing relationships between different texts",
+        questions: [41],
+        description: "Comparing and contrasting different texts",
         studyMaterials: [
-          "Practice comparing authors' different approaches",
-          "Learn to identify contrasting viewpoints",
-          "Study evidence selection across multiple texts",
-          "Master relationship analysis between passages",
+          "Practice identifying similarities and differences between texts",
+          "Learn to analyze author perspectives and approaches",
+          "Study how different authors handle the same topic",
+          "Master comparison-based reasoning questions",
         ],
         practiceActivities: [
-          "Compare news articles on the same topic",
-          "Practice identifying author agreements/disagreements",
-          "Analyze paired passages weekly",
-          "Complete comparative analysis exercises",
+          "Compare two editorials on the same topic",
+          "Practice identifying author differences in approach",
+          "Complete 2 comparison questions daily",
+          "Analyze how different sources present information",
         ],
       },
     }),
     []
   );
 
-  // --- Analyze performance (memoized) ---
+  // --- Performance calculation ---
   const performance = useMemo(() => {
-    // Default: show categories with 0% if no answers yet
-    if (!studentAnswers || studentAnswers.length === 0) {
-      return Object.fromEntries(
-        Object.entries(questionClassification).map(([key, cat]) => [
-          key,
-          {
-            ...cat,
-            correct: 0,
-            total: cat.questions.length,
-            percentage: 0,
-            needsWork: true,
-          },
-        ])
-      );
-    }
+    const results = {};
+    Object.entries(questionClassification).forEach(([key, category]) => {
+      const categoryQuestions = category.questions;
+      const total = categoryQuestions.length;
+      const correct = categoryQuestions.filter((qNum) => {
+        const answer = studentAnswers[qNum - 1];
+        return answer?.isCorrect;
+      }).length;
+      const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+      const needsWork = percentage < 70;
 
-    const result = {};
-    Object.entries(questionClassification).forEach(([key, cat]) => {
-      let correct = 0;
-      cat.questions.forEach((qNum) => {
-        const idx = qNum - 1;
-        if (studentAnswers[idx]?.isCorrect) correct++;
-      });
-      const total = cat.questions.length;
-      const pct = total ? Math.round((correct / total) * 100) : 0;
-      result[key] = { ...cat, correct, total, percentage: pct, needsWork: pct < 75 };
+      results[key] = {
+        ...category,
+        total,
+        correct,
+        percentage,
+        needsWork,
+      };
     });
-    return result;
+    return results;
   }, [studentAnswers, questionClassification]);
 
   const priorityAreas = useMemo(
@@ -223,8 +215,6 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
 
   const toggleSection = (section) =>
     setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
-
-  const getIconColorClasses = () => "bg-gray-600/40 border-gray-500/50";
 
   // --- Dev guardrails: find overlaps / gaps once ---
   useEffect(() => {
@@ -255,113 +245,122 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
       </div>
 
       {/* Timeframe Selection */}
-      <div className="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-2xl p-6 mb-8">
-        <h2 className="text-xl font-semibold text-gray-200 mb-4">Choose Your Timeline</h2>
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold text-gray-200 mb-4 text-center">Choose Your Timeline</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {Object.entries(timeframes).map(([key, timeframe]) => (
             <button
               key={key}
               onClick={() => setSelectedTimeframe(key)}
-              className={`p-4 rounded-xl border-2 transition-all ${
+              className={`p-6 rounded-2xl border-2 transition-all duration-300 transform hover:scale-105 ${
                 selectedTimeframe === key
-                  ? "border-blue-500 bg-blue-900/30 text-blue-300"
-                  : "border-gray-600 bg-gray-700/30 text-gray-300 hover:border-gray-500"
+                  ? "border-blue-500 bg-gradient-to-br from-blue-600/20 to-blue-800/20 text-blue-300 shadow-lg shadow-blue-500/25"
+                  : key === "2weeks"
+                  ? "border-red-500 bg-gradient-to-br from-red-600/20 to-red-800/20 text-red-300 hover:border-red-400"
+                  : key === "4weeks"
+                  ? "border-blue-500 bg-gradient-to-br from-blue-600/20 to-blue-800/20 text-blue-300 hover:border-blue-400"
+                  : "border-green-500 bg-gradient-to-br from-green-600/20 to-green-800/20 text-green-300 hover:border-green-400"
               }`}
             >
-              <div className="text-lg font-semibold">{timeframe.name}</div>
-              <div className="text-sm opacity-75">{timeframe.dailyTime} min/day</div>
-              <div className="text-xs opacity-60">{timeframe.description}</div>
+              <div className="text-xl font-bold mb-2">{timeframe.name}</div>
+              <div className="text-lg opacity-90">{timeframe.dailyTime} min/day</div>
+              <div className="text-sm opacity-75">{timeframe.description}</div>
             </button>
           ))}
         </div>
       </div>
 
       {/* Study Plan Summary */}
-      <div className="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-2xl p-6 mb-8">
-        <h2 className="text-xl font-semibold text-gray-200 mb-6">Study Plan Summary</h2>
-
-        {/* Overview Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-gray-700/40 rounded-xl p-6 text-center border border-gray-600/50">
-            <div className="text-3xl font-bold text-blue-400 mb-2">
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold text-gray-200 mb-6 text-center">Study Plan Summary</h2>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="bg-gradient-to-br from-blue-600/20 to-blue-800/20 rounded-2xl p-6 text-center border border-blue-500/30 shadow-lg">
+            <div className="text-3xl font-bold text-blue-300 mb-2">
               {currentTimeframe.dailyTime}
             </div>
-            <div className="text-sm text-gray-300">Minutes per day</div>
+            <div className="text-sm text-blue-200">Minutes per day</div>
           </div>
 
-          <div className="bg-gray-700/40 rounded-xl p-6 text-center border border-gray-600/50">
-            <div className="text-3xl font-bold text-teal-400 mb-2">{overallPct}%</div>
-            <div className="text-sm text-gray-300">Overall accuracy</div>
-            <div className="text-xs text-gray-400 mt-1">
+          <div className="bg-gradient-to-br from-teal-600/20 to-teal-800/20 rounded-2xl p-6 text-center border border-teal-500/30 shadow-lg">
+            <div className="text-3xl font-bold text-teal-300 mb-2">{overallPct}%</div>
+            <div className="text-sm text-teal-200">Overall accuracy</div>
+            <div className="text-xs text-teal-300 mt-1">
               {totalCorrect}/{answered} correct
             </div>
           </div>
 
-          <div className="bg-gray-700/40 rounded-xl p-6 text-center border border-gray-600/50">
-            <div className="text-3xl font-bold text-purple-400 mb-2">{priorityAreas.length}</div>
-            <div className="text-sm text-gray-300">Priority areas</div>
+          <div className="bg-gradient-to-br from-purple-600/20 to-purple-800/20 rounded-2xl p-6 text-center border border-purple-500/30 shadow-lg">
+            <div className="text-3xl font-bold text-purple-300 mb-2">{priorityAreas.length}</div>
+            <div className="text-sm text-purple-200">Priority areas</div>
           </div>
 
-          <div className="bg-gray-700/40 rounded-xl p-6 text-center border border-gray-600/50">
-            <div className="text-3xl font-bold text-green-400 mb-2">{Object.keys(performance).length - priorityAreas.length}</div>
-            <div className="text-sm text-gray-300">Strong areas</div>
+          <div className="bg-gradient-to-br from-green-600/20 to-green-800/20 rounded-2xl p-6 text-center border border-green-500/30 shadow-lg">
+            <div className="text-3xl font-bold text-green-300 mb-2">{Object.keys(performance).length - priorityAreas.length}</div>
+            <div className="text-sm text-green-200">Strong areas</div>
           </div>
         </div>
+      </div>
 
-        {/* Time Breakdown by Skill */}
-        <div>
-          <h3 className="text-lg font-semibold text-gray-200 mb-4">Daily Time Allocation by Skill Area</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {Object.entries(performance)
-              .sort((a, b) => a[1].percentage - b[1].percentage)
-              .map(([key, area]) => {
-                const baseTime = currentTimeframe.dailyTime;
-                let timeAllocation;
-                if (area.percentage < 50) timeAllocation = Math.round(baseTime * 0.25);
-                else if (area.percentage < 70) timeAllocation = Math.round(baseTime * 0.18);
-                else if (area.percentage < 85) timeAllocation = Math.round(baseTime * 0.12);
-                else timeAllocation = Math.round(baseTime * 0.08);
+      {/* Daily Time Allocation by Skill Area */}
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold text-gray-200 mb-6 text-center">Daily Time Allocation by Skill Area</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {Object.entries(performance)
+            .sort((a, b) => a[1].percentage - b[1].percentage)
+            .map(([key, area]) => {
+              const baseTime = currentTimeframe.dailyTime;
+              let timeAllocation;
+              if (area.percentage < 50) timeAllocation = Math.round(baseTime * 0.25);
+              else if (area.percentage < 70) timeAllocation = Math.round(baseTime * 0.18);
+              else if (area.percentage < 85) timeAllocation = Math.round(baseTime * 0.12);
+              else timeAllocation = Math.round(baseTime * 0.08);
 
-                const IconComponent = area.icon;
-                return (
-                  <div key={key} className="bg-gray-700/40 rounded-xl p-4 border border-gray-600/50">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg ${getIconColorClasses(area.color)}`}>
-                          <IconComponent size={16} />
-                        </div>
-                        <div>
-                          <div className="font-medium text-gray-200">{area.name}</div>
-                          <div className="text-sm text-gray-400">Current: {area.percentage}% ({area.correct}/{area.total})</div>
-                        </div>
+              const IconComponent = area.icon;
+              const getColorClasses = (color) => {
+                switch (color) {
+                  case 'blue': return 'from-blue-600/20 to-blue-800/20 border-blue-500/30 text-blue-300';
+                  case 'green': return 'from-green-600/20 to-green-800/20 border-green-500/30 text-green-300';
+                  case 'purple': return 'from-purple-600/20 to-purple-800/20 border-purple-500/30 text-purple-300';
+                  case 'indigo': return 'from-indigo-600/20 to-indigo-800/20 border-indigo-500/30 text-indigo-300';
+                  case 'amber': return 'from-amber-600/20 to-amber-800/20 border-amber-500/30 text-amber-300';
+                  case 'emerald': return 'from-emerald-600/20 to-emerald-800/20 border-emerald-500/30 text-emerald-300';
+                  case 'rose': return 'from-rose-600/20 to-rose-800/20 border-rose-500/30 text-rose-300';
+                  default: return 'from-gray-600/20 to-gray-800/20 border-gray-500/30 text-gray-300';
+                }
+              };
+
+              return (
+                <div key={key} className={`bg-gradient-to-br ${getColorClasses(area.color)} rounded-2xl p-6 border shadow-lg`}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="p-3 rounded-xl bg-white/10 border border-white/20">
+                        <IconComponent size={20} className="text-white" />
                       </div>
-                      <div className="text-right">
-                        <div className="text-lg font-bold text-blue-400">{timeAllocation} min</div>
-                        <div className="text-xs text-gray-400">{area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}</div>
+                      <div>
+                        <div className="font-semibold text-white text-lg">{area.name}</div>
+                        <div className="text-sm text-white/80">Current: {area.percentage}% ({area.correct}/{area.total})</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xl font-bold text-white">{timeAllocation} min</div>
+                      <div className="text-xs text-white/70">
+                        {area.percentage < 70 ? 'High Priority' : area.percentage < 85 ? 'Maintenance' : 'Review Only'}
                       </div>
                     </div>
                   </div>
-                );
-              })}
-          </div>
-        </div>
-
-        <div className="mt-6 text-center text-gray-400">
-          <p>Time allocation adjusts based on your current performance. Focus more time on weaker areas!</p>
+                </div>
+              );
+            })}
         </div>
       </div>
 
       {/* Priority Areas */}
       {priorityAreas.length > 0 && (
-        <div className="bg-red-900/20 border border-red-700/50 rounded-2xl p-6 mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <AlertCircle className="text-red-400" size={24} />
-            <h2 className="text-xl font-semibold text-red-300">Priority Focus Areas</h2>
-          </div>
-          <p className="text-red-200 mb-4">These areas need the most attention based on your practice test:</p>
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-gray-200 mb-6 text-center">Priority Focus Areas</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {priorityAreas.slice(0, 3).map(([key, area]) => (
-              <div key={key} className="bg-red-800/30 rounded-xl p-6 border border-red-600/40">
+              <div key={key} className="bg-gradient-to-br from-red-600/20 to-red-800/20 rounded-2xl p-6 border border-red-500/30 shadow-lg">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="bg-red-500/20 p-2 rounded-lg border border-red-500/30">
                     <area.icon size={20} className="text-red-400" />
@@ -381,72 +380,86 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
 
       {/* Study Sections */}
       <div className="space-y-6">
+        <h2 className="text-xl font-semibold text-gray-200 mb-6 text-center">Study Sections</h2>
         {Object.entries(performance).map(([key, area]) => {
           const IconComponent = area.icon;
           const isExpanded = expandedSections[key];
+          const getColorClasses = (color) => {
+            switch (color) {
+              case 'blue': return 'from-blue-600/20 to-blue-800/20 border-blue-500/30';
+              case 'green': return 'from-green-600/20 to-green-800/20 border-green-500/30';
+              case 'purple': return 'from-purple-600/20 to-purple-800/20 border-purple-500/30';
+              case 'indigo': return 'from-indigo-600/20 to-indigo-800/20 border-indigo-500/30';
+              case 'amber': return 'from-amber-600/20 to-amber-800/20 border-amber-500/30';
+              case 'emerald': return 'from-emerald-600/20 to-emerald-800/20 border-emerald-500/30';
+              case 'rose': return 'from-rose-600/20 to-rose-800/20 border-rose-500/30';
+              default: return 'from-gray-600/20 to-gray-800/20 border-gray-500/30';
+            }
+          };
+
           return (
-            <div key={key} className={`border border-gray-600 rounded-2xl p-6 transition-all bg-gray-800/50 text-gray-200`}>
+            <div key={key} className={`bg-gradient-to-br ${getColorClasses(area.color)} rounded-2xl p-6 border shadow-lg transition-all`}>
               <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleSection(key)}>
                 <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-xl ${getIconColorClasses(area.color)}`}>
-                    <IconComponent size={24} />
+                  <div className="p-3 rounded-xl bg-white/10 border border-white/20">
+                    <IconComponent size={24} className="text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold">{area.name}</h3>
-                    <p className="text-sm opacity-75">{area.description}</p>
+                    <h3 className="text-xl font-semibold text-white">{area.name}</h3>
+                    <p className="text-sm text-white/80">{area.description}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
                   {area.needsWork ? (
-                    <div className="bg-red-500/20 text-red-300 px-3 py-1 rounded-full text-sm font-medium">Needs Work</div>
+                    <span className="bg-red-500/20 text-red-300 px-3 py-1 rounded-full text-sm font-medium border border-red-500/30">
+                      Needs Work
+                    </span>
                   ) : (
-                    <div className="bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-sm font-medium">Strong</div>
+                    <span className="bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30">
+                      Strong
+                    </span>
                   )}
-                  <div className="text-right">
-                    <div className="text-lg font-bold">{area.percentage}%</div>
-                    <div className="text-sm opacity-75">{area.correct}/{area.total}</div>
-                  </div>
-                  {isExpanded ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                  <div className="text-2xl font-bold text-white">{area.percentage}%</div>
+                  {isExpanded ? (
+                    <ChevronDown className="text-white" size={24} />
+                  ) : (
+                    <ChevronRight className="text-white" size={24} />
+                  )}
                 </div>
               </div>
+
               {isExpanded && (
-                <div className="mt-6 pt-6 border-t border-current border-opacity-20">
-                  <div className="grid md:grid-cols-2 gap-6">
+                <div className="mt-6 pt-6 border-t border-white/20">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <h4 className="font-semibold mb-3 flex items-center gap-2">
-                        <BookOpen size={16} />
+                      <h4 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+                        <BookOpen size={20} />
                         Study Materials
                       </h4>
-                      <ul className="space-y-2 text-sm">
+                      <ul className="space-y-2">
                         {area.studyMaterials.map((material, index) => (
-                          <li key={index} className="flex items-start gap-2">
-                            <CheckCircle size={14} className="mt-0.5 flex-shrink-0" />
+                          <li key={index} className="text-white/80 text-sm flex items-start gap-2">
+                            <span className="text-white/60 mt-1">•</span>
                             {material}
                           </li>
                         ))}
                       </ul>
                     </div>
                     <div>
-                      <h4 className="font-semibold mb-3 flex items-center gap-2">
-                        <Clock size={16} />
-                        Daily Practice ({Math.round(currentTimeframe.dailyTime * (area.needsWork ? 0.3 : 0.15))} min)
+                      <h4 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+                        <Target size={20} />
+                        Practice Activities
                       </h4>
-                      <ul className="space-y-2 text-sm">
+                      <ul className="space-y-2">
                         {area.practiceActivities.map((activity, index) => (
-                          <li key={index} className="flex items-start gap-2">
-                            <Target size={14} className="mt-0.5 flex-shrink-0" />
+                          <li key={index} className="text-white/80 text-sm flex items-start gap-2">
+                            <span className="text-white/60 mt-1">•</span>
                             {activity}
                           </li>
                         ))}
                       </ul>
                     </div>
                   </div>
-                  {area.needsWork && (
-                    <div className="mt-4 p-4 bg-yellow-900/20 border border-yellow-700/30 rounded-xl">
-                      <h5 className="font-semibold text-yellow-300 mb-2">Weekly Goal</h5>
-                      <p className="text-yellow-200 text-sm">Improve accuracy to 80%+ by practicing {Math.ceil(area.total * 0.5)} similar questions this week. Focus on your weakest question types first.</p>
-                    </div>
-                  )}
                 </div>
               )}
             </div>
