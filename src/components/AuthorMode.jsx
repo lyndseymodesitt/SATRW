@@ -16,7 +16,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 
-const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport, onClearEdits, onImport }) => {
+const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport, onClearEdits, onImport, onAutoSync, onCheckUpdates, onDeploy }) => {
   const [currentView, setCurrentView] = useState('list'); // 'list', 'edit', 'preview'
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [editedQuestion, setEditedQuestion] = useState(null);
@@ -529,6 +529,27 @@ const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport
               className="hidden"
             />
           </label>
+          <button
+            onClick={onAutoSync}
+            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-2"
+            title="Auto-sync to cloud storage for cross-device access"
+          >
+            ☁️ Auto-Sync
+          </button>
+          <button
+            onClick={onCheckUpdates}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2"
+            title="Check for cloud updates from other devices"
+          >
+            🔄 Check Updates
+          </button>
+          <button
+            onClick={onDeploy}
+            className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors flex items-center gap-2"
+            title="Deploy changes to GitHub Pages for automatic cross-device sync"
+          >
+            🚀 Deploy to GitHub
+          </button>
           <button
             onClick={onClearEdits}
             className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2"

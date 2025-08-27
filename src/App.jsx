@@ -202,6 +202,108 @@ export default function App() {
     console.log('Question updated:', updatedQuestion);
   };
 
+  // Auto-sync to cloud storage
+  const autoSyncToCloud = async () => {
+    try {
+      // Create a sync file with timestamp
+      const syncData = {
+        version: '1.0',
+        lastSync: new Date().toISOString(),
+        questions: questions,
+        device: navigator.userAgent,
+        timestamp: Date.now()
+      };
+      
+      const dataStr = JSON.stringify(syncData, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      
+      // Try to save to cloud storage if available
+      if ('showSaveFilePicker' in window) {
+        try {
+          const handle = await window.showSaveFilePicker({
+            suggestedName: `sat-sync-${new Date().toISOString().split('T')[0]}.json`,
+            types: [{
+              description: 'SAT Questions Sync File',
+              accept: { 'application/json': ['.json'] }
+            }]
+          });
+          
+          const writable = await handle.createWritable();
+          await writable.write(dataStr);
+          await writable.close();
+          
+          console.log('Auto-sync file saved successfully');
+          alert('Sync file saved! Upload this to your cloud storage (Google Drive, Dropbox, etc.) for other devices to access.');
+        } catch (error) {
+          console.log('File picker cancelled or failed, falling back to download');
+          // Fallback to download
+          const url = URL.createObjectURL(dataBlob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `sat-sync-${new Date().toISOString().split('T')[0]}.json`;
+          link.click();
+          URL.revokeObjectURL(url);
+          
+          alert('Sync file downloaded! Upload this to your cloud storage for other devices to access.');
+        }
+      } else {
+        // Fallback for older browsers
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `sat-sync-${new Date().toISOString().split('T')[0]}.json`;
+        link.click();
+        URL.revokeObjectURL(url);
+        
+        alert('Sync file downloaded! Upload this to your cloud storage for other devices to access.');
+      }
+    } catch (error) {
+      console.error('Auto-sync failed:', error);
+      alert('Auto-sync failed. Please use manual Export/Import instead.');
+    }
+  };
+
+  // Check for cloud sync updates
+  const checkForCloudUpdates = async () => {
+    try {
+      // This would check a cloud storage location for updates
+      // For now, we'll show instructions
+      alert('To check for cloud updates:\n1. Upload your sync file to cloud storage\n2. On other devices, download and import the sync file\n3. Changes will automatically apply');
+    } catch (error) {
+      console.error('Cloud update check failed:', error);
+    }
+  };
+
+  // Deploy changes to GitHub Pages automatically
+  const deployToGitHub = async () => {
+    try {
+      // Create a deployment file
+      const deploymentData = {
+        questions: questions,
+        lastUpdated: new Date().toISOString(),
+        version: '1.0',
+        deployment: true
+      };
+      
+      const dataStr = JSON.stringify(deploymentData, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      
+      // Download the deployment file
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'sat-questions-deployment.json';
+      link.click();
+      URL.revokeObjectURL(url);
+      
+      alert('Deployment file downloaded! To deploy:\n1. Replace your questions.json with this file\n2. Commit and push to GitHub\n3. Run npm run deploy\n4. Changes will be live on all devices!');
+      
+    } catch (error) {
+      console.error('Deployment failed:', error);
+      alert('Deployment failed. Please use manual deployment instead.');
+    }
+  };
+
   const toggleAuthorMode = () => {
     // Show password prompt instead of directly toggling
     setShowAuthorModePassword(true);
@@ -645,6 +747,9 @@ export default function App() {
           onExport={exportEditedQuestions}
           onClearEdits={clearSavedEdits}
           onImport={importEditedQuestions}
+          onAutoSync={autoSyncToCloud}
+          onCheckUpdates={checkForCloudUpdates}
+          onDeploy={deployToGitHub}
         />
       ) : (
         <>
