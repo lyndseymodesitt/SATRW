@@ -152,14 +152,23 @@ export default function App() {
           const parsedEdits = JSON.parse(savedEdits);
           console.log('Found saved edits in localStorage:', parsedEdits.length, 'questions');
           
-          // Merge saved edits with original data
-          const mergedQuestions = questionsData.map(originalQ => {
-            const savedQ = parsedEdits.find(saved => saved.id === originalQ.id);
-            return savedQ || originalQ;
-          });
+          // Check if we have a complete override (imported data)
+          const hasCompleteOverride = parsedEdits.length === questionsData.length && 
+                                   parsedEdits.every(q => q.id && q.stem && q.choices);
           
-          setQuestions(mergedQuestions);
-          console.log('Merged saved edits with original data');
+          if (hasCompleteOverride) {
+            // Use the imported data directly as it's complete
+            console.log('Using complete imported data override');
+            setQuestions(parsedEdits);
+          } else {
+            // Merge partial edits with original data
+            console.log('Merging partial edits with original data');
+            const mergedQuestions = questionsData.map(originalQ => {
+              const savedQ = parsedEdits.find(saved => saved.id === originalQ.id);
+              return savedQ || originalQ;
+            });
+            setQuestions(mergedQuestions);
+          }
         } else {
           setQuestions(questionsData);
         }
@@ -366,6 +375,21 @@ export default function App() {
       console.log('Saved edits cleared');
     } catch (error) {
       console.error('Failed to clear saved edits:', error);
+    }
+  };
+
+  // Check if we have imported changes
+  const hasImportedChanges = () => {
+    try {
+      const savedEdits = localStorage.getItem('sat-questions-edits');
+      if (savedEdits) {
+        const parsedEdits = JSON.parse(savedEdits);
+        return parsedEdits.length === questionsData.length && 
+               parsedEdits.every(q => q.id && q.stem && q.choices);
+      }
+      return false;
+    } catch (error) {
+      return false;
     }
   };
 
@@ -645,6 +669,41 @@ export default function App() {
               Questions loaded: Module 1 = {modules[0].length}, Module 2 = {modules[1].length}
             </span>
           </div>
+          
+          {/* Imported Changes Indicator */}
+          {hasImportedChanges() && (
+            <div style={{ 
+              marginTop: '12px', 
+              padding: '8px 16px', 
+              backgroundColor: '#10b981', 
+              color: 'white', 
+              borderRadius: '8px', 
+              fontSize: '14px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              justifyContent: 'center'
+            }}>
+              <span>📥</span>
+              <span><strong>Imported Changes Active</strong> - Your edited questions are loaded</span>
+              <button 
+                onClick={clearSavedEdits}
+                style={{
+                  marginLeft: '8px',
+                  padding: '4px 8px',
+                  backgroundColor: 'rgba(255,255,255,0.2)',
+                  border: 'none',
+                  borderRadius: '4px',
+                  color: 'white',
+                  cursor: 'pointer',
+                  fontSize: '12px'
+                }}
+                title="Clear imported changes and restore original questions"
+              >
+                Reset to Original
+              </button>
+            </div>
+          )}
           {totalQuestions === 0 && (
             <p className="bad small">No questions found. Check that <code>data/questions.json</code> has items and that the "Module" column is 1 or 2.</p>
           )}

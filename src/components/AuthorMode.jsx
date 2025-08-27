@@ -490,6 +490,17 @@ const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport
               Export your changes on one computer, then import them on any other computer using the Import/Export buttons above.
             </p>
           </div>
+          
+          {/* Imported Changes Status */}
+          <div className="mt-2 px-4 py-2 bg-green-600/20 border border-green-500/30 rounded-lg">
+            <p className="text-green-400 text-sm font-medium mb-1">📥 Import Status:</p>
+            <p className="text-green-500/70 text-xs">
+              {questions.length > 0 ? 
+                `Loaded ${questions.length} questions (${questions.some(q => q.id && q.stem && q.choices) ? 'including imported changes' : 'original questions'})` : 
+                'No questions loaded'
+              }
+            </p>
+          </div>
         </div>
         <div className="flex gap-3">
           {savedPlace && (
