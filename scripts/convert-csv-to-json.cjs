@@ -7,6 +7,22 @@ const INPUT = "src/data/questions.csv";
 const OUTPUTS = ["public/data/questions.json", "src/data/questions.json"];
 for (const p of OUTPUTS) fs.mkdirSync(path.dirname(p), { recursive: true });
 
+// Check if there are existing Author Mode edits to preserve
+const existingEditsPath = "public/data/questions.json";
+let existingEdits = null;
+if (fs.existsSync(existingEditsPath)) {
+  try {
+    const existingContent = fs.readFileSync(existingEditsPath, 'utf8');
+    const parsed = JSON.parse(existingContent);
+    if (parsed.questions && Array.isArray(parsed.questions)) {
+      existingEdits = parsed.questions;
+      console.log(`📝 Found existing Author Mode edits with ${existingEdits.length} questions - will preserve these instead of overwriting`);
+    }
+  } catch (e) {
+    console.log("⚠️ Could not read existing questions.json, will generate from CSV");
+  }
+}
+
 // ---------- read & decode ----------
 const buf = fs.readFileSync(INPUT);
 let csv = buf.toString("utf8");
@@ -402,5 +418,10 @@ if (errors.length) {
   process.exit(1);
 }
 
-for (const p of OUTPUTS) fs.writeFileSync(p, JSON.stringify(data, null, 2));
-console.log(`✅ Wrote ${OUTPUTS.join(" & ")} with ${data.length} questions.`);
+// Use existing Author Mode edits if available, otherwise use CSV data
+const finalData = existingEdits || data;
+const finalCount = existingEdits ? existingEdits.length : data.length;
+const source = existingEdits ? "Author Mode edits" : "CSV";
+
+for (const p of OUTPUTS) fs.writeFileSync(p, JSON.stringify({ questions: finalData }, null, 2));
+console.log(`✅ Wrote ${OUTPUTS.join(" & ")} with ${finalCount} questions from ${source}.`);
