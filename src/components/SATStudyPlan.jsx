@@ -307,14 +307,16 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
     },
     grid: {
       display: 'grid',
-      gap: '1.5rem',
+      gap: '1rem',
       marginBottom: '3rem'
     },
     gridCols4: {
       gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))'
     },
     gridCols3: {
-      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))'
+      gridTemplateColumns: 'repeat(3, 1fr)',
+      maxWidth: '900px',
+      margin: '0 auto'
     },
     gridCols2: {
       gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))'
@@ -474,10 +476,11 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
                     ...styles.card,
                     position: 'relative',
                     textAlign: 'center',
+                    padding: '1rem',
                     background: isSelected ? `linear-gradient(135deg, ${timeframe.color}15 0%, ${timeframe.color}25 100%)` : 'white',
                     border: isSelected ? `2px solid ${timeframe.color}` : '1px solid #e5e7eb',
-                    transform: isSelected ? 'translateY(-8px)' : 'none',
-                    boxShadow: isSelected ? `0 20px 25px ${timeframe.color}25` : '0 4px 6px rgba(0, 0, 0, 0.1)'
+                    transform: isSelected ? 'translateY(-4px)' : 'none',
+                    boxShadow: isSelected ? `0 10px 15px ${timeframe.color}25` : '0 4px 6px rgba(0, 0, 0, 0.1)'
                   }}
                 >
                   {isSelected && (
@@ -500,29 +503,29 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
                   
                   <div style={{
                     ...styles.iconContainer,
-                    width: '64px',
-                    height: '64px',
-                    borderRadius: '16px',
-                    margin: '0 auto 1rem auto',
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: '12px',
+                    margin: '0 auto 0.75rem auto',
                     backgroundColor: isSelected ? timeframe.color + '20' : '#f3f4f6'
                   }}>
-                    <Clock color={isSelected ? timeframe.color : '#6b7280'} size={32} />
+                    <Clock color={isSelected ? timeframe.color : '#6b7280'} size={24} />
                   </div>
                   
-                  <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem', color: isSelected ? timeframe.color : '#1f2937' }}>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.25rem', color: isSelected ? timeframe.color : '#1f2937' }}>
                     {timeframe.name}
                   </h3>
-                  <div style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem', color: isSelected ? timeframe.color : '#4b5563' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.25rem', color: isSelected ? timeframe.color : '#4b5563' }}>
                     {timeframe.dailyTime} min
                   </div>
-                  <p style={{ fontSize: '0.875rem', color: isSelected ? '#374151' : '#6b7280', marginBottom: '1.5rem' }}>
+                  <p style={{ fontSize: '0.75rem', color: isSelected ? '#374151' : '#6b7280', marginBottom: '1rem' }}>
                     {timeframe.description}
                   </p>
                   
                   <div style={{
-                    padding: '0.5rem 1.5rem',
-                    borderRadius: '25px',
-                    fontSize: '0.875rem',
+                    padding: '0.375rem 1rem',
+                    borderRadius: '20px',
+                    fontSize: '0.75rem',
                     fontWeight: '500',
                     backgroundColor: isSelected ? timeframe.color : '#f3f4f6',
                     color: isSelected ? 'white' : '#6b7280',
