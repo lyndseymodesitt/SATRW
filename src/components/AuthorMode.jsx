@@ -16,7 +16,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 
-const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport, onClearEdits }) => {
+const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport, onClearEdits, onImport }) => {
   const [currentView, setCurrentView] = useState('list'); // 'list', 'edit', 'preview'
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [editedQuestion, setEditedQuestion] = useState(null);
@@ -484,6 +484,12 @@ const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport
             <span className="text-amber-400 text-sm font-medium">⏸️ Test Paused</span>
             <span className="text-amber-500/70 text-xs">No time pressure while editing</span>
           </div>
+          <div className="mt-2 px-4 py-2 bg-blue-600/20 border border-blue-500/30 rounded-lg">
+            <p className="text-blue-400 text-sm font-medium mb-1">💡 Cross-Computer Usage:</p>
+            <p className="text-blue-500/70 text-xs">
+              Export your changes on one computer, then import them on any other computer using the Import/Export buttons above.
+            </p>
+          </div>
         </div>
         <div className="flex gap-3">
           {savedPlace && (
@@ -502,6 +508,16 @@ const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport
           >
             📥 Export Changes
           </button>
+          <label className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2 cursor-pointer"
+                 title="Import previously exported questions">
+            📤 Import Changes
+            <input
+              type="file"
+              accept=".json"
+              onChange={onImport}
+              className="hidden"
+            />
+          </label>
           <button
             onClick={onClearEdits}
             className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2"

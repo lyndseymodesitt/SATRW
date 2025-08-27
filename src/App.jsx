@@ -247,18 +247,85 @@ export default function App() {
   // Export edited questions
   const exportEditedQuestions = () => {
     try {
-      const dataStr = JSON.stringify(questions, null, 2);
+      // Create a more comprehensive export with metadata
+      const exportData = {
+        version: '1.0',
+        exportDate: new Date().toISOString(),
+        originalQuestionsCount: questionsData.length,
+        editedQuestionsCount: questions.length,
+        questions: questions,
+        metadata: {
+          description: 'SAT Questions with Author Mode edits',
+          instructions: 'Import this file on any computer to apply your edits'
+        }
+      };
+      
+      const dataStr = JSON.stringify(exportData, null, 2);
       const dataBlob = new Blob([dataStr], { type: 'application/json' });
       const url = URL.createObjectURL(dataBlob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'sat-questions-edited.json';
+      link.download = `sat-questions-edited-${new Date().toISOString().split('T')[0]}.json`;
       link.click();
       URL.revokeObjectURL(url);
-      console.log('Edited questions exported');
+      console.log('Edited questions exported with metadata');
     } catch (error) {
       console.error('Failed to export questions:', error);
     }
+  };
+
+  // Import edited questions from file
+  const importEditedQuestions = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const importData = JSON.parse(e.target.result);
+        
+        // Validate the import data
+        if (!importData.questions || !Array.isArray(importData.questions)) {
+          alert('Invalid file format. Please select a valid SAT questions export file.');
+          return;
+        }
+
+        // Check if this is a newer version than what we have
+        const currentEdits = localStorage.getItem('sat-questions-edits');
+        if (currentEdits) {
+          const currentData = JSON.parse(currentEdits);
+          if (currentData.length > 0) {
+            const shouldOverwrite = confirm(
+              `You have existing edits with ${currentData.length} questions. ` +
+              `This import has ${importData.questions.length} questions. ` +
+              `Do you want to overwrite your current edits?`
+            );
+            if (!shouldOverwrite) return;
+          }
+        }
+
+        // Apply the imported questions
+        setQuestions(importData.questions);
+        
+        // Save to localStorage for persistence on this computer
+        try {
+          localStorage.setItem('sat-questions-edits', JSON.stringify(importData.questions));
+          console.log('Imported questions saved to localStorage');
+        } catch (error) {
+          console.error('Failed to save imported questions to localStorage:', error);
+        }
+
+        alert(`Successfully imported ${importData.questions.length} questions from ${importData.exportDate || 'unknown date'}`);
+        
+        // Clear the file input
+        event.target.value = '';
+        
+      } catch (error) {
+        console.error('Failed to parse import file:', error);
+        alert('Failed to read the file. Please make sure it\'s a valid JSON export from Author Mode.');
+      }
+    };
+    reader.readAsText(file);
   };
 
   // Clear saved edits
@@ -523,6 +590,7 @@ export default function App() {
           onResume={resumeFromSavedPlace}
           onExport={exportEditedQuestions}
           onClearEdits={clearSavedEdits}
+          onImport={importEditedQuestions}
         />
       ) : (
         <>
