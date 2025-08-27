@@ -517,8 +517,8 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
                   <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.25rem', color: isSelected ? timeframe.color : '#1f2937' }}>
                     {timeframe.name}
                   </h3>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.25rem', color: isSelected ? timeframe.color : '#4b5563' }}>
-                    {timeframe.dailyTime} min
+                  <div style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.25rem', color: isSelected ? timeframe.color : '#4b5563' }}>
+                    {timeframe.dailyTime} min per day
                   </div>
                   <p style={{ fontSize: '0.75rem', color: isSelected ? '#374151' : '#6b7280', marginBottom: '1rem' }}>
                     {timeframe.description}
