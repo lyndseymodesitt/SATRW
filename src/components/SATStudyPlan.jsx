@@ -568,19 +568,18 @@ export default function SATStudyPlan({ studentAnswers = [], totalQuestions = 66 
                     <h3 style={{ fontWeight: '600', color: '#1f2937', marginBottom: '0.5rem' }}>{area.name}</h3>
                     <p style={{ fontSize: '0.875rem', color: '#4b5563', marginBottom: '1rem' }}>{area.description}</p>
                     
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span style={{
-                        padding: '0.25rem 0.75rem',
-                        borderRadius: '25px',
-                        fontSize: '0.75rem',
-                        fontWeight: '500',
-                        backgroundColor: priorityColors[index] + '20',
-                        color: priorityColors[index]
-                      }}>
-                        {priority}
-                      </span>
-                      <ArrowRight color="#9ca3af" size={16} />
-                    </div>
+                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+                       <span style={{
+                         padding: '0.25rem 0.75rem',
+                         borderRadius: '25px',
+                         fontSize: '0.75rem',
+                         fontWeight: '500',
+                         backgroundColor: priorityColors[index] + '20',
+                         color: priorityColors[index]
+                       }}>
+                         {priority}
+                       </span>
+                     </div>
                   </div>
                 );
               })}
