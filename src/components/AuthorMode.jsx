@@ -16,7 +16,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 
-const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume }) => {
+const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport, onClearEdits }) => {
   const [currentView, setCurrentView] = useState('list'); // 'list', 'edit', 'preview'
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [editedQuestion, setEditedQuestion] = useState(null);
@@ -495,6 +495,20 @@ const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume }) => {
               🚀 Resume Test
             </button>
           )}
+          <button
+            onClick={onExport}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+            title="Export your edited questions"
+          >
+            📥 Export Changes
+          </button>
+          <button
+            onClick={onClearEdits}
+            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2"
+            title="Clear all saved edits and restore original questions"
+          >
+            🗑️ Clear Edits
+          </button>
           <button
             onClick={onClose}
             className="px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-2"

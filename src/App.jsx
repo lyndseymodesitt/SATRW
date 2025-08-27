@@ -142,18 +142,52 @@ export default function App() {
 
   // Update local questions when questionsData changes
   useEffect(() => {
-    setQuestions(questionsData);
+    if (questionsData.length > 0) {
+      // Check for saved edits in localStorage
+      try {
+        const savedEdits = localStorage.getItem('sat-questions-edits');
+        if (savedEdits) {
+          const parsedEdits = JSON.parse(savedEdits);
+          console.log('Found saved edits in localStorage:', parsedEdits.length, 'questions');
+          
+          // Merge saved edits with original data
+          const mergedQuestions = questionsData.map(originalQ => {
+            const savedQ = parsedEdits.find(saved => saved.id === originalQ.id);
+            return savedQ || originalQ;
+          });
+          
+          setQuestions(mergedQuestions);
+          console.log('Merged saved edits with original data');
+        } else {
+          setQuestions(questionsData);
+        }
+      } catch (error) {
+        console.error('Failed to load saved edits from localStorage:', error);
+        setQuestions(questionsData);
+      }
+    }
   }, [questionsData]);
 
   // Author mode handlers
   const handleQuestionSave = (updatedQuestion) => {
     console.log('Saving question:', updatedQuestion.id);
+    
+    // Update local state
     setQuestions(prev => {
       const updated = prev.map(q => q.id === updatedQuestion.id ? updatedQuestion : q);
       console.log('Questions updated, new count:', updated.length);
+      
+      // Save to localStorage for persistence
+      try {
+        localStorage.setItem('sat-questions-edits', JSON.stringify(updated));
+        console.log('Questions saved to localStorage');
+      } catch (error) {
+        console.error('Failed to save to localStorage:', error);
+      }
+      
       return updated;
     });
-    // In a real app, you'd save to backend here
+    
     console.log('Question updated:', updatedQuestion);
   };
 
@@ -208,6 +242,34 @@ export default function App() {
     setIsPaused(true);
     setShowSavePlaceModal(false);
     setShowAuthorMode(true);
+  };
+
+  // Export edited questions
+  const exportEditedQuestions = () => {
+    try {
+      const dataStr = JSON.stringify(questions, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'sat-questions-edited.json';
+      link.click();
+      URL.revokeObjectURL(url);
+      console.log('Edited questions exported');
+    } catch (error) {
+      console.error('Failed to export questions:', error);
+    }
+  };
+
+  // Clear saved edits
+  const clearSavedEdits = () => {
+    try {
+      localStorage.removeItem('sat-questions-edits');
+      setQuestions(questionsData);
+      console.log('Saved edits cleared');
+    } catch (error) {
+      console.error('Failed to clear saved edits:', error);
+    }
   };
 
   const totalQuestions = useMemo(() => modules[0].length + modules[1].length, [modules]);
@@ -459,6 +521,8 @@ export default function App() {
           onClose={toggleAuthorMode}
           savedPlace={savedPlace}
           onResume={resumeFromSavedPlace}
+          onExport={exportEditedQuestions}
+          onClearEdits={clearSavedEdits}
         />
       ) : (
         <>
