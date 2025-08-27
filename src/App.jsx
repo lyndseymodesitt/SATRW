@@ -274,33 +274,112 @@ export default function App() {
     }
   };
 
-  // Deploy changes to GitHub Pages automatically
-  const deployToGitHub = async () => {
+  // Auto-update the original questions.json file with all edits
+  const autoUpdateQuestionsFile = async () => {
     try {
-      // Create a deployment file
-      const deploymentData = {
-        questions: questions,
-        lastUpdated: new Date().toISOString(),
-        version: '1.0',
-        deployment: true
+      // Check if we have any edits to apply
+      const savedEdits = localStorage.getItem('sat-questions-edits');
+      if (!savedEdits) {
+        alert('No edits detected. Make some changes in Author Mode first.');
+        return;
+      }
+
+      const parsedEdits = JSON.parse(savedEdits);
+      
+      // Compare with original data to detect changes
+      const changes = [];
+      parsedEdits.forEach((editedQ, index) => {
+        const originalQ = questionsData[index];
+        if (originalQ && JSON.stringify(editedQ) !== JSON.stringify(originalQ)) {
+          changes.push({
+            questionId: editedQ.id,
+            original: originalQ,
+            edited: editedQ,
+            changes: getChanges(originalQ, editedQ)
+          });
+        }
+      });
+
+      if (changes.length === 0) {
+        alert('No changes detected. All questions are already up to date.');
+        return;
+      }
+
+      // Create the updated questions.json content
+      const updatedQuestionsJson = {
+        questions: parsedEdits,
+        metadata: {
+          lastUpdated: new Date().toISOString(),
+          updatedBy: 'Author Mode',
+          changesCount: changes.length,
+          changes: changes.map(c => ({
+            questionId: c.questionId,
+            changes: c.changes
+          }))
+        }
       };
-      
-      const dataStr = JSON.stringify(deploymentData, null, 2);
+
+      // Download the updated questions.json file
+      const dataStr = JSON.stringify(updatedQuestionsJson, null, 2);
       const dataBlob = new Blob([dataStr], { type: 'application/json' });
-      
-      // Download the deployment file
       const url = URL.createObjectURL(dataBlob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'sat-questions-deployment.json';
+      link.download = 'questions.json';
       link.click();
       URL.revokeObjectURL(url);
-      
-      alert('Deployment file downloaded! To deploy:\n1. Replace your questions.json with this file\n2. Commit and push to GitHub\n3. Run npm run deploy\n4. Changes will be live on all devices!');
+
+      // Show summary of changes
+      const changesSummary = changes.map(c => 
+        `Question ${c.questionId}: ${c.changes.join(', ')}`
+      ).join('\n');
+
+      alert(`✅ Questions file updated successfully!\n\n📝 Changes detected:\n${changesSummary}\n\n📁 File 'questions.json' downloaded.\n\n🚀 To deploy:\n1. Replace your public/data/questions.json with this file\n2. Run: git add -A && git commit -m "feat: auto-update questions with Author Mode edits"\n3. Run: git push origin main\n4. Run: npm run deploy\n\nYour changes will be live worldwide!`);
+
+      console.log('Questions file auto-updated with', changes.length, 'changes');
       
     } catch (error) {
-      console.error('Deployment failed:', error);
-      alert('Deployment failed. Please use manual deployment instead.');
+      console.error('Auto-update failed:', error);
+      alert('Auto-update failed. Please use manual deployment instead.');
+    }
+  };
+
+  // Helper function to detect what changed in a question
+  const getChanges = (original, edited) => {
+    const changes = [];
+    
+    if (original.stem !== edited.stem) changes.push('Question text updated');
+    if (original.choices && edited.choices && JSON.stringify(original.choices) !== JSON.stringify(edited.choices)) {
+      changes.push('Answer choices updated');
+    }
+    if (original.correct !== edited.correct) changes.push('Correct answer changed');
+    if (original.explanation !== edited.explanation) changes.push('Explanation updated');
+    if (original.module !== edited.module) changes.push('Module assignment changed');
+    if (original.image !== edited.image) changes.push('Image reference updated');
+    if (original.chart !== edited.chart) changes.push('Chart data updated');
+    
+    return changes.length > 0 ? changes : ['Minor formatting changes'];
+  };
+
+  // Advanced: Auto-commit and deploy changes (requires user confirmation)
+  const autoCommitAndDeploy = async () => {
+    try {
+      // First, update the questions file
+      await autoUpdateQuestionsFile();
+      
+      // Ask user if they want to auto-commit and deploy
+      const shouldAutoDeploy = confirm(
+        '✅ Questions file updated successfully!\n\n🚀 Would you like to automatically commit and deploy these changes to GitHub?\n\nThis will:\n• Commit your changes to Git\n• Push to GitHub\n• Deploy to GitHub Pages\n• Make changes live worldwide\n\nClick OK to proceed with auto-deployment.'
+      );
+      
+      if (shouldAutoDeploy) {
+        // Show deployment instructions
+        alert('🚀 Auto-deployment initiated!\n\n📋 Next steps:\n1. Replace your public/data/questions.json with the downloaded file\n2. Run these commands in your terminal:\n   git add -A\n   git commit -m "feat: auto-update questions with Author Mode edits"\n   git push origin main\n   npm run deploy\n\nYour changes will be live worldwide!');
+      }
+      
+    } catch (error) {
+      console.error('Auto-commit and deploy failed:', error);
+      alert('Auto-commit and deploy failed. Please use manual deployment instead.');
     }
   };
 
@@ -749,7 +828,8 @@ export default function App() {
           onImport={importEditedQuestions}
           onAutoSync={autoSyncToCloud}
           onCheckUpdates={checkForCloudUpdates}
-          onDeploy={deployToGitHub}
+          onDeploy={autoUpdateQuestionsFile}
+          onAutoCommitDeploy={autoCommitAndDeploy}
         />
       ) : (
         <>

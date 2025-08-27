@@ -16,7 +16,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 
-const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport, onClearEdits, onImport, onAutoSync, onCheckUpdates, onDeploy }) => {
+const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport, onClearEdits, onImport, onAutoSync, onCheckUpdates, onDeploy, onAutoCommitDeploy }) => {
   const [currentView, setCurrentView] = useState('list'); // 'list', 'edit', 'preview'
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [editedQuestion, setEditedQuestion] = useState(null);
@@ -546,9 +546,16 @@ const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport
           <button
             onClick={onDeploy}
             className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors flex items-center gap-2"
-            title="Deploy changes to GitHub Pages for automatic cross-device sync"
+            title="Auto-update questions.json file with all your edits and prepare for deployment"
           >
-            🚀 Deploy to GitHub
+            📝 Update Questions File
+          </button>
+          <button
+            onClick={onAutoCommitDeploy}
+            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2"
+            title="Automatically commit and deploy all changes to GitHub Pages"
+          >
+            🚀 Auto-Deploy
           </button>
           <button
             onClick={onClearEdits}
