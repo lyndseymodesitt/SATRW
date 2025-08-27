@@ -1,4 +1,6 @@
 {
+  "version": "1.0",
+  "lastSync": "2025-08-27T18:29:58.975Z",
   "questions": [
     {
       "id": "1",
@@ -13,15 +15,203 @@
       "correct": 2,
       "explanation": "\"Rattled\" is correct because it indicates that Sarah's confidence was disturbed and shaken, which fits with her \"uncharacteristically quiet demeanor\" while still allowing her to \"congratulate the opposing team with grace.\" The passage suggests her confidence was affected but not completely destroyed.",
       "difficulty": "Easy"
+    },
+    {
+      "id": "2",
+      "module": 1,
+      "stem": "Before the field trip, Ms. Gomez emailed a one-page checklist that listed meeting times, bus numbers, and what to bring. She also added a short map showing the museum entrance. The checklist <span class=\"blank\"></span> the plan, so students and chaperones knew exactly where to go and when to arrive.\n \n Which choice completes the text with the most logical and precise word or phrase?",
+      "choices": [
+        "confirmed",
+        "clarified",
+        "praised",
+        "complicated"
+      ],
+      "correct": 1,
+      "explanation": "\"Clarified\" is correct because the checklist and map provided specific details that made the plan clear and understandable.",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "3",
+      "module": 1,
+      "stem": "After a cluster of strong solar flares erupted from Active Region 3654, the space-weather center issued an alert to power-grid operators and airline dispatchers. The bulletin warned that a coronal mass ejection was moving earthward; aurora could be visible at lower latitudes and shortwave radio might be disrupted within the next 24–48 hours. The alert emphasized that teams should prepare for a/an <span class=\"blank\"></span> geomagnetic storm and satellite operators consider switching to safe mode during peaks.\n \n Which choice completes the text with the most logical and precise word or phrase?",
+      "choices": [
+        "impending",
+        "sporadic",
+        "residual",
+        "benign"
+      ],
+      "correct": 0,
+      "explanation": "\"Impending\" is correct because the context establishes that a geomagnetic storm is about to occur imminently.",
+      "difficulty": "Easy"
     }
   ],
   "metadata": {
-    "lastUpdated": "2025-08-27T18:30:09.124Z",
-    "updatedBy": "Author Mode", 
+    "lastUpdated": "2025-08-27T18:29:58.975Z",
+    "updatedBy": "Author Mode",
     "changesCount": 27,
     "changes": [
       {
         "questionId": "3",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "5",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "6",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "8",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "9",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "13",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "17",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "18",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "19",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "25",
+        "changes": [
+          "Answer choices updated"
+        ]
+      },
+      {
+        "questionId": "26",
+        "changes": [
+          "Question text updated",
+          "Answer choices updated"
+        ]
+      },
+      {
+        "questionId": "31",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "32",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "33",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "39",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "40",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "41",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "42",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "44",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "46",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "48",
+        "changes": [
+          "Question text updated",
+          "Answer choices updated"
+        ]
+      },
+      {
+        "questionId": "49",
+        "changes": [
+          "Answer choices updated",
+          "Chart data updated"
+        ]
+      },
+      {
+        "questionId": "50",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "63",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "64",
+        "changes": [
+          "Question text updated",
+          "Answer choices updated"
+        ]
+      },
+      {
+        "questionId": "65",
+        "changes": [
+          "Question text updated"
+        ]
+      },
+      {
+        "questionId": "66",
         "changes": [
           "Question text updated"
         ]
