@@ -135,9 +135,7 @@ export default function App() {
   const [authorModePassword, setAuthorModePassword] = useState('');
   const [questions, setQuestions] = useState([]);
   
-  // Save place functionality
-  const [savedPlace, setSavedPlace] = useState(null);
-  const [showSavePlaceModal, setShowSavePlaceModal] = useState(false);
+  // Save place functionality removed - Author Mode only available on home screen
   const [isPaused, setIsPaused] = useState(false);
 
   // REVIEW mode UI state
@@ -528,51 +526,7 @@ export default function App() {
     }
   };
 
-  // Save place functionality
-  const saveCurrentPlace = () => {
-    const place = {
-      phase,
-      moduleIdx,
-      qIndex,
-      moduleTimeLeft,
-      breakLeft,
-      answers: { ...answers },
-      flagged: { ...flagged },
-      timestamp: Date.now()
-    };
-    setSavedPlace(place);
-    setShowSavePlaceModal(true);
-  };
-
-  const resumeFromSavedPlace = () => {
-    if (savedPlace) {
-      setPhase(savedPlace.phase);
-      setModuleIdx(savedPlace.moduleIdx);
-      setQIndex(savedPlace.qIndex);
-      setModuleTimeLeft(savedPlace.moduleTimeLeft);
-      setBreakLeft(savedPlace.breakLeft);
-      setAnswers(savedPlace.answers);
-      setFlagged(savedPlace.flagged);
-      setSavedPlace(null);
-      setShowSavePlaceModal(false);
-      setShowAuthorMode(false);
-      setIsPaused(false);
-    }
-  };
-
-
-
-  const clearSavedPlace = () => {
-    setSavedPlace(null);
-    setShowSavePlaceModal(false);
-  };
-
-  const goToAuthorModeFromModal = () => {
-    console.log('Going to Author Mode from modal...');
-    setIsPaused(true);
-    setShowSavePlaceModal(false);
-    setShowAuthorMode(true);
-  };
+  // Save place functionality removed - Author Mode only available on home screen
 
   // Export edited questions
   const exportEditedQuestions = () => {
@@ -958,6 +912,7 @@ export default function App() {
               className="btn secondary" 
               onClick={toggleAuthorMode}
               style={{ backgroundColor: '#374151', borderColor: '#6b7280' }}
+              title="Author Mode - Edit questions (only available on home screen)"
             >
               Author Mode
             </button>
@@ -1030,14 +985,7 @@ export default function App() {
                   {flagged[currentQuestion.id] ? "Flagged" : "Flag for review"}
                 </button>
               )}
-              <button
-                className="btn-secondary"
-                onClick={saveCurrentPlace}
-                style={{ fontSize: '12px', padding: '6px 10px' }}
-                title="Save your current position to fix issues in Author Mode"
-              >
-                💾 Save Place
-              </button>
+              {/* Save Place button removed - Author Mode only available on home screen */}
               <div className="timer" aria-live="polite">
                 {isPaused ? (
                   <span className="paused-timer" title="Test is paused - take your time editing!">
@@ -1371,32 +1319,7 @@ export default function App() {
             />
           )}
 
-          {/* Save Place Modal */}
-          {showSavePlaceModal && (
-            <div className="modal-overlay">
-              <div className="modal">
-                <h3>💾 Position Saved!</h3>
-                <div className="saved-place-info">
-                  <p><strong>Module:</strong> {savedPlace?.moduleIdx + 1}</p>
-                  <p><strong>Question:</strong> {savedPlace?.qIndex + 1}</p>
-                  <p><strong>Time Remaining:</strong> {fmt(savedPlace?.moduleTimeLeft || 0)}</p>
-                  <p><strong>Answers:</strong> {Object.keys(savedPlace?.answers || {}).length}</p>
-                  <p><strong>Flagged:</strong> {Object.keys(savedPlace?.flagged || {}).length}</p>
-                </div>
-                <div className="modal-actions">
-                  <button className="btn" onClick={goToAuthorModeFromModal}>
-                    🛠️ Go to Author Mode
-                  </button>
-                  <button className="btn-secondary" onClick={clearSavedPlace}>
-                    ❌ Clear Saved Place
-                  </button>
-                </div>
-                <p className="small" style={{ marginTop: '16px', opacity: 0.7 }}>
-                  Your position is saved. You can now fix issues in Author Mode and return exactly where you left off.
-                </p>
-              </div>
-            </div>
-          )}
+          {/* Save Place Modal removed - Author Mode only available on home screen */}
 
           {/* Author Mode Password Modal */}
           {showAuthorModePassword && (
