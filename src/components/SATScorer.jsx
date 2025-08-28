@@ -220,10 +220,10 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
     setIsDragging(false);
   }, []);
 
-  // Reset to actual score when component updates
+  // Reset to actual score only on initial load
   useEffect(() => {
     setInteractiveScore(score);
-  }, [score]);
+  }, []); // Empty dependency array - only run once
 
   // Add event listeners for dragging
   useEffect(() => {
