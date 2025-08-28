@@ -1211,88 +1211,50 @@ export default function App() {
                 left: '0', 
                 width: '100vw', 
                 height: '100vh', 
-                background: 'red', 
-                zIndex: 9999,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontSize: '24px'
-              }}>
-                REVIEW PHASE IS ACTIVE - PHASE: {phase} - reviewItems: {reviewItems?.length || 0}
-              </div>
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                zIndex: 9999
+              }} />
+              
               <div style={{ 
                 position: 'fixed', 
                 top: '50px', 
-                left: '50px', 
-                width: '200px', 
-                height: '100px', 
-                background: 'blue', 
-                zIndex: 10000,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontSize: '16px',
-                border: '5px solid yellow'
-              }}>
-                TEST BLOCK
-              </div>
-              <div style={{ 
-                position: 'fixed', 
-                top: '50px', 
-                left: '300px', 
-                width: '200px', 
-                height: '100px', 
-                background: 'green', 
-                zIndex: 10000,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontSize: '16px',
-                border: '5px solid black'
-              }}>
-                DEBUG: {reviewItems?.length || 0} items
-              </div>
-              <div style={{ 
-                position: 'fixed', 
-                top: '50px', 
-                left: '550px', 
-                width: '200px', 
-                height: '100px', 
-                background: 'orange', 
-                zIndex: 10000,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontSize: '16px',
-                border: '5px solid black'
-              }}>
-                Phase: {phase}
-              </div>
-              <div style={{ 
-                position: 'fixed', 
-                top: '200px', 
-                left: '50px', 
-                width: '500px', 
-                height: '400px', 
+                left: '50%', 
+                transform: 'translateX(-50%)', 
+                width: '600px', 
+                height: '500px', 
                 background: 'white', 
                 zIndex: 10000,
                 display: 'flex',
                 flexDirection: 'column',
-                padding: '20px',
-                border: '5px solid black',
+                padding: '30px',
+                borderRadius: '12px',
+                boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
                 overflow: 'auto'
               }}>
-                <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' }}>
-                  Review Mode - Item {reviewIndex + 1} / {reviewItems.length}
+                <div style={{ 
+                  fontSize: '24px', 
+                  fontWeight: 'bold', 
+                  marginBottom: '30px', 
+                  textAlign: 'center',
+                  color: '#2c3e50',
+                  borderBottom: '2px solid #ecf0f1',
+                  paddingBottom: '15px'
+                }}>
+                  Review Mode - Item {reviewIndex + 1} of {reviewItems.length}
                 </div>
                 
-                <div style={{ marginBottom: '20px' }}>
-                  <strong style={{ color: '#333' }}>Question:</strong>
-                  <div style={{ marginTop: '10px', lineHeight: '1.5', color: '#555' }}>
+                <div style={{ marginBottom: '25px' }}>
+                  <strong style={{ color: '#2c3e50', fontSize: '16px' }}>Question:</strong>
+                  <div style={{ 
+                    marginTop: '15px', 
+                    lineHeight: '1.6', 
+                    color: '#34495e',
+                    fontSize: '15px',
+                    backgroundColor: '#f8f9fa',
+                    padding: '20px',
+                    borderRadius: '8px',
+                    border: '1px solid #e9ecef'
+                  }}>
                     {reviewItems?.[reviewIndex]?.stem || 'No question available'}
                   </div>
                 </div>
