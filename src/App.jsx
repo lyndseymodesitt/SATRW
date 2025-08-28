@@ -1221,6 +1221,38 @@ export default function App() {
               }}>
                 REVIEW PHASE IS ACTIVE - PHASE: {phase} - reviewItems: {reviewItems?.length || 0}
               </div>
+              <div style={{ 
+                position: 'fixed', 
+                top: '100px', 
+                left: '0', 
+                width: '100vw', 
+                height: '50px', 
+                background: 'lime', 
+                zIndex: 9998,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'black',
+                fontSize: '18px'
+              }}>
+                PHASE CHECK: {phase} === {PHASES.REVIEW} = {phase === PHASES.REVIEW ? 'TRUE' : 'FALSE'}
+              </div>
+              <div style={{ 
+                position: 'fixed', 
+                top: '160px', 
+                left: '0', 
+                width: '100vw', 
+                height: '50px', 
+                background: 'purple', 
+                zIndex: 9997,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontSize: '18px'
+              }}>
+                SIMPLE TEST: This should appear if JSX is working
+              </div>
               <div className="card" style={{ border: '2px solid blue', padding: '10px' }}>
                 <div style={{ background: 'lightblue', padding: '10px', marginBottom: '10px' }}>
                   <strong>DEBUG: Review phase is active. reviewItems: {reviewItems?.length || 0}</strong>
