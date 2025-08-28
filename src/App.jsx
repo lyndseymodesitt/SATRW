@@ -1233,7 +1233,8 @@ export default function App() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'black',
-                fontSize: '18px'
+                fontSize: '18px',
+                border: '3px solid black'
               }}>
                 PHASE CHECK: {phase} === {PHASES.REVIEW} = {phase === PHASES.REVIEW ? 'TRUE' : 'FALSE'}
               </div>
@@ -1249,7 +1250,8 @@ export default function App() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'white',
-                fontSize: '18px'
+                fontSize: '18px',
+                border: '3px solid black'
               }}>
                 SIMPLE TEST: This should appear if JSX is working
               </div>
