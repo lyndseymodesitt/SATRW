@@ -1272,51 +1272,40 @@ export default function App() {
               }}>
                 Phase: {phase}
               </div>
-              <div className="card" style={{ border: '2px solid blue', padding: '10px' }}>
-                <div style={{ background: 'lightblue', padding: '10px', marginBottom: '10px' }}>
-                  <strong>DEBUG: Review phase is active. reviewItems: {reviewItems?.length || 0}</strong>
+              <div style={{ 
+                position: 'fixed', 
+                top: '200px', 
+                left: '50px', 
+                width: '400px', 
+                height: '300px', 
+                background: 'white', 
+                zIndex: 10000,
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '20px',
+                border: '5px solid black',
+                overflow: 'auto'
+              }}>
+                <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '20px' }}>
+                  Review Mode - Item {reviewIndex + 1} / {reviewItems.length}
                 </div>
-                <div style={{ background: 'orange', padding: '10px', marginBottom: '10px' }}>
-                  <strong>DEBUG: reviewItems[0]: {JSON.stringify(reviewItems?.[0] || 'undefined')}</strong>
+                <div style={{ marginBottom: '20px' }}>
+                  <strong>Question:</strong> {reviewItems?.[reviewIndex]?.stem || 'No question available'}
                 </div>
-                <div className="meta" style={{ marginBottom: 12 }}>
-                  <div>
-                    <div className="label">Review Mode</div>
-                    <div className="kicker">
-                      {reviewItems.length > 0 ? (
-                        <>Item {reviewIndex + 1} / {reviewItems.length}</>
-                      ) : "No items to review"}
+                <div style={{ marginBottom: '20px' }}>
+                  <strong>Choices:</strong>
+                  {reviewItems?.[reviewIndex]?.choices?.map((choice, idx) => (
+                    <div key={idx} style={{ marginLeft: '20px', marginBottom: '5px' }}>
+                      {String.fromCharCode(65 + idx)}. {choice}
                     </div>
-                  </div>
-                  <div className="pills">
-                    <button
-                      className={`pill ${reviewFilter === "all" ? "active" : ""}`}
-                      onClick={() => { setReviewFilter("all"); setReviewIndex(0); }}
-                    >
-                      All ({results.rows.length})
-                    </button>
-                    <button
-                      className={`pill ${reviewFilter === "incorrect" ? "active" : ""}`}
-                      onClick={() => { setReviewFilter("incorrect"); setReviewIndex(0); }}
-                    >
-                      Incorrect ({results.rows.filter(r => !r.isCorrect).length})
-                    </button>
-                    <button
-                      className={`pill ${reviewFilter === "flagged" ? "active" : ""}`}
-                      onClick={() => { setReviewFilter("flagged"); setReviewIndex(0); }}
-                    >
-                      Flagged ({results.rows.filter(r => r.flagged).length})
-                    </button>
-                  </div>
+                  )) || 'No choices available'}
                 </div>
-
-                {reviewItems.length === 0 ? (
-                  <p className="small">Nothing here. Try a different filter.</p>
-                ) : (
-                  <div style={{ background: 'green', padding: '10px', marginBottom: '10px' }}>
-                    <strong>DEBUG: About to render review content. reviewItems.length: {reviewItems.length}</strong>
-                  </div>
-                )}
+                <div style={{ marginBottom: '20px' }}>
+                  <strong>Your Answer:</strong> {String.fromCharCode(65 + (reviewItems?.[reviewIndex]?.userChoice || 0))}
+                </div>
+                <div style={{ marginBottom: '20px' }}>
+                  <strong>Correct Answer:</strong> {String.fromCharCode(65 + (reviewItems?.[reviewIndex]?.correctChoice || 0))}
+                </div>
               </div>
             </>
           )}
