@@ -1276,8 +1276,8 @@ export default function App() {
                 position: 'fixed', 
                 top: '200px', 
                 left: '50px', 
-                width: '400px', 
-                height: '300px', 
+                width: '500px', 
+                height: '400px', 
                 background: 'white', 
                 zIndex: 10000,
                 display: 'flex',
@@ -1286,25 +1286,124 @@ export default function App() {
                 border: '5px solid black',
                 overflow: 'auto'
               }}>
-                <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '20px' }}>
+                <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' }}>
                   Review Mode - Item {reviewIndex + 1} / {reviewItems.length}
                 </div>
+                
                 <div style={{ marginBottom: '20px' }}>
-                  <strong>Question:</strong> {reviewItems?.[reviewIndex]?.stem || 'No question available'}
+                  <strong style={{ color: '#333' }}>Question:</strong>
+                  <div style={{ marginTop: '10px', lineHeight: '1.5', color: '#555' }}>
+                    {reviewItems?.[reviewIndex]?.stem || 'No question available'}
+                  </div>
                 </div>
+                
                 <div style={{ marginBottom: '20px' }}>
-                  <strong>Choices:</strong>
-                  {reviewItems?.[reviewIndex]?.choices?.map((choice, idx) => (
-                    <div key={idx} style={{ marginLeft: '20px', marginBottom: '5px' }}>
-                      {String.fromCharCode(65 + idx)}. {choice}
-                    </div>
-                  )) || 'No choices available'}
+                  <strong style={{ color: '#333' }}>Answer Choices:</strong>
+                  {reviewItems?.[reviewIndex]?.choices?.map((choice, idx) => {
+                    const isCorrect = idx === reviewItems[reviewIndex]?.correctChoice;
+                    const isUser = idx === reviewItems[reviewIndex]?.userChoice;
+                    let choiceStyle = { 
+                      marginLeft: '20px', 
+                      marginBottom: '8px', 
+                      padding: '8px 12px',
+                      borderRadius: '4px',
+                      border: '2px solid #ddd'
+                    };
+                    
+                    if (isCorrect) {
+                      choiceStyle = { ...choiceStyle, backgroundColor: '#d4edda', borderColor: '#28a745', color: '#155724' };
+                    } else if (isUser && !isCorrect) {
+                      choiceStyle = { ...choiceStyle, backgroundColor: '#f8d7da', borderColor: '#dc3545', color: '#721c24' };
+                    }
+                    
+                    return (
+                      <div key={idx} style={choiceStyle}>
+                        <strong>{String.fromCharCode(65 + idx)}.</strong> {choice}
+                        {isCorrect && <span style={{ marginLeft: '10px', color: '#28a745' }}>✓ Correct</span>}
+                        {isUser && !isCorrect && <span style={{ marginLeft: '10px', color: '#dc3545' }}>✗ Your Answer</span>}
+                        {isUser && isCorrect && <span style={{ marginLeft: '10px', color: '#28a745' }}>✓ Your Answer (Correct)</span>}
+                      </div>
+                    );
+                  }) || 'No choices available'}
                 </div>
-                <div style={{ marginBottom: '20px' }}>
-                  <strong>Your Answer:</strong> {String.fromCharCode(65 + (reviewItems?.[reviewIndex]?.userChoice || 0))}
+                
+                <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: '#f8f9fa', borderRadius: '4px', border: '1px solid #dee2e6' }}>
+                  <strong style={{ color: '#333' }}>Results Summary:</strong>
+                  <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'space-between' }}>
+                    <span>Your Answer: <strong style={{ color: reviewItems?.[reviewIndex]?.isCorrect ? '#28a745' : '#dc3545' }}>
+                      {String.fromCharCode(65 + (reviewItems?.[reviewIndex]?.userChoice || 0))}
+                    </strong></span>
+                    <span>Correct Answer: <strong style={{ color: '#28a745' }}>
+                      {String.fromCharCode(65 + (reviewItems?.[reviewIndex]?.correctChoice || 0))}
+                    </strong></span>
+                  </div>
+                  <div style={{ marginTop: '10px', textAlign: 'center' }}>
+                    <span style={{ 
+                      padding: '4px 12px', 
+                      borderRadius: '20px', 
+                      backgroundColor: reviewItems?.[reviewIndex]?.isCorrect ? '#d4edda' : '#f8d7da',
+                      color: reviewItems?.[reviewIndex]?.isCorrect ? '#155724' : '#721c24',
+                      fontWeight: 'bold'
+                    }}>
+                      {reviewItems?.[reviewIndex]?.isCorrect ? '✓ CORRECT' : '✗ INCORRECT'}
+                    </span>
+                  </div>
                 </div>
-                <div style={{ marginBottom: '20px' }}>
-                  <strong>Correct Answer:</strong> {String.fromCharCode(65 + (reviewItems?.[reviewIndex]?.correctChoice || 0))}
+                
+                <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <button 
+                    onClick={() => setReviewIndex(Math.max(0, reviewIndex - 1))}
+                    disabled={reviewIndex === 0}
+                    style={{
+                      padding: '10px 20px',
+                      backgroundColor: reviewIndex === 0 ? '#6c757d' : '#007bff',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: reviewIndex === 0 ? 'not-allowed' : 'pointer',
+                      fontSize: '14px'
+                    }}
+                  >
+                    ← Previous
+                  </button>
+                  
+                  <div style={{ fontSize: '14px', color: '#666' }}>
+                    {reviewIndex + 1} of {reviewItems.length}
+                  </div>
+                  
+                  <button 
+                    onClick={() => setReviewIndex(Math.min(reviewItems.length - 1, reviewIndex + 1))}
+                    disabled={reviewIndex >= reviewItems.length - 1}
+                    style={{
+                      padding: '10px 20px',
+                      backgroundColor: reviewIndex >= reviewItems.length - 1 ? '#6c757d' : '#007bff',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: reviewIndex >= reviewItems.length - 1 ? 'not-allowed' : 'pointer',
+                      fontSize: '14px'
+                    }}
+                  >
+                    Next →
+                  </button>
+                </div>
+                
+                <div style={{ marginTop: '15px', textAlign: 'center' }}>
+                  <button 
+                    onClick={() => setPhase(PHASES.SUMMARY)}
+                    style={{
+                      padding: '12px 24px',
+                      backgroundColor: '#6c757d',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    ← Back to Summary
+                  </button>
                 </div>
               </div>
             </>
