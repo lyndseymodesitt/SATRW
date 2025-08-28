@@ -1203,133 +1203,147 @@ export default function App() {
         </div>
       )}
 
-      {phase === PHASES.REVIEW && (
-        <div className="card" style={{ border: '2px solid blue', padding: '10px' }}>
-          <div style={{ background: 'lightblue', padding: '10px', marginBottom: '10px' }}>
-            <strong>DEBUG: Review phase is active. reviewItems: {reviewItems?.length || 0}</strong>
-          </div>
-          <div className="meta" style={{ marginBottom: 12 }}>
-            <div>
-              <div className="label">Review Mode</div>
-              <div className="kicker">
-                {reviewItems.length > 0 ? (
-                  <>Item {reviewIndex + 1} / {reviewItems.length}</>
-                ) : "No items to review"}
+          {phase === PHASES.REVIEW && (
+            <>
+              <div style={{ 
+                position: 'fixed', 
+                top: '0', 
+                left: '0', 
+                width: '100vw', 
+                height: '100vh', 
+                background: 'red', 
+                zIndex: 9999,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontSize: '24px'
+              }}>
+                REVIEW PHASE IS ACTIVE - PHASE: {phase} - reviewItems: {reviewItems?.length || 0}
               </div>
-            </div>
-            <div className="pills">
-              <button
-                className={`pill ${reviewFilter === "all" ? "active" : ""}`}
-                onClick={() => { setReviewFilter("all"); setReviewIndex(0); }}
-              >
-                All ({results.rows.length})
-              </button>
-              <button
-                className={`pill ${reviewFilter === "incorrect" ? "active" : ""}`}
-                onClick={() => { setReviewFilter("incorrect"); setReviewIndex(0); }}
-              >
-                Incorrect ({results.rows.filter(r => !r.isCorrect).length})
-              </button>
-              <button
-                className={`pill ${reviewFilter === "flagged" ? "active" : ""}`}
-                onClick={() => { setReviewFilter("flagged"); setReviewIndex(0); }}
-              >
-                Flagged ({results.rows.filter(r => r.flagged).length})
-              </button>
-            </div>
-          </div>
-
-          {reviewItems.length === 0 ? (
-            <p className="small">Nothing here. Try a different filter.</p>
-          ) : (
-            <div style={{ background: 'yellow', padding: '10px', marginBottom: '10px' }}>
-              <strong>DEBUG: reviewItems.length = {reviewItems.length}, reviewIndex = {reviewIndex}</strong>
-            </div>
-          ) && (
-            (() => {
-              const r = reviewItems[reviewIndex];
-              return (
-                <>
-                  <div className="kicker" style={{ marginBottom: 6 }}>
-                    Module {r.module} • Q{r.id}{" "}
+              <div className="card" style={{ border: '2px solid blue', padding: '10px' }}>
+                <div style={{ background: 'lightblue', padding: '10px', marginBottom: '10px' }}>
+                  <strong>DEBUG: Review phase is active. reviewItems: {reviewItems?.length || 0}</strong>
+                </div>
+                <div className="meta" style={{ marginBottom: 12 }}>
+                  <div>
+                    <div className="label">Review Mode</div>
+                    <div className="kicker">
+                      {reviewItems.length > 0 ? (
+                        <>Item {reviewIndex + 1} / {reviewItems.length}</>
+                      ) : "No items to review"}
+                    </div>
+                  </div>
+                  <div className="pills">
                     <button
-                      className={`flag ${r.flagged ? "active" : ""}`}
-                      onClick={() => toggleFlag(r.id)}
-                      style={{ marginLeft: 8 }}
+                      className={`pill ${reviewFilter === "all" ? "active" : ""}`}
+                      onClick={() => { setReviewFilter("all"); setReviewIndex(0); }}
                     >
-                      <span className="star">{r.flagged ? "★" : "☆"}</span>
-                      {r.flagged ? "Flagged" : "Flag for review"}
+                      All ({results.rows.length})
+                    </button>
+                    <button
+                      className={`pill ${reviewFilter === "incorrect" ? "active" : ""}`}
+                      onClick={() => { setReviewFilter("incorrect"); setReviewIndex(0); }}
+                    >
+                      Incorrect ({results.rows.filter(r => !r.isCorrect).length})
+                    </button>
+                    <button
+                      className={`pill ${reviewFilter === "flagged" ? "active" : ""}`}
+                      onClick={() => { setReviewFilter("flagged"); setReviewIndex(0); }}
+                    >
+                      Flagged ({results.rows.filter(r => r.flagged).length})
                     </button>
                   </div>
+                </div>
 
-                  <div className="stem-box">
-                    <QuestionText 
-                      content={r.stem}
-                      className="stem-text"
-                    />
-                  </div>
-                  
-                  {r.image && (
-                    <div className="figure-box">
-                      <img
-                        src={`${import.meta.env.BASE_URL}${r.image}`}
-                        alt={r.alt || "Figure"}
-                        loading="lazy"
-                      />
-                      {r.caption && <div className="figure-cap">{r.caption}</div>}
+                {reviewItems.length === 0 ? (
+                  <p className="small">Nothing here. Try a different filter.</p>
+                ) : (
+                  <>
+                    <div style={{ background: 'yellow', padding: '10px', marginBottom: '10px' }}>
+                      <strong>DEBUG: reviewItems.length = {reviewItems.length}, reviewIndex = {reviewIndex}</strong>
                     </div>
-                  )}
-                  <div className="grid choices" role="list" style={{ marginTop: 10 }}>
-                    {r.choices.map((text, i) => {
-                      const isCorrect = i === r.correctChoice;
-                      const isUser = i === r.userChoice;
-                      const cls = isCorrect ? "correct" : isUser && !isCorrect ? "incorrect" : "";
+                    {(() => {
+                      const r = reviewItems[reviewIndex];
                       return (
-                        <div key={i} className={`choice ${cls}`} role="listitem" aria-label={`Choice ${letters[i]}`}>
-                          <strong style={{ marginRight: 10 }}>{letters[i]}.</strong>
-                          <MarkdownMath>{sanitizeForRender(text)}</MarkdownMath>
-                          {isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--good)" }}>(correct)</span>}
-                          {isUser && !isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--bad)" }}>(your answer)</span>}
-                          {isUser && isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--good)" }}>(your answer)</span>}
-                        </div>
+                        <>
+                          <div className="kicker" style={{ marginBottom: 6 }}>
+                            Module {r.module} • Q{r.id}{" "}
+                            <button
+                              className={`flag ${r.flagged ? "active" : ""}`}
+                              onClick={() => toggleFlag(r.id)}
+                              style={{ marginLeft: 8 }}
+                            >
+                              <span className="star">{r.flagged ? "★" : "☆"}</span>
+                              {r.flagged ? "Flagged" : "Flag for review"}
+                            </button>
+                          </div>
+
+                          <div className="stem-box">
+                            <QuestionText 
+                              content={r.stem}
+                              className="stem-text"
+                            />
+                          </div>
+                          
+                          {r.image && (
+                            <div className="image-container">
+                              <img src={r.image} alt="Question image" style={{ maxWidth: '100%', height: 'auto' }} />
+                            </div>
+                          )}
+
+                          <div className="options">
+                            {r.options.map((option, idx) => {
+                              const isCorrect = option === r.correctAnswer;
+                              const isUser = option === r.userAnswer;
+                              return (
+                                <div key={idx} className={`option ${isCorrect ? "correct" : ""} ${isUser ? "user" : ""}`}>
+                                  <span className="letter">{String.fromCharCode(65 + idx)}</span>
+                                  <span className="text">{option}</span>
+                                  {isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--good)" }}>(correct)</span>}
+                                  {isUser && !isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--bad)" }}>(your answer)</span>}
+                                  {isUser && isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--good)" }}>(your answer)</span>}
+                                </div>
+                              );
+                            })}
+                          </div>
+
+                          <div style={{ marginTop: 10 }}>
+                            <div style={{ marginBottom: '8px' }}>
+                              <strong>Explanation:</strong>
+                            </div>
+                            <div>
+                              <pre style={{ fontSize: '12px', color: 'var(--muted)' }}>
+                                Raw: {JSON.stringify(r.explanation)}
+                                Type: {typeof r.explanation}
+                                Stringified: {String(r.explanation)}
+                              </pre>
+                              <div style={{ marginTop: '8px' }}>
+                                {(() => {
+                                  // Handle potential object values in explanation
+                                  if (r.explanation && typeof r.explanation === 'object') {
+                                    return JSON.stringify(r.explanation);
+                                  }
+                                  return r.explanation || '';
+                                })()}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="review-nav">
+                            <button className="btn btn-secondary" onClick={navPrev} disabled={reviewIndex === 0}>Previous</button>
+                            <button className="btn" onClick={navNext} disabled={reviewIndex >= reviewItems.length - 1}>Next</button>
+                            <div style={{ flex: 1 }} />
+                            <button className="btn btn-secondary" onClick={() => setPhase(PHASES.SUMMARY)}>Back to Summary</button>
+                          </div>
+                        </>
                       );
-                    })}
-                  </div>
-
-                  <div style={{ marginTop: 10 }}>
-                    <div style={{ marginBottom: '8px' }}>
-                      <strong>Explanation:</strong>
-                    </div>
-                    <div>
-                      <pre style={{ fontSize: '12px', color: 'var(--muted)' }}>
-                        Raw: {JSON.stringify(r.explanation)}
-                        Type: {typeof r.explanation}
-                        Stringified: {String(r.explanation)}
-                      </pre>
-                      <div style={{ marginTop: '8px' }}>
-                        {(() => {
-                          // Handle potential object values in explanation
-                          if (r.explanation && typeof r.explanation === 'object') {
-                            return JSON.stringify(r.explanation);
-                          }
-                          return r.explanation || '';
-                        })()}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="review-nav">
-                    <button className="btn btn-secondary" onClick={navPrev} disabled={reviewIndex === 0}>Previous</button>
-                    <button className="btn" onClick={navNext} disabled={reviewIndex >= reviewItems.length - 1}>Next</button>
-                    <div style={{ flex: 1 }} />
-                    <button className="btn btn-secondary" onClick={() => setPhase(PHASES.SUMMARY)}>Back to Summary</button>
-                  </div>
-                </>
-              );
-            })()
+                    })()}
+                  </>
+                )}
+              </div>
+            </>
           )}
-        </div>
-      )}
 
           {phase === PHASES.STUDY_PLAN && (
             <SATStudyPlan 
