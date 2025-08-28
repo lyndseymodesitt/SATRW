@@ -1203,83 +1203,8 @@ export default function App() {
         </div>
       )}
 
-            {phase === PHASES.REVIEW && (
-        <div style={{ 
-          position: 'fixed', 
-          top: '0', 
-          left: '0', 
-          right: '0', 
-          background: 'red', 
-          color: 'white', 
-          padding: '50px', 
-          textAlign: 'center', 
-          fontSize: '32px', 
-          border: '10px solid yellow',
-          zIndex: 9999,
-          width: '100vw',
-          height: '100vh'
-        }}>
-          🚨 REVIEW PHASE IS ACTIVE! 🚨
-          <br />
-          PHASE: {phase}
-          <br />
-          TIME: {new Date().toLocaleTimeString()}
-        </div>
-      )}
-      
       {phase === PHASES.REVIEW && (
-        <div dangerouslySetInnerHTML={{ __html: '<div style="background: orange; color: white; padding: 20px; text-align: center; font-size: 24px; border: 5px solid black;">🍊 DANGEROUS HTML TEST 🍊</div>' }} />
-      )}
-      
-      {phase === PHASES.REVIEW && (
-        <div style={{ 
-          position: 'fixed', 
-          top: '100px', 
-          left: '0', 
-          right: '0', 
-          background: 'lime', 
-          color: 'black', 
-          padding: '20px', 
-          textAlign: 'center', 
-          fontSize: '28px', 
-          border: '5px solid blue',
-          zIndex: 9998
-        }}>
-          🟢 FIXED POSITION TEST - PHASE: {phase} 🟢
-        </div>
-      )}
-      
-      {phase === PHASES.REVIEW && (
-        <div style={{ background: 'brown', color: 'white', padding: '15px', textAlign: 'center', fontSize: '20px' }}>
-          🟫 SIMPLE JSX TEST 🟫
-        </div>
-      )}
-      
-
-      
-      {phase === PHASES.REVIEW && (
-        <div style={{ background: 'green', color: 'white', padding: '20px', textAlign: 'center', fontSize: '24px' }}>
-          🟢 SECOND REVIEW ELEMENT TEST 🟢
-        </div>
-      )}
-      
-      {phase === PHASES.REVIEW && (
-        <div style={{ background: 'purple', color: 'white', padding: '10px', textAlign: 'center' }}>
-          🟣 SIMPLE TEXT TEST - PHASE: {phase} 🟣
-        </div>
-      )}
-      
-      {phase === PHASES.REVIEW && (
-        <div className="card" style={{ border: '5px solid red', padding: '20px', backgroundColor: 'lightblue', minHeight: '200px' }}>
-          {console.log('REVIEW phase rendering, reviewItems:', reviewItems, 'reviewIndex:', reviewIndex, 'reviewItems.length:', reviewItems?.length)}
-          <div style={{ background: 'yellow', padding: '20px', marginBottom: '20px', border: '3px solid black', fontSize: '18px' }}>
-            <h1 style={{ color: 'red', fontSize: '24px' }}>🚨 DEBUG: Review Phase is Rendering! 🚨</h1>
-            <p><strong>reviewItems length: {reviewItems?.length}</strong></p>
-            <p><strong>reviewIndex: {reviewIndex}</strong></p>
-            <p><strong>Current item: {reviewItems?.[reviewIndex]?.id || 'None'}</strong></p>
-            <p><strong>Phase: {phase}</strong></p>
-            <p><strong>Time: {new Date().toLocaleTimeString()}</strong></p>
-          </div>
+        <div className="card">
           <div className="meta" style={{ marginBottom: 12 }}>
             <div>
               <div className="label">Review Mode</div>
