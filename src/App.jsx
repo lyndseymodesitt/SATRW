@@ -1205,6 +1205,7 @@ export default function App() {
 
           {phase === PHASES.REVIEW && (
             <>
+              {alert('REVIEW PHASE RENDERING - PHASE: ' + phase + ' - reviewItems: ' + (reviewItems?.length || 0))}
               <div style={{ 
                 position: 'fixed', 
                 top: '0', 
