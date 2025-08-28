@@ -1210,6 +1210,14 @@ export default function App() {
       )}
       
       {phase === PHASES.REVIEW && (
+        <div dangerouslySetInnerHTML={{ __html: '<div style="background: orange; color: white; padding: 20px; text-align: center; font-size: 24px; border: 5px solid black;">🍊 DANGEROUS HTML TEST 🍊</div>' }} />
+      )}
+      
+      {phase === PHASES.REVIEW && React.createElement('div', {
+        style: { background: 'brown', color: 'white', padding: '15px', textAlign: 'center', fontSize: '20px' }
+      }, '🟫 REACT.CREATEELEMENT TEST 🟫')}
+      
+      {phase === PHASES.REVIEW && (
         <div style={{ background: 'green', color: 'white', padding: '20px', textAlign: 'center', fontSize: '24px' }}>
           🟢 SECOND REVIEW ELEMENT TEST 🟢
         </div>
