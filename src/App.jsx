@@ -1240,37 +1240,37 @@ export default function App() {
               </div>
               <div style={{ 
                 position: 'fixed', 
-                top: '100px', 
-                left: '0', 
-                width: '100vw', 
-                height: '50px', 
-                background: 'lime', 
-                zIndex: 9998,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'black',
-                fontSize: '18px',
-                border: '3px solid black'
-              }}>
-                PHASE CHECK: {phase} === {PHASES.REVIEW} = {phase === PHASES.REVIEW ? 'TRUE' : 'FALSE'}
-              </div>
-              <div style={{ 
-                position: 'fixed', 
-                top: '160px', 
-                left: '0', 
-                width: '100vw', 
-                height: '50px', 
-                background: 'purple', 
-                zIndex: 9997,
+                top: '50px', 
+                left: '300px', 
+                width: '200px', 
+                height: '100px', 
+                background: 'green', 
+                zIndex: 10000,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'white',
-                fontSize: '18px',
-                border: '3px solid black'
+                fontSize: '16px',
+                border: '5px solid black'
               }}>
-                SIMPLE TEST: This should appear if JSX is working
+                DEBUG: {reviewItems?.length || 0} items
+              </div>
+              <div style={{ 
+                position: 'fixed', 
+                top: '50px', 
+                left: '550px', 
+                width: '200px', 
+                height: '100px', 
+                background: 'orange', 
+                zIndex: 10000,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontSize: '16px',
+                border: '5px solid black'
+              }}>
+                Phase: {phase}
               </div>
               <div className="card" style={{ border: '2px solid blue', padding: '10px' }}>
                 <div style={{ background: 'lightblue', padding: '10px', marginBottom: '10px' }}>
