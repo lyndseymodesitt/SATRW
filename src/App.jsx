@@ -1223,6 +1223,23 @@ export default function App() {
               </div>
               <div style={{ 
                 position: 'fixed', 
+                top: '50px', 
+                left: '50px', 
+                width: '200px', 
+                height: '100px', 
+                background: 'blue', 
+                zIndex: 10000,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontSize: '16px',
+                border: '5px solid yellow'
+              }}>
+                TEST BLOCK
+              </div>
+              <div style={{ 
+                position: 'fixed', 
                 top: '100px', 
                 left: '0', 
                 width: '100vw', 
