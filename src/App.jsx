@@ -1210,6 +1210,18 @@ export default function App() {
       )}
       
       {phase === PHASES.REVIEW && (
+        <div style={{ background: 'green', color: 'white', padding: '20px', textAlign: 'center', fontSize: '24px' }}>
+          🟢 SECOND REVIEW ELEMENT TEST 🟢
+        </div>
+      )}
+      
+      {phase === PHASES.REVIEW && (
+        <div style={{ background: 'purple', color: 'white', padding: '10px', textAlign: 'center' }}>
+          🟣 SIMPLE TEXT TEST - PHASE: {phase} 🟣
+        </div>
+      )}
+      
+      {phase === PHASES.REVIEW && (
         <div className="card" style={{ border: '5px solid red', padding: '20px', backgroundColor: 'lightblue', minHeight: '200px' }}>
           {console.log('REVIEW phase rendering, reviewItems:', reviewItems, 'reviewIndex:', reviewIndex, 'reviewItems.length:', reviewItems?.length)}
           <div style={{ background: 'yellow', padding: '20px', marginBottom: '20px', border: '3px solid black', fontSize: '18px' }}>
