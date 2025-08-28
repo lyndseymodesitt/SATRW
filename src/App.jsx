@@ -783,6 +783,12 @@ export default function App() {
   }, [results.rows, reviewFilter]);
 
   const goReview = () => {
+    console.log('goReview called, results:', results);
+    console.log('results.rows:', results.rows);
+    console.log('results.rows length:', results.rows?.length);
+    console.log('results object keys:', Object.keys(results));
+    console.log('reviewItems will be:', reviewItems);
+    console.log('reviewItems length:', reviewItems?.length);
     setReviewFilter("all");
     setReviewIndex(0);
     setPhase(PHASES.REVIEW);
@@ -1198,6 +1204,7 @@ export default function App() {
 
       {phase === PHASES.REVIEW && (
         <div className="card">
+          {console.log('REVIEW phase rendering, reviewItems:', reviewItems, 'reviewIndex:', reviewIndex, 'reviewItems.length:', reviewItems?.length)}
           <div className="meta" style={{ marginBottom: 12 }}>
             <div>
               <div className="label">Review Mode</div>
