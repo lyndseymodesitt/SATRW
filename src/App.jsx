@@ -792,6 +792,7 @@ export default function App() {
     setReviewFilter("all");
     setReviewIndex(0);
     setPhase(PHASES.REVIEW);
+    alert('Phase changed to REVIEW! Check the page for content.');
   };
 
   const navPrev = () => setReviewIndex((i) => Math.max(0, i - 1));
@@ -1202,14 +1203,22 @@ export default function App() {
         </div>
       )}
 
+            {phase === PHASES.REVIEW && (
+        <div style={{ background: 'red', color: 'white', padding: '50px', textAlign: 'center', fontSize: '32px', border: '10px solid yellow' }}>
+          🚨 REVIEW PHASE IS ACTIVE! 🚨
+        </div>
+      )}
+      
       {phase === PHASES.REVIEW && (
-        <div className="card" style={{ border: '3px solid red', padding: '20px' }}>
+        <div className="card" style={{ border: '5px solid red', padding: '20px', backgroundColor: 'lightblue', minHeight: '200px' }}>
           {console.log('REVIEW phase rendering, reviewItems:', reviewItems, 'reviewIndex:', reviewIndex, 'reviewItems.length:', reviewItems?.length)}
-          <div style={{ background: 'yellow', padding: '10px', marginBottom: '20px' }}>
-            <h2>🔍 DEBUG: Review Phase is Rendering!</h2>
-            <p>reviewItems length: {reviewItems?.length}</p>
-            <p>reviewIndex: {reviewIndex}</p>
-            <p>Current item: {reviewItems?.[reviewIndex]?.id || 'None'}</p>
+          <div style={{ background: 'yellow', padding: '20px', marginBottom: '20px', border: '3px solid black', fontSize: '18px' }}>
+            <h1 style={{ color: 'red', fontSize: '24px' }}>🚨 DEBUG: Review Phase is Rendering! 🚨</h1>
+            <p><strong>reviewItems length: {reviewItems?.length}</strong></p>
+            <p><strong>reviewIndex: {reviewIndex}</strong></p>
+            <p><strong>Current item: {reviewItems?.[reviewIndex]?.id || 'None'}</strong></p>
+            <p><strong>Phase: {phase}</strong></p>
+            <p><strong>Time: {new Date().toLocaleTimeString()}</strong></p>
           </div>
           <div className="meta" style={{ marginBottom: 12 }}>
             <div>
