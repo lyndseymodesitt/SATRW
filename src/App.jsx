@@ -1262,11 +1262,10 @@ export default function App() {
                 {reviewItems.length === 0 ? (
                   <p className="small">Nothing here. Try a different filter.</p>
                 ) : (
-                  <div style={{ background: 'green', padding: '10px', marginBottom: '10px' }}>
-                    <strong>DEBUG: About to render review content. reviewItems.length: {reviewItems.length}</strong>
-                  </div>
-                ) && (
                   <>
+                    <div style={{ background: 'green', padding: '10px', marginBottom: '10px' }}>
+                      <strong>DEBUG: About to render review content. reviewItems.length: {reviewItems.length}</strong>
+                    </div>
                     <div style={{ background: 'yellow', padding: '10px', marginBottom: '10px' }}>
                       <strong>DEBUG: reviewItems.length = {reviewItems.length}, reviewIndex = {reviewIndex}</strong>
                     </div>
