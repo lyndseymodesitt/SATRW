@@ -1225,6 +1225,9 @@ export default function App() {
                 <div style={{ background: 'lightblue', padding: '10px', marginBottom: '10px' }}>
                   <strong>DEBUG: Review phase is active. reviewItems: {reviewItems?.length || 0}</strong>
                 </div>
+                <div style={{ background: 'orange', padding: '10px', marginBottom: '10px' }}>
+                  <strong>DEBUG: reviewItems[0]: {JSON.stringify(reviewItems?.[0] || 'undefined')}</strong>
+                </div>
                 <div className="meta" style={{ marginBottom: 12 }}>
                   <div>
                     <div className="label">Review Mode</div>
@@ -1259,6 +1262,10 @@ export default function App() {
                 {reviewItems.length === 0 ? (
                   <p className="small">Nothing here. Try a different filter.</p>
                 ) : (
+                  <div style={{ background: 'green', padding: '10px', marginBottom: '10px' }}>
+                    <strong>DEBUG: About to render review content. reviewItems.length: {reviewItems.length}</strong>
+                  </div>
+                ) && (
                   <>
                     <div style={{ background: 'yellow', padding: '10px', marginBottom: '10px' }}>
                       <strong>DEBUG: reviewItems.length = {reviewItems.length}, reviewIndex = {reviewIndex}</strong>
