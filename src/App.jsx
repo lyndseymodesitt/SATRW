@@ -1203,8 +1203,14 @@ export default function App() {
       )}
 
       {phase === PHASES.REVIEW && (
-        <div className="card">
+        <div className="card" style={{ border: '3px solid red', padding: '20px' }}>
           {console.log('REVIEW phase rendering, reviewItems:', reviewItems, 'reviewIndex:', reviewIndex, 'reviewItems.length:', reviewItems?.length)}
+          <div style={{ background: 'yellow', padding: '10px', marginBottom: '20px' }}>
+            <h2>🔍 DEBUG: Review Phase is Rendering!</h2>
+            <p>reviewItems length: {reviewItems?.length}</p>
+            <p>reviewIndex: {reviewIndex}</p>
+            <p>Current item: {reviewItems?.[reviewIndex]?.id || 'None'}</p>
+          </div>
           <div className="meta" style={{ marginBottom: 12 }}>
             <div>
               <div className="label">Review Mode</div>
