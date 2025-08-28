@@ -1204,13 +1204,49 @@ export default function App() {
       )}
 
             {phase === PHASES.REVIEW && (
-        <div style={{ background: 'red', color: 'white', padding: '50px', textAlign: 'center', fontSize: '32px', border: '10px solid yellow' }}>
+        <div style={{ 
+          position: 'fixed', 
+          top: '0', 
+          left: '0', 
+          right: '0', 
+          background: 'red', 
+          color: 'white', 
+          padding: '50px', 
+          textAlign: 'center', 
+          fontSize: '32px', 
+          border: '10px solid yellow',
+          zIndex: 9999,
+          width: '100vw',
+          height: '100vh'
+        }}>
           🚨 REVIEW PHASE IS ACTIVE! 🚨
+          <br />
+          PHASE: {phase}
+          <br />
+          TIME: {new Date().toLocaleTimeString()}
         </div>
       )}
       
       {phase === PHASES.REVIEW && (
         <div dangerouslySetInnerHTML={{ __html: '<div style="background: orange; color: white; padding: 20px; text-align: center; font-size: 24px; border: 5px solid black;">🍊 DANGEROUS HTML TEST 🍊</div>' }} />
+      )}
+      
+      {phase === PHASES.REVIEW && (
+        <div style={{ 
+          position: 'fixed', 
+          top: '100px', 
+          left: '0', 
+          right: '0', 
+          background: 'lime', 
+          color: 'black', 
+          padding: '20px', 
+          textAlign: 'center', 
+          fontSize: '28px', 
+          border: '5px solid blue',
+          zIndex: 9998
+        }}>
+          🟢 FIXED POSITION TEST - PHASE: {phase} 🟢
+        </div>
       )}
       
       {phase === PHASES.REVIEW && (
