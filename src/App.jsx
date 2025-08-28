@@ -1265,6 +1265,8 @@ export default function App() {
                     </div>
                     {(() => {
                       const r = reviewItems[reviewIndex];
+                      console.log('DEBUG: Current review item r:', r);
+                      console.log('DEBUG: r properties:', Object.keys(r));
                       return (
                         <>
                           <div className="kicker" style={{ marginBottom: 6 }}>
@@ -1293,16 +1295,16 @@ export default function App() {
                           )}
 
                           <div className="options">
-                            {r.options.map((option, idx) => {
-                              const isCorrect = option === r.correctAnswer;
-                              const isUser = option === r.userAnswer;
+                            {console.log('DEBUG: r.options:', r.options, 'r.choices:', r.choices)}
+                            {(r.options || r.choices || []).map((option, idx) => {
+                              const isCorrect = option === (r.correctAnswer || r.correctChoice);
+                              const isUser = option === (r.userAnswer || r.userChoice);
                               return (
                                 <div key={idx} className={`option ${isCorrect ? "correct" : ""} ${isUser ? "user" : ""}`}>
                                   <span className="letter">{String.fromCharCode(65 + idx)}</span>
                                   <span className="text">{option}</span>
                                   {isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--good)" }}>(correct)</span>}
                                   {isUser && !isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--bad)" }}>(your answer)</span>}
-                                  {isUser && isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--good)" }}>(your answer)</span>}
                                 </div>
                               );
                             })}
