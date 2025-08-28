@@ -879,6 +879,7 @@ export default function App() {
 
   return (
     <div className="app">
+      {console.log('Current phase:', phase, 'PHASES:', PHASES)}
       {/* Author Mode - Render above everything else when active */}
       {showAuthorMode ? (
         <AuthorMode
@@ -1181,6 +1182,7 @@ export default function App() {
           </div>
 
           {/* SAT Scorer Component */}
+          {console.log('Rendering SATScorer in SUMMARY phase with:', { score: results.scaledScore, rawScore: results.correct, percentageCorrect: results.pct })}
           <SATReadingWritingScorer 
             score={results.scaledScore} 
             rawScore={results.correct} 

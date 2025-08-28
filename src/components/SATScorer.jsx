@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { TrendingUp, Award, Target, AlertTriangle, BookOpen } from 'lucide-react';
 
 const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect = 60.6 }) => {
+  console.log('SATScorer component rendering with score:', score);
+  
   const [interactiveScore, setInteractiveScore] = useState(score);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartX, setDragStartX] = useState(0);
@@ -178,36 +180,45 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
 
   // Handle mouse/touch events for dragging
   const handleMouseDown = (e) => {
+    console.log('handleMouseDown function called!');
+    e.preventDefault();
+    console.log('Mouse down - starting drag');
     setIsDragging(true);
-    const rect = e.currentTarget.getBoundingClientRect();
-    const relativeX = e.clientX || e.touches?.[0]?.clientX || 0;
-    setDragStartX(relativeX - rect.left);
     setDragStartScore(interactiveScore);
   };
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = React.useCallback((e) => {
     if (!isDragging) return;
+    
+    e.preventDefault();
+    console.log('Mouse move - dragging');
     
     // Get the scale container element
     const scaleContainer = document.querySelector('.scale-container');
-    if (!scaleContainer) return;
+    if (!scaleContainer) {
+      console.log('No scale container found');
+      return;
+    }
     
     const rect = scaleContainer.getBoundingClientRect();
     const currentX = e.clientX || e.touches?.[0]?.clientX || 0;
     const relativeX = currentX - rect.left;
     
+    console.log('Mouse position:', { currentX, relativeX, rectLeft: rect.left, scaleWidth: rect.width });
+    
     // Calculate score based on position within the scale
-    // Scale width is approximately 400px, score range is 600 (200-800)
     const scaleWidth = rect.width - 48; // Account for padding
     const scorePosition = Math.max(0, Math.min(scaleWidth, relativeX));
     const newScore = Math.round(200 + (scorePosition / scaleWidth) * 600);
     
+    console.log('Score calculation:', { scaleWidth, scorePosition, newScore });
+    
     setInteractiveScore(Math.max(200, Math.min(800, newScore)));
-  };
+  }, [isDragging]);
 
-  const handleMouseUp = () => {
+  const handleMouseUp = React.useCallback(() => {
     setIsDragging(false);
-  };
+  }, []);
 
   // Reset to actual score when component updates
   useEffect(() => {
@@ -229,7 +240,7 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
         document.removeEventListener('touchend', handleMouseUp);
       };
     }
-  }, [isDragging, dragStartX, dragStartScore, handleMouseMove, handleMouseUp]);
+  }, [isDragging, handleMouseMove, handleMouseUp]);
 
   // Calculate position for the score indicator
   const getIndicatorPosition = (score) => {
@@ -379,6 +390,7 @@ const SATReadingWritingScorer = ({ score = 530, rawScore = 40, percentageCorrect
                 }}
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleMouseDown}
+                onClick={() => console.log('Indicator clicked!')}
               >
                 <div style={{
                   width: '8px',
