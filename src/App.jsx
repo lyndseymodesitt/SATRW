@@ -1204,7 +1204,10 @@ export default function App() {
       )}
 
       {phase === PHASES.REVIEW && (
-        <div className="card">
+        <div className="card" style={{ border: '2px solid blue', padding: '10px' }}>
+          <div style={{ background: 'lightblue', padding: '10px', marginBottom: '10px' }}>
+            <strong>DEBUG: Review phase is active. reviewItems: {reviewItems?.length || 0}</strong>
+          </div>
           <div className="meta" style={{ marginBottom: 12 }}>
             <div>
               <div className="label">Review Mode</div>
@@ -1239,6 +1242,10 @@ export default function App() {
           {reviewItems.length === 0 ? (
             <p className="small">Nothing here. Try a different filter.</p>
           ) : (
+            <div style={{ background: 'yellow', padding: '10px', marginBottom: '10px' }}>
+              <strong>DEBUG: reviewItems.length = {reviewItems.length}, reviewIndex = {reviewIndex}</strong>
+            </div>
+          ) && (
             (() => {
               const r = reviewItems[reviewIndex];
               return (
