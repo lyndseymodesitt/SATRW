@@ -16,7 +16,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 
-const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport, onClearEdits, onImport, onAutoSync, onCheckUpdates, onDeploy, onAutoCommitDeploy, onDirectReplace }) => {
+const AuthorMode = ({ questions, onSave, onClose, onExport, onClearEdits, onImport, onAutoSync, onCheckUpdates, onDeploy, onAutoCommitDeploy, onDirectReplace }) => {
   const [currentView, setCurrentView] = useState('list'); // 'list', 'edit', 'preview'
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [editedQuestion, setEditedQuestion] = useState(null);
@@ -503,15 +503,6 @@ const AuthorMode = ({ questions, onSave, onClose, savedPlace, onResume, onExport
           </div>
         </div>
         <div className="flex gap-3">
-          {savedPlace && (
-            <button
-              onClick={onResume}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2"
-              title={`Resume test from Module ${savedPlace.moduleIdx + 1}, Question ${savedPlace.qIndex + 1}`}
-            >
-              🚀 Resume Test
-            </button>
-          )}
           <button
             onClick={onExport}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"

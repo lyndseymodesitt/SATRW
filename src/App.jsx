@@ -492,15 +492,19 @@ export default function App() {
   };
 
   const toggleAuthorMode = () => {
+    console.log('Author Mode button clicked!');
     // Show password prompt instead of directly toggling
     setShowAuthorModePassword(true);
+    console.log('showAuthorModePassword set to true');
   };
 
   const verifyAuthorModePassword = () => {
+    console.log('Verifying password:', authorModePassword);
     // You can change this password to whatever you want
     const correctPassword = 'sat2024';
     
     if (authorModePassword === correctPassword) {
+      console.log('Password correct! Opening Author Mode...');
       setShowAuthorModePassword(false);
       setAuthorModePassword('');
       setShowAuthorMode(true);
@@ -509,6 +513,7 @@ export default function App() {
         setIsPaused(true);
       }
     } else {
+      console.log('Password incorrect!');
       alert('Incorrect password. Please try again.');
       setAuthorModePassword('');
     }
@@ -886,8 +891,6 @@ export default function App() {
           questions={questions}
           onSave={handleQuestionSave}
           onClose={closeAuthorMode}
-          savedPlace={savedPlace}
-          onResume={resumeFromSavedPlace}
           onExport={exportEditedQuestions}
           onClearEdits={clearSavedEdits}
           onImport={importEditedQuestions}
