@@ -1265,8 +1265,6 @@ export default function App() {
                     </div>
                     {(() => {
                       const r = reviewItems[reviewIndex];
-                      console.log('DEBUG: Current review item r:', r);
-                      console.log('DEBUG: r properties:', Object.keys(r));
                       return (
                         <>
                           <div className="kicker" style={{ marginBottom: 6 }}>
@@ -1295,14 +1293,13 @@ export default function App() {
                           )}
 
                           <div className="options">
-                            {console.log('DEBUG: r.options:', r.options, 'r.choices:', r.choices)}
-                            {(r.options || r.choices || []).map((option, idx) => {
-                              const isCorrect = option === (r.correctAnswer || r.correctChoice);
-                              const isUser = option === (r.userAnswer || r.userChoice);
+                            {r.choices.map((choice, idx) => {
+                              const isCorrect = idx === r.correctChoice;
+                              const isUser = idx === r.userChoice;
                               return (
                                 <div key={idx} className={`option ${isCorrect ? "correct" : ""} ${isUser ? "user" : ""}`}>
                                   <span className="letter">{String.fromCharCode(65 + idx)}</span>
-                                  <span className="text">{option}</span>
+                                  <span className="text">{choice}</span>
                                   {isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--good)" }}>(correct)</span>}
                                   {isUser && !isCorrect && <span className="small" style={{ marginLeft: 10, color: "var(--bad)" }}>(your answer)</span>}
                                 </div>
